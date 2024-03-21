@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Button} from 'react-native';
 import { getAuth, auth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from '../firebase/config';
 import { firestore, collection, addDoc, serverTimestamp } from '../firebase/config';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
   
@@ -16,7 +16,6 @@ export default function Login(){
 			.then((userCredential) => {
 				console.log(userCredential.user); 
 				setLogged(true);
-				//AsyncStorage.setItem('userId', userCredential.user.uid);
 			})
 			.catch((error) => {
 				if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
@@ -33,7 +32,6 @@ export default function Login(){
 		signOut(auth)
 			.then(() => {
 				setLogged(false);
-				AsyncStorage.removeItem('userId');
 				console.log('User signed out successfully.');
 			})
 			.catch((error) => {

@@ -11,6 +11,8 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
 
+
+  
   return (
 <PaperProvider>
   <NavigationContainer>

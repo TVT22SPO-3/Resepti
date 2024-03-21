@@ -9,6 +9,9 @@ import Signup from './screens/Signup';
 
 const Stack = createNativeStackNavigator();
 
+import Login from './screens/Login';
+
+
 export default function App() {
 
 
@@ -27,6 +30,7 @@ export default function App() {
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -35,3 +39,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+

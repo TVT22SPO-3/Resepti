@@ -1,25 +1,18 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { Button } from 'react-native-paper'
+import Hometext from '../components/Hometext';
+import Sign from '../components/Sign';
 
 
 export default function Home({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Tervetuloa</Text>
-        <Button
-        style={styles.button}
-        mode ="contained"
-        onPress={() => navigation.navigate('Signin')}>
-          Sign in
-        </Button>
-      <Button
-      style={styles.button}
-      mode='contained'
-      onPress={() => navigation.navigate('Signup')}
-      >Create account
-      </Button>
+
+      <Hometext navigation={navigation}/>
+      <Sign navigation={navigation}/>
+      
     </View>
   )
 }
@@ -29,11 +22,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-  },
-  header:{
-    fontSize: 36,
-    paddingTop: 24,
-    paddingBottom: 24,
   },
   button:{
   marginVertical: 12,

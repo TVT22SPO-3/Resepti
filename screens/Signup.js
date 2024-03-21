@@ -1,10 +1,9 @@
-import { View, Text } from 'react-native'
+import { View, Text, UseState } from 'react-native'
 import React from 'react'
+import Register from '../components/register'
 
 export default function Signup() {
   return (
-    <View>
-      <Text>signup</Text>
-    </View>
+      <Register/>
   )
 }

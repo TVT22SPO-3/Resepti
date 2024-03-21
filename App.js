@@ -4,10 +4,13 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
 import Home from './screens/Home';
-import Signin from './screens/Signin';
+import Login from './screens/Login';
 import Signup from './screens/Signup';
 
 const Stack = createNativeStackNavigator();
+
+
+
 
 export default function App() {
 
@@ -19,13 +22,14 @@ export default function App() {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={Home}/>
       {/* <Stack.Screen name="Search" component={Search}/> */}
-      <Stack.Screen name="Signin" component={Signin}/>
+      <Stack.Screen name="Login" component={Login}/>
       <Stack.Screen name="Signup" component={Signup}/>
     </Stack.Navigator>
   </NavigationContainer>
 </PaperProvider>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -35,3 +39,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+

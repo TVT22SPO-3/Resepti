@@ -8,7 +8,7 @@ export default function Sign({navigation}) {
       <Button
         style={styles.button}
         mode ="contained"
-        onPress={() => navigation.navigate('Signin')}>
+        onPress={() => navigation.navigate('Login')}>
           Sign in
         </Button>
       <Button

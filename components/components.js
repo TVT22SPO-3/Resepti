@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, Button, Image, FlatList, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
-export function MealExplorer() {
+export default function MealExplorer() {
   const [meal, setMeal] = useState(null);
   const [meals, setMeals] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');

@@ -1,22 +1,29 @@
-import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Button} from 'react-native';
-import { getAuth, auth, signInWithEmailAndPassword, signOut,  } from '../firebase/config';
+import { useState, useEffect, useContext } from 'react';
+import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { getAuth, auth, signInWithEmailAndPassword, signOut, } from '../firebase/config';
 import { firestore, collection, addDoc, serverTimestamp } from '../firebase/config';
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../context/useAuth';
+import { AuthContext } from '../context/CreateAuthContext';
 
 
 
-  
-export default function Login(){
+export default function Login() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [logged, setLogged] = useState(false);
+	const { setUser } = useAuth()
+	const navigation = useNavigation()
+
+
 
 	const login = () => {
 		signInWithEmailAndPassword(auth, username, password)
 			.then((userCredential) => {
-				console.log(userCredential.user);
+				console.log("Login", userCredential);
 				setLogged(true);
-				
+				setUser(userCredential.user)
+				navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
 			})
 			.catch((error) => {
 				if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
@@ -34,6 +41,7 @@ export default function Login(){
 			.then(() => {
 				setLogged(false);
 				console.log('User signed out successfully.');
+				navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
 			})
 			.catch((error) => {
 
@@ -41,7 +49,7 @@ export default function Login(){
 			});
 	};
 
-	return(
+	return (
 		<View style={styles.inputView}>
 			<TextInput
 				style={styles.TextInput}
@@ -60,29 +68,28 @@ export default function Login(){
 			<Button style={styles.loginButton} title='logout' onPress={logout} />
 			<Text>{logged ? 'you are logged in :)' : 'you are logged out :('}</Text>
 		</View>
-
 	);
 }
 
 const styles = StyleSheet.create({
 
 	inputView: {
-    backgroundColor: '#26547C',
-    width: "70%",
-    height: 270,
-    marginBottom: 20,
+		backgroundColor: '#26547C',
+		width: "70%",
+		height: 270,
+		marginBottom: 20,
 		borderRadius: 6,
-    alignItems: "center",
-  },
-  TextInput: {
+		alignItems: "center",
+	},
+	TextInput: {
 		backgroundColor: '#FFFCF9',
-    height: 50,
+		height: 50,
 		width: 220,
 		marginTop: 25,
 		margin: 10,
-    padding: 10,
+		padding: 10,
 		borderRadius: 3,
-  },
+	},
 	loginButton: {
 		width: 220,
 		margin: 10,

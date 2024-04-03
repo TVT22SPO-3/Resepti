@@ -1,13 +1,15 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { Button, TextInput } from 'react-native-paper'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword,updateProfile } from "firebase/auth";
 import { firestore } from '../firebase/config';
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../context/useAuth';
 
 
-export default function Register(navigation) {
+export default function Register() {
 
-
+  const { setUser } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [password2, setPassword2] = useState("")
@@ -15,22 +17,26 @@ export default function Register(navigation) {
   const [fname, setFname] = useState("")
   const [lname, setLname] = useState("")
   
+  const navigation = useNavigation()
 
   const submit = async () => {
     if (password === password2 && email.length > 5) {
       const auth = getAuth();
       await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          const user = userCredential.user;
           console.log(userCredential.user)
           console.log('Account created successfully')
-
+          updateProfile(userCredential.user,{
+            displayName: username
+          })
+          setUser(userCredential.user)
+          console.log("register",userCredential.user)
           setDoc(doc(firestore, "users", userCredential.user.uid), {
-            username: username,
             fname: fname,
+            lname: lname,
             email: email
           })
-          navigation.navigate('Home')
+          navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
 
         })
         .catch((error) => {

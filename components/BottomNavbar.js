@@ -6,6 +6,7 @@ import * as React from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Account from "../screens/Account"
 import components from "../components/components"
+import OwnRecipes from "./OwnRecipes"
 
 export default function BottomNavbar() {
 
@@ -23,16 +24,6 @@ export default function BottomNavbar() {
                         )
                     }}
                 />
-                
-                <Tab.Screen
-                name={"Account"}
-                component={Account}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="account" color={color} size={40} />
-                        )
-                    }}
-                />
                 <Tab.Screen
                 name={"components"}
                 component={components}
@@ -42,6 +33,25 @@ export default function BottomNavbar() {
                         )
                     }}
                 />
+                <Tab.Screen
+                name={"Ownrecipe"}
+                component={OwnRecipes}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="plus-thick" color={color} size={40} />
+                        )
+                    }}
+                />
+                <Tab.Screen
+                name={"Account"}
+                component={Account}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="account" color={color} size={40} />
+                        )
+                    }}
+                />
+                
 
             </Tab.Navigator>
     )

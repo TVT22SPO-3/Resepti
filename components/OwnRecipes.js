@@ -1,10 +1,12 @@
-import { View, ScrollView, Text, StyleSheet, Pressable, Image, TouchableOpacity } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, Pressable, Image, TouchableOpacity, Alert } from 'react-native'
 import React, { useState, useEffect} from 'react'
 import { DataTable, TextInput, Picker, Button, Title } from 'react-native-paper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RequestStoragePermission from '../Permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { firestore, collection, addDoc, serverTimestamp } from '../firebase/config';
 import { storage, ref, uploadBytes, getDownloadURL } from '../firebase/config';
+import { useAuth } from '../context/useAuth'
 
 
 export default function OwnRecipes() {
@@ -16,11 +18,13 @@ export default function OwnRecipes() {
 }
 
 function AddRecipes() {
+	const { user } = useAuth()
     const [isOpen, setIsOpen] = useState(false);
 	const [recipeName, setRecipeName] = useState('');
     const [ingredients, setIngredients] = useState([{ ingredient: '', measure: '' }]);
     const [instructions, setInstructions] = useState('');
 	const [selectedImage, setSelectedImage] = useState(null);
+	const [showNotification, setShowNotification] = useState(false);
 
     const handleImageChange = (imageUri) => {
         setSelectedImage(imageUri);
@@ -42,35 +46,25 @@ function AddRecipes() {
         setIngredients(ingredients);
     };
 
+	const clearInputs = () => {
+        setRecipeName('');
+		setIngredients([{ ingredient: '', measure: '' }]);
+		setInstructions('');
+		setSelectedImage(null);
+    };	
+
     const saveRecipe = async () => {
         console.log('Recipe Name:', recipeName);
         console.log('Ingredients:', ingredients);
         console.log('Instructions:', instructions);
 		console.log('Image:', selectedImage);
 
-		/*const recipeData = {
-			name: recipeName,
-			ingredients: ingredients,
-			instructions: instructions,
-			image: selectedImage,
-			createdAt: firebase.firestore.FieldValue.serverTimestamp()
-		};
-
-		db.collection('recipes').add(recipeData)
-        .then((docRef) => {
-            console.log('Recipe saved successfully with ID:', docRef.id);
-            // Optionally, you can navigate to another screen or perform other actions upon successful save
-        })
-        .catch((error) => {
-            console.error('Error saving recipe:', error);
-        });*/
-
 		try {
 			const response = await fetch(selectedImage);
         	const blob = await response.blob();
 
 			const uniqueId = () => {
-				return Math.random().toString(36).substr(2, 9); // Generates a random alphanumeric string
+				return Math.random().toString(36).substr(2, 9); 
 			};
 			const uniqueFileName = `${Date.now()}_${uniqueId()}.jpg`;
         	const imageRef = ref(storage, `images/${uniqueFileName}`);
@@ -80,13 +74,24 @@ function AddRecipes() {
 			const imageUrl = await getDownloadURL(imageRef);
 
 			await addDoc(collection(firestore, 'recipes'), {
+				uid: user.uid,
+				username: user.displayName,
 				name: recipeName,
 				ingredients: ingredients,
 				instructions: instructions,
 				image: imageUrl,
 				createdAt: serverTimestamp()
 			});
-			console.log('Recipe saved successfully.');
+			clearInputs();
+			Alert.alert(
+				'Recipe Added',
+				'Your recipe has been successfully added!',
+				[
+					{ text: 'OK', onPress: () => setShowNotification(false) }
+				]
+			);
+			console.log('Recipe saved successfully.');		
+
 		} catch (error) {
 			console.error('Error saving recipe: ', error);
 		}
@@ -107,9 +112,9 @@ function AddRecipes() {
             >
                 <Text style={{ fontSize: 16 }}>
 				{isOpen ? 
-					<Image source={require('../assets/upload.png')} style={styles.image}/> 
+					<MaterialCommunityIcons name="chevron-up" color={'black'} size={40} /> 
 					: 
-					<Image source={require('../assets/down-arrow.png')} style={styles.image} />	 
+					<MaterialCommunityIcons name="chevron-down" color={'black'} size={40} />  
 				}
 					{'   Optional information'}
                 </Text>
@@ -127,6 +132,7 @@ function AddRecipes() {
         </ScrollView>
     );
 }
+
 
 
 function AddImages(props) {
@@ -151,7 +157,7 @@ function AddImages(props) {
         });
 		console.log('Picker Result:', pickerResult);
 
-        if (!pickerResult.cancelled) {
+        if (!pickerResult.canceled) {
             const selectedUri = pickerResult.assets[0].uri;
             setSelectedImage(selectedUri);
             props.onChangeImage(selectedUri);

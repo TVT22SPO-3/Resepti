@@ -1,11 +1,14 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
+import Styles from '../Styles'
+import { useTheme } from '../context/useTheme'
 
 export default function LogInText() {
+  const {isDarkMode} = useTheme()
   return (
-    <View>
-      <Text style={styles.header}>Welcome back to the Foodthusiast home page!</Text>
-      <Text style={styles.text}>Here you can find and upload delicious recipes!</Text>
+    <View style={[Styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+      <Text style={isDarkMode ? Styles.dark : Styles.light}>Welcome back to the Foodthusiast home page!</Text>
+      <Text style={isDarkMode ? Styles.dark : Styles.light}>Here you can find and upload delicious recipes!</Text>
     </View>
   )
 }

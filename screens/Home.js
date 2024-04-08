@@ -9,9 +9,12 @@ import LogInText from '../text/HomeTextLogIn';
 export default function Home({ navigation }) {
   const {user} = useAuth()
   console.log("Home", user)
+  
   return (
     <View style={styles.container}>
-      <Hometext navigation={navigation}/>
+
+       <Hometext navigation={navigation}/>
+      
       <Sign navigation={navigation}/>
     </View>
 

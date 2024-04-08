@@ -1,10 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
-import { Button, TextInput } from 'react-native-paper'
-import { getAuth, createUserWithEmailAndPassword,updateProfile } from "firebase/auth";
-import { firestore } from '../firebase/config';
+import { Button, Icon, TextInput } from 'react-native-paper'
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { firestore, setDoc, addDoc, collection, doc, profile } from '../firebase/config';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../context/useAuth';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 export default function Register() {
@@ -16,7 +17,8 @@ export default function Register() {
   const [username, setUsername] = useState("")
   const [fname, setFname] = useState("")
   const [lname, setLname] = useState("")
-  
+
+
   const navigation = useNavigation()
 
   const submit = async () => {
@@ -26,16 +28,26 @@ export default function Register() {
         .then((userCredential) => {
           console.log(userCredential.user)
           console.log('Account created successfully')
-          updateProfile(userCredential.user,{
+          updateProfile(userCredential.user, {
             displayName: username
           })
-          setUser(userCredential.user)
-          console.log("register",userCredential.user)
-          setDoc(doc(firestore, "users", userCredential.user.uid), {
+
+          console.log("jee", userCredential.user.uid)
+
+          const docRef =  setDoc(doc(firestore, profile ,userCredential.user.uid), {
+            //id: userCredential.user.id,
+            username: username,
             fname: fname,
             lname: lname,
-            email: email
           })
+          .catch(error => console.log(error))
+
+          setUser(userCredential.user)
+
+          console.log("register", userCredential.user)
+          console.log("asd", id)
+          
+
           navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
 
         })
@@ -66,7 +78,7 @@ export default function Register() {
       <Text style={styles.header}>Create account!</Text>
 
       <TextInput
-        
+
         style={styles.input}
         label="Username"
         value={username}
@@ -90,7 +102,7 @@ export default function Register() {
         mode='outlined'
         secureTextEntry={true}
         onChangeText={text => setPassword(text)}
-      />
+        />
       <TextInput
         style={styles.input}
         label="Confirm password"

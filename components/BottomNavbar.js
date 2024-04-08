@@ -7,6 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Account from "../screens/Account"
 import components from "../components/components"
 import OwnRecipes from "./OwnRecipes"
+import LogInText from "../text/HomeTextLogIn"
 
 export default function BottomNavbar() {
 
@@ -16,8 +17,8 @@ export default function BottomNavbar() {
         
             <Tab.Navigator>
 
-                <Tab.Screen name={"Home"}
-                    component={Home}
+                <Tab.Screen name={"LogInText"}
+                    component={LogInText}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="home" color={color} size={40} />

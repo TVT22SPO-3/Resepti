@@ -52,23 +52,23 @@ export default function Login() {
 	};
 
 	return (
-		<View style={[Styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+		<View style={[styles.inputView,isDarkMode ? Styles.dark : Styles.light]}>
 			<TextInput
-				style={Styles.TextInput}
+				style={styles.TextInput}
 				placeholder="username"
 				placeholderTextColor="#003f5c"
 				onChangeText={(username) => setUsername(username)}
 			/>
 			<TextInput
-				style={Styles.TextInput}
+				style={styles.TextInput}
 				placeholder="Password"
 				placeholderTextColor="#003f5c"
 				secureTextEntry={true}
 				onChangeText={(password) => setPassword(password)}
 			/>
-			<Button style={Styles.button} title='login' onPress={login} />
-			<Button style={Styles.button} title='logout' onPress={logout} />
-			<Text style={isDarkMode ? Styles.dark : Styles.light}>{logged ? 'you are logged in :)' : 'you are logged out :('}</Text>
+			<Button style={styles.loginButton} title='login' onPress={login} />
+			<Button style={styles.loginButton} title='logout' onPress={logout} />
+			<Text >{logged ? 'you are logged in :)' : 'you are logged out :('}</Text>
 		</View>
 	);
 }

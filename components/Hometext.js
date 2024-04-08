@@ -7,8 +7,8 @@ export default function Hometext() {
   const {isDarkMode} = useTheme()
   return (
     <View style={[Styles.container,isDarkMode ? Styles.dark : Styles.light]}>
-      <Text style={isDarkMode ? Styles.dark : Styles.light}>Welcome to the Foodthusiast home page!</Text>
-      <Text style={isDarkMode ? Styles.dark : Styles.light}>Here you can find and upload delicious recipes!</Text>
+      <Text style={[styles.header, isDarkMode ? Styles.dark : Styles.light]}>Welcome to the Foodthusiast home page!</Text>
+      <Text style={[styles.text, isDarkMode ? Styles.dark : Styles.light]}>Here you can find and upload delicious recipes!</Text>
     </View>
   )
 }

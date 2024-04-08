@@ -5,7 +5,8 @@ import { firestore, collection, addDoc, serverTimestamp } from '../firebase/conf
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../context/useAuth';
 import { AuthContext } from '../context/CreateAuthContext';
-
+import Styles from '../Styles';
+import { useTheme } from '../context/useTheme';
 
 
 export default function Login() {
@@ -14,6 +15,7 @@ export default function Login() {
 	const [logged, setLogged] = useState(false);
 	const { setUser } = useAuth()
 	const navigation = useNavigation()
+	const isDarkMode = useTheme();
 
 
 
@@ -50,23 +52,23 @@ export default function Login() {
 	};
 
 	return (
-		<View style={styles.inputView}>
+		<View style={[Styles.container,isDarkMode ? Styles.dark : Styles.light]}>
 			<TextInput
-				style={styles.TextInput}
+				style={Styles.TextInput}
 				placeholder="username"
 				placeholderTextColor="#003f5c"
 				onChangeText={(username) => setUsername(username)}
 			/>
 			<TextInput
-				style={styles.TextInput}
+				style={Styles.TextInput}
 				placeholder="Password"
 				placeholderTextColor="#003f5c"
 				secureTextEntry={true}
 				onChangeText={(password) => setPassword(password)}
 			/>
-			<Button style={styles.loginButton} title='login' onPress={login} />
-			<Button style={styles.loginButton} title='logout' onPress={logout} />
-			<Text>{logged ? 'you are logged in :)' : 'you are logged out :('}</Text>
+			<Button style={Styles.button} title='login' onPress={login} />
+			<Button style={Styles.button} title='logout' onPress={logout} />
+			<Text style={isDarkMode ? Styles.dark : Styles.light}>{logged ? 'you are logged in :)' : 'you are logged out :('}</Text>
 		</View>
 	);
 }

@@ -1,10 +1,14 @@
 import { View, Text, StyleSheet } from 'react-native'
 import { Button } from 'react-native-paper'
 import React from 'react'
+import Styles from '../Styles'
+import { useTheme } from '../context/useTheme'
+
 
 export default function Sign({navigation}) {
+  const { isDarkMode }= useTheme()
   return (
-    <View style={styles.container}>
+    <View style={[Styles.container,isDarkMode ? Styles.dark : Styles.light]} >
       <Button
         style={styles.button}
         mode ="contained"

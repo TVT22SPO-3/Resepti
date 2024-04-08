@@ -1,11 +1,12 @@
-import { View, ScrollView, Text, StyleSheet, Pressable, Image, TouchableOpacity } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, Pressable, Image, TouchableOpacity, Alert } from 'react-native'
 import React, { useState, useEffect} from 'react'
 import { DataTable, TextInput, Picker, Button, Title } from 'react-native-paper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RequestStoragePermission from '../Permissions';
 import * as ImagePicker from 'expo-image-picker';
-import { isSearchBarAvailableForCurrentPlatform } from 'react-native-screens';
-
-
+import { firestore, collection, addDoc, serverTimestamp } from '../firebase/config';
+import { storage, ref, uploadBytes, getDownloadURL } from '../firebase/config';
+import { useAuth } from '../context/useAuth'
 
 
 export default function OwnRecipes() {
@@ -17,35 +18,103 @@ export default function OwnRecipes() {
 }
 
 function AddRecipes() {
+	const { user } = useAuth()
     const [isOpen, setIsOpen] = useState(false);
+	const [recipeName, setRecipeName] = useState('');
+    const [ingredients, setIngredients] = useState([{ ingredient: '', measure: '' }]);
+    const [instructions, setInstructions] = useState('');
+	const [selectedImage, setSelectedImage] = useState(null);
+	const [showNotification, setShowNotification] = useState(false);
 
+    const handleImageChange = (imageUri) => {
+        setSelectedImage(imageUri);
+    };
 
     const toggleAccordion = () => {
         setIsOpen(!isOpen);
     };
 
+	const saveInstructions = (instructions) => {
+        setInstructions(instructions);
+    };
 
-    const saveRecipe = () => {
+	const saveName = (recipeName) => {
+        setRecipeName(recipeName);
+    };
+
+	const saveIgredients = (ingredients) => {
+        setIngredients(ingredients);
+    };
+
+	const clearInputs = () => {
+        setRecipeName('');
+		setIngredients([{ ingredient: '', measure: '' }]);
+		setInstructions('');
+		setSelectedImage(null);
+    };	
+
+    const saveRecipe = async () => {
+        console.log('Recipe Name:', recipeName);
         console.log('Ingredients:', ingredients);
+        console.log('Instructions:', instructions);
+		console.log('Image:', selectedImage);
+
+		try {
+			const response = await fetch(selectedImage);
+        	const blob = await response.blob();
+
+			const uniqueId = () => {
+				return Math.random().toString(36).substr(2, 9); 
+			};
+			const uniqueFileName = `${Date.now()}_${uniqueId()}.jpg`;
+        	const imageRef = ref(storage, `images/${uniqueFileName}`);
+			await uploadBytes(imageRef, blob);
+
+			console.log(selectedImage);
+			const imageUrl = await getDownloadURL(imageRef);
+
+			await addDoc(collection(firestore, 'recipes'), {
+				uid: user.uid,
+				username: user.displayName,
+				name: recipeName,
+				ingredients: ingredients,
+				instructions: instructions,
+				image: imageUrl,
+				createdAt: serverTimestamp()
+			});
+			clearInputs();
+			Alert.alert(
+				'Recipe Added',
+				'Your recipe has been successfully added!',
+				[
+					{ text: 'OK', onPress: () => setShowNotification(false) }
+				]
+			);
+			console.log('Recipe saved successfully.');		
+
+		} catch (error) {
+			console.error('Error saving recipe: ', error);
+		}
+		  
     };
 
     return (
         <ScrollView>
-            <AddRecipeName />
-			<View style={styles.divider} />
-            <AddIngredients />
-			<View style={styles.divider} />
-            <AddInstructions />
-			<View style={styles.divider} />
+            <AddRecipeName value={recipeName} onChangeText={setRecipeName} onChangeName={saveName} />
+            <View style={styles.divider} />
+            <AddIngredients onChangeIngredients={saveIgredients} />
+            <View style={styles.divider} />
+            <AddInstructions value={instructions} onChangeText={setInstructions} onChangeInstructions={saveInstructions} />
+            <View style={styles.divider} />
             <Pressable
                 onPress={toggleAccordion}
                 style={{ padding: 10 }}
             >
                 <Text style={{ fontSize: 16 }}>
 				{isOpen ? 
-					<Image source={require('../assets/upload.png')} style={styles.image}/> 
+					<MaterialCommunityIcons name="chevron-up" color={'black'} size={40} /> 
 					: 
-					<Image source={require('../assets/down-arrow.png')} style={styles.image} />	 
+					<MaterialCommunityIcons name="chevron-down" color={'black'} size={40} />  
 				}
 					{'   Optional information'}
                 </Text>
@@ -53,7 +122,7 @@ function AddRecipes() {
             {isOpen && (
                 <View style={{ padding: 10 }}>
                     <Text>Pictures</Text>
-                    <AddImages />
+                    <AddImages onChangeImage={handleImageChange} />
 					<View style={styles.divider} />
                 </View>
             )}
@@ -64,7 +133,9 @@ function AddRecipes() {
     );
 }
 
-function AddImages() {
+
+
+function AddImages(props) {
 	
     const [selectedImage, setSelectedImage] = useState(null);
 
@@ -86,11 +157,11 @@ function AddImages() {
         });
 		console.log('Picker Result:', pickerResult);
 
-        if (!pickerResult.cancelled) {
-			const selectedUri = pickerResult.assets[0].uri; 
-			setSelectedImage(selectedUri);
-			console.log('Selected Image:', selectedUri);
-		}
+        if (!pickerResult.canceled) {
+            const selectedUri = pickerResult.assets[0].uri;
+            setSelectedImage(selectedUri);
+            props.onChangeImage(selectedUri);
+        }
     };
 
     return (
@@ -114,9 +185,14 @@ function AddImages() {
 }
 
 
-function AddRecipeName(){
+function AddRecipeName(props){
 
-	const [value, onChangeText] = useState('');
+	const { value, onChangeText, onChangeName } = props;
+
+	const handleTextChange = (text) => {
+        onChangeText(text);
+        onChangeName(text);
+    };
 
 	return(
 
@@ -125,7 +201,7 @@ function AddRecipeName(){
 			<TextInput
 				  style={styles.textInput}
 				  value={value}
-				  onChangeText={text => onChangeText(text)}
+				  onChangeText={handleTextChange}
 				  placeholder="Recipe name"
 				  placeholderTextColor="#CCC7B9"
 				/>
@@ -134,52 +210,58 @@ function AddRecipeName(){
 }
 
 
-function AddInstructions(){
+function AddInstructions(props) {
+    const { value, onChangeText, onChangeInstructions } = props;
 
-	const [value, onChangeText] = useState('');
+    const handleTextChange = (text) => {
+        onChangeText(text);
+        onChangeInstructions(text);
+    };
 
-	return(
-
-		<View style={styles.container}>
-			<Title style={styles.title}>Instructions</Title>
-			<TextInput
-				editable
-				multiline
-				numberOfLines={6}
-				maxLength={40}
-				onChangeText={text => onChangeText(text)}
-				value={value}
-				style={styles.addInstructions}
-				placeholder="Add instructions"
-				placeholderTextColor="#CCC7B9"
-			/>
-    	</View> 
-	);
+    return (
+        <View style={styles.container}>
+            <Title style={styles.title}>Instructions</Title>
+            <TextInput
+                editable
+                multiline
+                numberOfLines={6}
+                maxLength={40}
+                onChangeText={handleTextChange}
+                value={value}
+                style={styles.addInstructions}
+                placeholder="Add instructions"
+                placeholderTextColor="#CCC7B9"
+            />
+        </View>
+    );
 }
 
 
-function AddIngredients() {
+function AddIngredients(props) {
 
+	
 	const [ingredients, setIngredients] = useState([{ ingredient: '', measure: '' }]);
 	const [isPressed, setIsPressed] = useState(false);
   
 	const handleAddIngredient = () => {
-	  setIngredients([...ingredients, { ingredient: '', measure: '' }]);
-	};
-  
-	const handleIngredientChange = (index, field, value) => {
-	  const updatedIngredients = [...ingredients];
-	  updatedIngredients[index][field] = value;
-	  setIngredients(updatedIngredients);
-	};
-  
-	const handleRemoveIngredient = (index) => {
-    setIngredients(prevIngredients => {
-        const updatedIngredients = [...prevIngredients];
+        const newIngredients = [...ingredients, { ingredient: '', measure: '' }];
+        setIngredients(newIngredients);
+        props.onChangeIngredients(newIngredients); 
+    };
+
+    const handleIngredientChange = (index, field, value) => {
+        const updatedIngredients = [...ingredients];
+        updatedIngredients[index][field] = value;
+        setIngredients(updatedIngredients);
+        props.onChangeIngredients(updatedIngredients); 
+    };
+
+    const handleRemoveIngredient = (index) => {
+        const updatedIngredients = [...ingredients];
         updatedIngredients.splice(index, 1);
-        return updatedIngredients;
-    });
-	};
+        setIngredients(updatedIngredients);
+        props.onChangeIngredients(updatedIngredients); 
+    };
 
 	const handlePressIn = () => {
 		setIsPressed(true);

@@ -13,6 +13,7 @@ import { auth, onAuthStateChanged } from './firebase/config';
 import { useState, useEffect, useContext } from 'react';
 import AuthProvider from './context/AuthProvider';
 import { AuthContext } from './context/CreateAuthContext';
+import ThemeProvider from './components/ThemeProvider';
 
 
 
@@ -37,9 +38,13 @@ export default function App() {
 
 
   return (
-    <AuthProvider>
-      <AppRecipe />
-    </AuthProvider>
+    <PaperProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AppRecipe />
+        </AuthProvider>
+      </ThemeProvider>
+    </PaperProvider>
   );
 }
 

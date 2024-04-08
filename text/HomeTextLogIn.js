@@ -1,15 +1,16 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
+import Styles from '../Styles'
+import { useTheme } from '../context/useTheme'
 import { useAuth } from '../context/useAuth'
 
 export default function LogInText() {
-
-  const { user } = useAuth()
-  console.log("he",user.displayName)
+  const {isDarkMode} = useTheme()
+  const {user} = useAuth()
   return (
-    <View>
-      <Text style={styles.header}>Welcome back {user.displayName} to the Foodthusiast home page!</Text>
-      <Text style={styles.text}>Here you can find and upload delicious recipes!</Text>
+    <View style={[Styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+      <Text style={isDarkMode ? Styles.dark : Styles.light}>Welcome back {user.displayName} to the Foodthusiast home page!</Text>
+      <Text style={isDarkMode ? Styles.dark : Styles.light}>Here you can find and upload delicious recipes!</Text>
     </View>
   )
 }

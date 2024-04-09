@@ -5,14 +5,19 @@ import Hometext from '../components/Hometext';
 import Sign from '../components/Sign';
 import { useAuth } from '../context/useAuth';
 import LogInText from '../text/HomeTextLogIn';
+import Styles from '../Styles';
+import ThemeSwitchButton from '../components/ThemeSwitchButton';
+import { useTheme } from '../context/useTheme';
 
 export default function Home({ navigation }) {
   const {user} = useAuth()
   console.log("Home", user)
+  const {isDarkMode} = useTheme()
+
   return (
-    <View style={styles.container}>
+    <View style={[Styles.container,isDarkMode ? Styles.dark : Styles.light]}>
       <Hometext navigation={navigation}/>
-      <Sign navigation={navigation}/>
+        <Sign navigation={navigation}/>
     </View>
 
   )

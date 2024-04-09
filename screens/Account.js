@@ -11,6 +11,8 @@ import UserInformationCard from '../components/EditProfile/UserInformationCard'
 import ChangePassword from '../components/EditProfile/ChangePassword'
 
 
+
+
 export default function Account() {
 
 
@@ -24,4 +26,4 @@ export default function Account() {
       <ChangePassword/>
     </View>
   )
-}
+} 

@@ -11,13 +11,13 @@ export default StyleSheet.create({
         backgroundColor: '#f5f5f5',
         fontStyle: 'italic',
         color: '#333',
-        fontSize: '30',
+        
     },
     dark: {
         backgroundColor: '#333',
         fontStyle: 'italic',
         color: '#f5f5f5',
-        fontSize: '30',
+        
     },
     inputView: {
 		backgroundColor: '#26547C',

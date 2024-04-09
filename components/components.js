@@ -1,18 +1,86 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, Button, Image, FlatList, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { firestore, collection, addDoc, serverTimestamp, doc, deleteDoc, query, where, getDocs } from '../firebase/config'; 
+import { useAuth } from '../context/useAuth';
 
 export default function MealExplorer() {
+  const { user } = useAuth();
+
   const [meal, setMeal] = useState(null);
   const [meals, setMeals] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [categories, setCategories] = useState([]);
   const [showCategories, setShowCategories] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [searchById, setSearchById] = useState('');
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     fetchAllCategories();
+    fetchUserFavorites();
   }, []);
+
+  const fetchUserFavorites = async () => {
+    try {
+      const favoritesRef = collection(firestore, `users/${user.uid}/favorites`);
+      const favoritesSnapshot = await getDocs(favoritesRef);
+      const favoritesData = favoritesSnapshot.docs.map(doc => doc.data());
+      setFavorites(favoritesData);
+
+      setMeals(prevMeals => {
+        return prevMeals.map(recipe => {
+          return {
+            ...recipe,
+            isFavorite: favoritesData.some(item => item.idMeal === recipe.idMeal)
+          };
+        });
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const addToFavorites = async (recipe) => {
+    try {
+      const favoritesRef = collection(firestore, `users/${user.uid}/favorites`);
+      const newFavoriteDoc = await addDoc(favoritesRef, {
+        ...recipe,
+        userId: user.uid, 
+        createdAt: serverTimestamp(),
+      });
+      console.log("Recipe added to favorites:", recipe); 
+      setFavorites(prevFavorites => [...prevFavorites, { ...recipe, id: newFavoriteDoc.id }]); 
+      updateMealFavoriteStatus(recipe.idMeal, true);
+    } catch (error) {
+      console.error("Error adding recipe to favorites:", error);
+    }
+  };
+
+  const removeFromFavorites = async (recipe) => {
+    try {
+      const favoritesRef = collection(firestore, `users/${user.uid}/favorites`);
+      const querySnapshot = await getDocs(query(favoritesRef, where('idMeal', '==', recipe.idMeal))); 
+      querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref);
+      });
+
+      console.log("Recipe removed from favorites:", recipe); 
+      setFavorites(prevFavorites => prevFavorites.filter(item => item.idMeal !== recipe.idMeal));
+      updateMealFavoriteStatus(recipe.idMeal, false);
+    } catch (error) {
+      console.error("Error removing from favorites:", error);
+    }
+  };
+
+  const updateMealFavoriteStatus = (mealId, isFavorite) => {
+    setMeals(prevMeals => {
+      return prevMeals.map(item => {
+        if (item.idMeal === mealId) {
+          return { ...item, isFavorite: isFavorite };
+        }
+        return item;
+      });
+    });
+  };
 
   const fetchRandomMeal = async () => {
     try {
@@ -79,10 +147,25 @@ export default function MealExplorer() {
 
   const cleanSearch = () => {
     setSearchTerm('');
-    setSearchById('');
     setMeal(null);
     setMeals([]);
     setSelectedCategory('');
+  };
+
+  const renderFavoriteButton = (recipe) => {
+    if (recipe.isFavorite) {
+      return (
+        <TouchableOpacity onPress={() => removeFromFavorites(recipe)}>
+          <Text style={styles.addToFavorites}>Remove from Favorites</Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity onPress={() => addToFavorites(recipe)}>
+          <Text style={styles.addToFavorites}>Add to Favorites</Text>
+        </TouchableOpacity>
+      );
+    }
   };
 
   return (
@@ -137,6 +220,7 @@ export default function MealExplorer() {
                 <Text style={styles.mealName}>{item.strMeal}</Text>
                 <Image style={styles.mealImage} source={{ uri: item.strMealThumb }} />
                 <Text style={styles.instructions}>{item.strInstructions}</Text>
+                {renderFavoriteButton(item)}
               </View>
             </TouchableOpacity>
           )}
@@ -154,43 +238,43 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 24,
+    fontSize: 20, 
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 10, 
   },
   subtitle: {
-    fontSize: 20,
+    fontSize: 16, 
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 5, 
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 5, 
   },
   input: {
     flex: 1,
     borderWidth: 1,
     borderColor: '#ccc',
-    paddingHorizontal: 10,
-    marginRight: 10,
-    borderRadius: 5,
+    paddingHorizontal: 5, 
+    marginRight: 5, 
+    borderRadius: 3, 
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
-    marginBottom: 20,
+    marginBottom: 10, 
   },
   button: {
     backgroundColor: '#FFA500',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
+    paddingVertical: 5, 
+    paddingHorizontal: 10, 
+    borderRadius: 10, 
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 14, 
     fontWeight: 'bold',
   },
   scrollContainer: {
@@ -200,17 +284,17 @@ const styles = StyleSheet.create({
   },
   mealContainer: {
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 10, 
   },
   mealName: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 5, 
   },
   mealImage: {
-    width: 200,
-    height: 200,
-    marginBottom: 10,
+    width: 150,
+    height: 150,
+    marginBottom: 5,
   },
   instructions: {
     textAlign: 'center',
@@ -225,5 +309,10 @@ const styles = StyleSheet.create({
     height: 100,
     marginBottom: 10,
     marginRight: 10,
+  },
+  addToFavorites: {
+    color: '#FFA500',
+    fontWeight: 'bold',
+    marginTop: 5,
   },
 });

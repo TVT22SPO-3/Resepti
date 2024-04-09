@@ -7,6 +7,8 @@ import { getAuth } from 'firebase/auth'
 import OwnRecipes from '../components/OwnRecipes'
 
 
+
+
 export default function Account() {
 
 
@@ -18,4 +20,4 @@ export default function Account() {
       <Profileinfo/>
     </View>
   )
-}
+} 

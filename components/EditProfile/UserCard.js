@@ -1,25 +1,31 @@
-import { View, StyleSheet, Text, TouchableOpacity, Pressable } from 'react-native'
+import { View, StyleSheet, Text, TouchableOpacity, Pressable, Image } from 'react-native'
 import React from 'react'
+import { useState } from 'react'
 import { useAuth } from '../../context/useAuth'
 import { Avatar, TextInput, Card, IconButton, Icon } from 'react-native-paper'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 
 export default function UserCard() {
-    const { user } = useAuth()
+    const { user } = useAuth()  
+
     return (
       <View>
         <Card style={styles.container}>
           <View style={styles.container2}>
-            <Avatar.Image size={160} source={require('../../assets/trash.png')} />
+            {user.photoURL ? (
+              <Avatar.Image size={160} source={{ uri: user.photoURL }} />
+            ) : (
+              <Avatar.Image size={160} source={require('../../assets/trash.png')} />
+            )}
             <Text style={styles.texti}>{user.displayName}</Text>
           </View>
         </Card>
       </View>
-
     )
 
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -36,7 +42,6 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       paddingBottom: 20,
     },
-  
     container2: {
       alignItems: 'center'
     },

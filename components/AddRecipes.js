@@ -304,13 +304,13 @@ function AddIngredients(props) {
 				/>
 			  </DataTable.Cell>
 			  <DataTable.Cell>
-			  <TouchableOpacity
-				onPress={() => handleRemoveIngredient(index)}
-				onPressIn={handlePressIn}
-				onPressOut={handlePressOut}
-				style={styles.container}
-			  >
-      			<Image source={require('../assets/trash.png')} style={[styles.image, isPressed && styles.highlight]} />
+				<TouchableOpacity
+					onPress={() => handleRemoveIngredient(index)}
+					onPressIn={handlePressIn}
+					onPressOut={handlePressOut}
+					style={styles.container}
+				>
+      			<MaterialCommunityIcons name="trash-can-outline" color={'black'} size={30} />  
     		  </TouchableOpacity>	
 			  </DataTable.Cell>
 			</DataTable.Row>
@@ -346,6 +346,11 @@ function AddIngredients(props) {
 	textInput: {
 		margin: 15,
 	},	
+	DataTableRow: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		height: 70,
+	},
 	addButtonCell: {
 	  alignItems: 'center',
 	  justifyContent: 'center',

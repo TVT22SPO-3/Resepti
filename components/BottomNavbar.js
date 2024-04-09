@@ -6,7 +6,7 @@ import * as React from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Account from "../screens/Account"
 import components from "../components/components"
-import OwnRecipes from "./OwnRecipes"
+import OwnRecipes from "./AddRecipes"
 import LogInText from "../text/HomeTextLogIn"
 
 export default function BottomNavbar() {

@@ -48,6 +48,7 @@ export default function ShowRecipes() {
             </View>
         </View>
       );
+    }
 /*
     useEffect(()  =>{
         const fetchRecipes = async() =>{
@@ -87,9 +88,9 @@ export default function ShowRecipes() {
             ))}
         </Text>
     </View>
-  )
+  )}
   */
-}
+
 
 
 

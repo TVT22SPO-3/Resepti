@@ -5,6 +5,7 @@ import { auth } from 'firebase/auth'
 import { useAuth, signOut } from '../context/useAuth'
 import { getAuth } from 'firebase/auth'
 import OwnRecipes from '../components/OwnRecipes'
+import ShowRecipes from '../components/ShowRecipes'
 
 
 export default function Account() {
@@ -16,6 +17,7 @@ export default function Account() {
     
     <View>
       <Profileinfo/>
+      <ShowRecipes/>
     </View>
   )
 }

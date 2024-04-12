@@ -71,6 +71,27 @@ async function SearchByDocId(DocId) {
     }
 }
 
+async function SearchByUid(uid){
+    const data = []
+    try{
+        const q = query(collection(firestore,'recipes'), where('uid', '==', uid));
+        console.log(uid);
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, "=>", doc.data())
+            const testi = {
+                "idMeal": doc.id,
+                "strMealThumb": doc.data().image,
+                "strMeal": doc.data().name
+            }
+            data.push(testi)
+        })
+        return data
+    }catch (error) {
+        console.log(error)
+    }
+}
 
 
-export { SearchAllRecipes, SearchByDocId, SearchByName }
+
+export { SearchAllRecipes, SearchByDocId, SearchByName, SearchByUid }

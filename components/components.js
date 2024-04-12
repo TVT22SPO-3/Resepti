@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Button, Image, FlatList, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, Button, Image, FlatList, TextInput, StyleSheet, ScrollView, TouchableOpacity, Pressable } from 'react-native';
 import { firestore, collection, addDoc, serverTimestamp, doc, deleteDoc, query, where, getDocs } from '../firebase/config'; 
 import { useAuth } from '../context/useAuth';
+import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 
-export default function MealExplorer() {
+ export default function MealExplorer() {
   const { user } = useAuth();
 
   const [meal, setMeal] = useState(null);
@@ -86,6 +87,7 @@ export default function MealExplorer() {
     try {
       const response = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
       const data = await response.json();
+      console.log("data", data)
       setMeal(data.meals[0]);
       setMeals([]);
       setSelectedCategory('');
@@ -215,14 +217,15 @@ export default function MealExplorer() {
           data={meal ? [meal] : meals}
           keyExtractor={(item) => item.idMeal}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => fetchMealById(item.idMeal)}>
+            <SmallRecipeCard item={item}/>
+          /*  <TouchableOpacity onPress={() => fetchMealById(item.idMeal)}>
               <View style={styles.mealContainer}>
                 <Text style={styles.mealName}>{item.strMeal}</Text>
                 <Image style={styles.mealImage} source={{ uri: item.strMealThumb }} />
                 <Text style={styles.instructions}>{item.strInstructions}</Text>
                 {renderFavoriteButton(item)}
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity>*/
           )}
         />
       )}
@@ -236,6 +239,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'green'
   },
   title: {
     fontSize: 20, 
@@ -279,8 +283,9 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
+    width: 400,
     alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'red'
   },
   mealContainer: {
     alignItems: 'center',
@@ -315,4 +320,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 5,
   },
+  
 });
+

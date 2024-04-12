@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
 import Profileinfo from '../components/Profileinfo'
 import { auth } from 'firebase/auth'
@@ -20,12 +20,14 @@ export default function Account() {
   return (
 
     
-    <View>
-      <Profileinfo/>
-      <UserCard/>
-      <UserInformationCard/>
-      <ChangePassword/>
-      <ShowRecipes/>
-    </View>
+    <ScrollView>
+      <View>
+        <Profileinfo/>
+        <UserCard/>
+        <UserInformationCard/>
+        <ChangePassword/>
+        <ShowRecipes/>
+      </View>
+    </ScrollView>
   )
 } 

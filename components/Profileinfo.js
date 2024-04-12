@@ -34,7 +34,7 @@ export default function Profileinfo({data}) {
     <Card style={styles.container}>
       <View style={styles.container2}>
       <Avatar.Image size={160} source={require('../assets/trash.png')} />
-      <Text style={styles.texti}>{data.username}</Text>
+      <Text style={styles.texti}></Text>
       </View>
     </Card>
 

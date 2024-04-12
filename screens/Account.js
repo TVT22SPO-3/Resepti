@@ -1,7 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import Profileinfo from '../components/Profileinfo'
-import EditProfile from '../components/EditProfile'
 import { auth } from 'firebase/auth'
 import { useAuth, signOut } from '../context/useAuth'
 import { getAuth } from 'firebase/auth'
@@ -23,10 +22,10 @@ export default function Account() {
     
     <View>
       <Profileinfo/>
-      <ShowRecipes/>
       <UserCard/>
       <UserInformationCard/>
       <ChangePassword/>
+      <ShowRecipes/>
     </View>
   )
 } 

@@ -8,6 +8,7 @@ import Account from "../screens/Account"
 import components from "../components/components"
 import OwnRecipes from "./AddRecipes"
 import LogInText from "../text/HomeTextLogIn"
+import Stacknav2 from "./Stacknav2"
 
 export default function BottomNavbar() {
 
@@ -27,7 +28,7 @@ export default function BottomNavbar() {
                 />
                 <Tab.Screen
                 name={"components"}
-                component={components}
+                component={Stacknav2}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="magnify" color={color} size={40} />

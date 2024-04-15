@@ -1,13 +1,18 @@
-import { View, ScrollView, RefreshControl, Text, Button } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
-import { useState } from 'react'
+import Profileinfo from '../components/Profileinfo'
 import { auth } from 'firebase/auth'
-import { getAuth, reload } from 'firebase/auth'
-import OwnRecipes from '../components/AddRecipes'
+import { useAuth, signOut } from '../context/useAuth'
+import { getAuth } from 'firebase/auth'
+import OwnRecipes from '../components/OwnRecipes'
+import ShowRecipes from '../components/ShowRecipes'
 import UserCard from '../components/EditProfile/UserCard'
 import UserInformationCard from '../components/EditProfile/UserInformationCard'
 import ChangePassword from '../components/EditProfile/ChangePassword'
+import FavoriteRecipes from '../components/FavoriteRecipes';
 import ChangeProfilePic from '../components/EditProfile/ChangeProfilePic'
+
+
 
 
 export default function Account() {
@@ -29,11 +34,14 @@ export default function Account() {
   };
 
   return (
+
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleReload}/>}>
       <UserCard/>
       <UserInformationCard/>
       <ChangeProfilePic />
       <ChangePassword/>
+      <ShowRecipes/>
     </ScrollView>
+
   )
 } 

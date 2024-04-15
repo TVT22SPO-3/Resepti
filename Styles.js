@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
     container: {
         flex: 1,
-        fontSize: 30,
         fontWeight: "bold",
         alignItems: 'center',
     },
@@ -11,13 +10,11 @@ export default StyleSheet.create({
         backgroundColor: '#f5f5f5',
         fontStyle: 'italic',
         color: '#333',
-        
     },
     dark: {
         backgroundColor: '#333',
         fontStyle: 'italic',
         color: '#f5f5f5',
-        
     },
     inputView: {
 		backgroundColor: '#26547C',

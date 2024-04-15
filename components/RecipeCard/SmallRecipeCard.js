@@ -9,6 +9,7 @@ const navigation = useNavigation()
 
   const SeeRecipe = () =>{
     navigation.navigate('FullRecipeCard', {itemid: item.idMeal})
+
   }
 
   console.log("item", item)

@@ -55,7 +55,7 @@ export default function Login() {
 		<View style={[Styles.container,isDarkMode ? Styles.dark : Styles.light]}>
 			<TextInput
 				style={Styles.TextInput}
-				placeholder="username"
+				placeholder="Username"
 				placeholderTextColor="#003f5c"
 				onChangeText={(username) => setUsername(username)}
 			/>

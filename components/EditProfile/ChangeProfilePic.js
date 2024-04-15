@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet, Pressable, Image } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Image, Alert } from 'react-native'
 import React, { useState, useEffect} from 'react'
 import { Button, Card, Avatar } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RequestStoragePermission from '../../Permissions';
 import * as ImagePicker from 'expo-image-picker';
-import { storage, ref, uploadBytes, getDownloadURL } from '../../firebase/config';
+import { storage, ref, uploadBytes, getDownloadURL, auth } from '../../firebase/config';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { useAuth } from '../../context/useAuth'
 
@@ -14,7 +14,8 @@ export default function ChangeProfilePic(){
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
-    const { user } = useAuth()
+    const { user } = useAuth();
+    const [avatarUrl, setAvatarUrl] = useState(user.photoURL);
 
     const toggleAccordion = () => {
         setIsOpen(!isOpen)
@@ -41,10 +42,22 @@ export default function ChangeProfilePic(){
         if (!pickerResult.canceled) {
           const selectedUri = pickerResult.assets[0].uri;
           setSelectedImage(selectedUri);
+          setAvatarUrl(selectedUri);
         }
     };
 
-    const handleImageChange = async (userCredential) => {
+    const handleImageChange = async () => {
+
+      if(!selectedImage){
+        Alert.alert('Choose picture', 'You need to choose picture first!', [
+          {
+            text: 'Ok',
+            onPress: () => console.log('Ok Pressed'),
+            style: 'cancel',
+          },
+
+        ]);
+      }
       
       const response = await fetch(selectedImage);
       const blob = await response.blob();
@@ -63,11 +76,12 @@ export default function ChangeProfilePic(){
       updateProfile(auth.currentUser, {
         photoURL: imageUrl
       });
+      setSelectedImage(null);
     };
 
     return(
         <View style={{ paddingTop: 12 }}>
-            <Card style={styles.container3}>
+            <Card style={styles.container1}>
               <Pressable onPress={toggleAccordion}>
                 <View style={styles.infoContainer}>
                   <Text style={styles.texti2}>CHANGE PROFILE PICTURE</Text>
@@ -78,20 +92,20 @@ export default function ChangeProfilePic(){
                 </View>
               </Pressable>
               {isOpen && (
-                <View style={styles.container3}>
-                    {user.photoURL ? (
-                        <Avatar.Image size={160} source={{ uri: user.photoURL }} />
+                <View style={styles.container2}>
+                  <View style={styles.container3}>
+                    {avatarUrl ? (
+                        <Avatar.Image size={70} source={{ uri: avatarUrl }} />
                         ) : (
-                        <Avatar.Image size={160} source={require('../../assets/trash.png')} />
+                        <Avatar.Image size={70} source={require('../../assets/trash.png')} />
                     )}
-                    <View style={{ marginTop: 20 }}>
-                        <Pressable style={styles.addImagesButton} onPress={openImagePicker}>
-                            <Text style={styles.buttonText}>Edit</Text>
-                        </Pressable>
-                        <Pressable style={styles.addImagesButton} onPress={handleImageChange}>
-                            <Text style={styles.buttonText}>Save</Text>
-                        </Pressable>
-                    </View>
+                    <Button onPress={openImagePicker}>
+                        <Text style={{textDecorationLine: 'underline'}}>CHOOSE PICTURE</Text>
+                    </Button>
+                  </View> 
+                    <Button onPress={handleImageChange}>
+                      EDIT
+                    </Button>             
                 </View>
               )}
             </Card>
@@ -102,37 +116,35 @@ export default function ChangeProfilePic(){
 
 
   
-  const styles = StyleSheet.create({
-    container3: {
-        backgroundColor: '#faebd7',
-        marginHorizontal: 12,
-    },
-    texti2: {
-        fontSize: 18,
-        textAlign: 'center',
-        paddingRight: 24
-    },
-    infoContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        paddingVertical: 4,
-    },
-	addImagesButton: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		paddingVertical: 12,
-		paddingHorizontal: 32,
-		marginHorizontal: 15,
-		marginVertical: 15,
-		borderRadius: 4,
-		elevation: 3,
-		backgroundColor: '#0582CA',
-	},
-	buttonText: {
-	  fontSize: 16,
-	  lineHeight: 21,
-	  fontWeight: 'bold',
-	  letterSpacing: 0.25,
-	  color: 'white',
-	},
-  });
+const styles = StyleSheet.create({
+  container1: {
+    flex: 1,
+    backgroundColor: '#faebd7',
+    marginHorizontal: 12,
+  },
+  container2: {
+    flex: 1, 
+    flexDirection: 'row',
+    marginVertical: (12, 12),
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#faebd7',
+  },
+  container3: {
+    flex: 1, 
+    flexDirection: 'row',
+    marginLeft: 12,
+    alignItems: 'center',
+    backgroundColor: '#faebd7',
+  },
+  texti2: {
+    fontSize: 18,
+    textAlign: 'center',
+    paddingRight: 24
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingVertical: 4,
+  },
+});

@@ -1,13 +1,14 @@
-import { View, StyleSheet, Text, TouchableOpacity, Pressable, Image } from 'react-native'
+import { View, StyleSheet, Text, Button, TouchableOpacity, Pressable, Image } from 'react-native'
 import React from 'react'
 import { useState } from 'react'
 import { useAuth } from '../../context/useAuth'
+import { getAuth, reload } from 'firebase/auth';
 import { Avatar, TextInput, Card, IconButton, Icon } from 'react-native-paper'
 
 
 
 export default function UserCard() {
-    const { user } = useAuth()  
+    const { user } = useAuth() 
 
     return (
       <View>
@@ -23,7 +24,6 @@ export default function UserCard() {
         </Card>
       </View>
     )
-
 }
 
 

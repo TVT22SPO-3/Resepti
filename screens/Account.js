@@ -9,6 +9,7 @@ import ShowRecipes from '../components/ShowRecipes'
 import UserCard from '../components/EditProfile/UserCard'
 import UserInformationCard from '../components/EditProfile/UserInformationCard'
 import ChangePassword from '../components/EditProfile/ChangePassword'
+import FavoriteRecipes from '../components/FavoriteRecipes';
 
 
 
@@ -20,6 +21,7 @@ export default function Account() {
   return (
 
     
+
     <ScrollView>
       <View>
         <Profileinfo/>
@@ -29,5 +31,6 @@ export default function Account() {
         <ShowRecipes/>
       </View>
     </ScrollView>
+
   )
 } 

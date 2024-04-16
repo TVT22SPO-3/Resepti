@@ -3,10 +3,13 @@ import { Text, View, Button, Image, FlatList, TextInput, StyleSheet, ScrollView,
 import { firestore, collection, addDoc, serverTimestamp, doc, deleteDoc, query, where, getDocs } from '../firebase/config'; 
 import { useAuth } from '../context/useAuth';
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
+import { SearchByIngredient, SearchByName } from '../FirebaseDB/SearchBy';
 
  export default function MealExplorer() {
   const { user } = useAuth();
 
+  const [mealFB, setMealfb] = useState(null);
+  const [mealsFB, setMealsfb] = useState([]);
   const [meal, setMeal] = useState(null);
   const [meals, setMeals] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,6 +22,12 @@ import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
     fetchAllCategories();
     fetchUserFavorites();
   }, []);
+
+
+  const handleSearch = () => {
+    fetchFirebaseByName(setSearchTerm)
+    fetchMealByName(setSearchTerm)
+  }
 
   const fetchUserFavorites = async () => {
     try {
@@ -100,6 +109,7 @@ import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
     try {
       const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`);
       const data = await response.json();
+      console.log("logi",data)
       setMeal(data.meals ? data.meals[0] : null);
       setMeals([]);
       setSelectedCategory('');
@@ -107,6 +117,29 @@ import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
       console.error(error);
     }
   };
+
+  const fetchFirebaseByName = async () => {
+    try {
+      const resp = await SearchByName(searchTerm)
+      console.log("fetchFirebaseByName1", resp)
+      setMealfb(resp ? resp[0] : null);
+      setMealsfb([]);
+      setSelectedCategory('');
+    } catch (error) {
+      console.log("fetchFirebaseByName", error)
+    }
+  }
+  const fetchFirebaseByingredient = async () => {
+    try {
+      const resp = await SearchByIngredient(searchTerm)
+      console.log("FetchbyIngredient", resp)
+      setMeal(resp ? resp[0] : null);
+      setMeals([]);
+      setSelectedCategory('');
+    } catch (error) {
+      console.log("fetchFirebaseByName", error)
+    }
+  }
 
   const fetchMealById = async (id) => {
     try {
@@ -135,6 +168,7 @@ import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
     try {
       const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
       const data = await response.json();
+      console.log("category", data)
       setMeals(data.meals || []);
       setSelectedCategory(category);
       setMeal(null);
@@ -180,7 +214,7 @@ import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
           onChangeText={setSearchTerm}
           value={searchTerm}
         />
-        <Button title="Search" onPress={fetchMealByName} color="#FFA500" />
+        <Button title="Search" onPress={handleSearch} color="#FFA500" />
       </View>
  
       <View style={styles.buttonContainer}>
@@ -211,10 +245,10 @@ import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
           )}
         />
       )}
-      {(meal || meals.length > 0) && (
+      {(meal || meals.length > 0 || mealFB || mealsFB > 0) && (
         <FlatList
           contentContainerStyle={styles.scrollContainer}
-          data={meal ? [meal] : meals}
+          data={(meal ? [meal] : meals).concat(mealFB ? [mealFB] : mealsFB)}
           keyExtractor={(item) => item.idMeal}
           renderItem={({ item }) => (
             <SmallRecipeCard item={item}/>

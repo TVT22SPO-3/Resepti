@@ -29,6 +29,7 @@ export default function Account() {
         <UserInformationCard/>
         <ChangePassword/>
         <ShowRecipes/>
+        <FavoriteRecipes/>
       </View>
     </ScrollView>
 

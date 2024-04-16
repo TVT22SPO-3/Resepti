@@ -36,7 +36,6 @@ const AppRecipe = () => {
 
 export default function App() {
 
-
   return (
     <PaperProvider>
       <ThemeProvider>

@@ -52,7 +52,8 @@ export default function Login() {
 	};
 
 	return (
-		<View style={[styles.inputView,isDarkMode ? Styles.dark : Styles.light]}>
+		<View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+		<View style={styles.inputView}>
 			<TextInput
 				style={styles.TextInput}
 				placeholder="Username"
@@ -70,15 +71,20 @@ export default function Login() {
 			<Button style={styles.loginButton} title='logout' onPress={logout} />
 			<Text >{logged ? 'you are logged in :)' : 'you are logged out :('}</Text>
 		</View>
+		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-
+	container: {
+		flex: 1,
+		alignItems: 'center',
+	  },
 	inputView: {
 		backgroundColor: '#26547C',
-		width: "70%",
-		height: 270,
+		width: "90%",
+		height: 300,
+		marginTop: 20,
 		marginBottom: 20,
 		borderRadius: 6,
 		alignItems: "center",
@@ -86,7 +92,7 @@ const styles = StyleSheet.create({
 	TextInput: {
 		backgroundColor: '#FFFCF9',
 		height: 50,
-		width: 220,
+		width: 280,
 		marginTop: 25,
 		margin: 10,
 		padding: 10,

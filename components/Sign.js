@@ -8,7 +8,7 @@ import { useTheme } from '../context/useTheme'
 export default function Sign({navigation}) {
   const { isDarkMode }= useTheme()
   return (
-    <View style={[Styles.container,isDarkMode ? Styles.dark : Styles.light]} >
+    <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]} >
       <Button
         style={styles.button}
         mode ="contained"

@@ -1,3 +1,4 @@
+
 import { View, Text, ScrollView, FlatList } from 'react-native'
 import React from 'react'
 import { useState } from 'react'
@@ -20,6 +21,7 @@ import { useTheme } from '../context/useTheme'
 export default function Account() {
 
   const {isDarkMode} = useTheme()
+
   const [refreshing, setRefreshing] = useState(false);
 
   const handleReload = async () => {
@@ -38,11 +40,13 @@ export default function Account() {
   return (
     <GestureHandlerRootView>
       <FlatList
+
         style={[isDarkMode ? Styles.dark : Styles.light]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleReload}/>}
         data={[{ key: 'UserCard' }, { key: 'UserInformationCard' }, { key: 'ChangeProfilePic' }, { key: 'ChangePassword' }, { key: 'ShowRecipes' }]}
+
         renderItem={({ item }) => {
-          switch(item.key) {
+          switch (item.key) {
             case 'UserCard':
               return <UserCard />;
             case 'UserInformationCard':
@@ -53,12 +57,16 @@ export default function Account() {
               return <ChangePassword />;
             case 'ShowRecipes':
               return <ShowRecipes />;
+            case 'FavoriteRecipes': 
+              return <FavoriteRecipes />;
             default:
               return null;
           }
         }}
       />
     </GestureHandlerRootView>
+
       
   )
 } 
+

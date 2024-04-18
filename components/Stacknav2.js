@@ -8,7 +8,9 @@ import MealExplorer from "./components"
 import ShowRecipes from "./ShowRecipes"
 import Account from "../screens/Account"
 
+
  function Stacknav2({ initialRoute }) {
+
 
 
   const Stack = createNativeStackNavigator();
@@ -22,9 +24,10 @@ import Account from "../screens/Account"
         headerShown: false
       }}
     >
+
       <Stack.Screen name="MealExplorer" component={MealExplorer} />     
       <Stack.Screen name="FullRecipeCard" component={FullRecipeCard} />
-      
+
     </Stack.Navigator>
   )
 

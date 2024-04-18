@@ -36,7 +36,7 @@ export default function RandomMeal() {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.text}>5 random meals:</Text>
+        <Text style={styles.text}>Featured meals:</Text>
         {loading ? (
                 <Text>Loading...</Text>
             ) : (

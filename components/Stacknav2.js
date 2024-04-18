@@ -19,7 +19,7 @@ import Account from "../screens/Account"
     <Stack.Navigator
       style={isDarkMode ? Styles.dark : Styles.light}
       screenOptions={{
-        headerRight: () => <ThemeSwitchButton />
+        headerShown: false
       }}
     >
       <Stack.Screen name="MealExplorer" component={MealExplorer} />     
@@ -41,7 +41,7 @@ function Stacknav3({ initialRoute }) {
     <Stack.Navigator
       style={isDarkMode ? Styles.dark : Styles.light}
       screenOptions={{
-        headerRight: () => <ThemeSwitchButton />
+        headerShown: false
       }}
     >
       <Stack.Screen name="Account" component={Account} />     

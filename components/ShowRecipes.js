@@ -7,8 +7,8 @@ import { SearchByUid } from '../FirebaseDB/SearchBy';
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 
 import { Card } from 'react-native-paper';
-import Carousel from 'react-native-snap-carousel';
 
+/*
 export default function ShowRecipes() {
     const { user } = useAuth()
     const uid = user.uid
@@ -31,7 +31,7 @@ export default function ShowRecipes() {
     },[])
 
     const renderSeparator = () => <View style={styles.separator} />;
-/*
+
     return (
         <Card style={styles.container}>
             <FlatList
@@ -41,7 +41,7 @@ export default function ShowRecipes() {
                 contentContainerStyle={styles.contentContainer}
             />
         </Card>
-      )*/
+      )
       return (
         <View style={styles.container}>
             <Text style={styles.text}>YOUR OWN RECIPES</Text>
@@ -62,7 +62,7 @@ export default function ShowRecipes() {
         </View>
       );
     
-}
+}*/
 
 const styles = StyleSheet.create({
     container: {

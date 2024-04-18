@@ -52,7 +52,7 @@ export default function Account() {
             case 'ChangePassword':
               return <ChangePassword />;
             case 'ShowRecipes':
-              return <ShowRecipes />;
+              return <ChangePassword />;
             default:
               return null;
           }
@@ -60,8 +60,5 @@ export default function Account() {
       />
     </GestureHandlerRootView>
       
-    
-    
-
   )
 } 

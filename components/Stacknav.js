@@ -24,7 +24,8 @@ export default function Stacknav({ initialRoute }) {
     <Stack.Navigator
       style={isDarkMode ? Styles.dark : Styles.light}
       screenOptions={{
-        headerRight: () => <ThemeSwitchButton />, 
+        headerShown: false,
+        /*headerRight: () => <ThemeSwitchButton />, */
       }}
     >
       <Stack.Screen name="Home" component={Home} />

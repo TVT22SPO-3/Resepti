@@ -8,14 +8,18 @@ export default function LogInText() {
   const {isDarkMode} = useTheme()
   const {user} = useAuth()
   return (
-    <View style={[Styles.container,isDarkMode ? Styles.dark : Styles.light]}>
-      <Text style={isDarkMode ? Styles.dark : Styles.light}>Welcome back {user.displayName} to the Foodthusiast home page!</Text>
-      <Text style={isDarkMode ? Styles.dark : Styles.light}>Here you can find and upload delicious recipes!</Text>
+    <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+      <Text style={[styles.header,isDarkMode ? Styles.dark : Styles.light]}>Welcome back {user.displayName} to the Foodthusiast home page!</Text>
+      <Text style={[styles.text,isDarkMode ? Styles.dark : Styles.light]}>Here you can find and upload delicious recipes!</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+  },
   header: {
     fontStyle: 'italic',
     fontSize: 28,

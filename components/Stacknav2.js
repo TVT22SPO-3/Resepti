@@ -1,6 +1,6 @@
 import React from "react"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import ThemeSwitchButton from "./ThemeSwitchButton"
+import ThemeSwitchButton from "./ThemeSwitch/ThemeSwitchButton"
 import Styles from "../Styles"
 import { useTheme } from "../context/useTheme"
 import FullRecipeCard from "./RecipeCard/FullRecipeCard"

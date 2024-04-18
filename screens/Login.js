@@ -93,7 +93,10 @@ function Logout(){
 }
 
 const styles = StyleSheet.create({
-
+	container: {
+		flex: 1,
+		alignItems: 'center',
+	  },
 	inputView: {
 		height: 1000,
 		marginBottom: 20,

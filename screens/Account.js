@@ -11,13 +11,15 @@ import UserInformationCard from '../components/EditProfile/UserInformationCard'
 import ChangePassword from '../components/EditProfile/ChangePassword'
 import ChangeProfilePic from '../components/EditProfile/ChangeProfilePic'
 import { RefreshControl, GestureHandlerRootView } from 'react-native-gesture-handler'
+import Styles from '../Styles'
+import { useTheme } from '../context/useTheme'
 
 
 
 
 export default function Account() {
 
-
+  const {isDarkMode} = useTheme()
   const [refreshing, setRefreshing] = useState(false);
 
   const handleReload = async () => {
@@ -36,6 +38,7 @@ export default function Account() {
   return (
     <GestureHandlerRootView>
       <FlatList
+        style={[isDarkMode ? Styles.dark : Styles.light]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleReload}/>}
         data={[{ key: 'UserCard' }, { key: 'UserInformationCard' }, { key: 'ChangeProfilePic' }, { key: 'ChangePassword' }, { key: 'ShowRecipes' }]}
         renderItem={({ item }) => {

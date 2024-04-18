@@ -62,10 +62,17 @@ function AddRecipes() {
   };	
 
     const saveRecipe = async () => {
-			console.log('Recipe Name:', recipeName);
-			console.log('Ingredients:', ingredients);
-			console.log('Instructions:', instructions);
-			console.log('Image:', selectedImage);
+		const strIngredient = []
+		const strMeasure = []
+		ingredients.forEach(item => {
+			strIngredient.push(item.ingredient)
+			strMeasure.push(item.measure)
+		})
+		console.log('ingr,measure', strIngredient, strMeasure)
+        console.log('Recipe Name:', recipeName);
+        console.log('Ingredients:', ingredients);
+        console.log('Instructions:', instructions);
+		console.log('Image:', selectedImage);
 
 			try {
 				const response = await fetch(selectedImage);
@@ -92,6 +99,16 @@ function AddRecipes() {
 					createdAt: serverTimestamp()
 				});
 
+			await addDoc(collection(firestore, 'recipes'), {
+				uid: user.uid,
+				username: user.displayName,
+				strMeal: recipeName,
+				stringredient: strIngredient,
+				strMeasure: strMeasure,
+				strInstructions: instructions,
+				strMealThumb: imageUrl,
+				date: serverTimestamp()
+			});
 			clearInputs();
 			Alert.alert(
 				'Recipe Added',

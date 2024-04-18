@@ -2,8 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import { PaperProvider, Menu, Divider, IconButton, MD3Colors } from 'react-native-paper';
-import Login from '../screens/Login';
-import Register from './register';
+import Login from '../../screens/Login';
+import Register from '../register';
 import { useNavigation } from '@react-navigation/native';
 
 /*
@@ -48,23 +48,21 @@ function MenuButton({ onPress }) {
 
 function LoginButton({ navigation }) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Button
         title="Login"
         onPress={() => navigation.navigate('Login')}
+        style={{ marginRight: 10 }}
       />
-    </View>
   );
 }
 
 function RegisterButton({ navigation }) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Button
         title="Register"
         onPress={() => navigation.navigate('Signup')}
+        style={{ marginRight: 10 }}
       />
-    </View>
   );
 }
 

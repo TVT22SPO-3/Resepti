@@ -9,18 +9,19 @@ import components from "../components/components"
 import OwnRecipes from "./AddRecipes"
 import LogInText from "../text/HomeTextLogIn"
 import {Stacknav2, Stacknav3} from "../components/Stacknav2"
+import TopBar from "./TopBar.js/TopBar"
 
 export default function BottomNavbar() {
 
     const Tab = createBottomTabNavigator();
 
     return (
-        
+        <>
+            <TopBar />
             <Tab.Navigator screenOptions={{
                 headerShown: false
             }}
             >
-
                 <Tab.Screen name={"Home"}
                     component={LogInText}
                     options={{
@@ -56,8 +57,8 @@ export default function BottomNavbar() {
                         )
                     }}
                 />
-                
-
             </Tab.Navigator>
+        </>
+            
     )
 }

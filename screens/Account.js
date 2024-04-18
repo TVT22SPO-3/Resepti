@@ -52,7 +52,7 @@ export default function Account() {
             case 'ChangePassword':
               return <ChangePassword />;
             case 'ShowRecipes':
-              return <ChangePassword />;
+              return <ShowRecipes />;
             default:
               return null;
           }

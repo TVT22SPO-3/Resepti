@@ -9,7 +9,7 @@ import { AuthContext } from '../context/CreateAuthContext';
 import Styles from '../Styles';
 import { useTheme } from '../context/useTheme';
 import Stacknav from '../components/Stacknav';
-import TopBarMenu from '../components/LoginButton';
+import TopBarMenu from '../components/TopBar.js/LoginButton';
 
 
 export default function Login() {
@@ -78,6 +78,7 @@ export default function Login() {
 
 function Logout(){
 	//const navigation = useNavigation();
+	console.log('logout clicked');
 
 	signOut(auth)
 		.then(() => {

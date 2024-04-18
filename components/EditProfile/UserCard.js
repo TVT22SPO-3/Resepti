@@ -16,11 +16,6 @@ export default function UserCard() {
     const { user } = useAuth() 
     const navigation = useNavigation();
 
-    const handleLogout = () => {
-      Logout();
-      //navigation.navigate('BottomNavBar');
-    }
-
     return (
       <View>
         <Card style={styles.container}>
@@ -31,7 +26,6 @@ export default function UserCard() {
               <Avatar.Image size={160} source={require('../../assets/trash.png')} />
             )}
             <Text style={styles.texti}>{user.displayName}</Text>
-            <Button title='Logout' onPress={handleLogout} />
           </View>
         </Card>
       </View>

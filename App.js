@@ -22,17 +22,20 @@ const AppRecipe = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    setIsLoggedIn(!!user?.uid); 
-    console.log('logged in or out', isLoggedIn);
-  }, [user]);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+      console.log('logged in or out', !!user); 
+    });
+    return () => unsubscribe();
+  }, [auth]);
 
   return (
     <NavigationContainer>
-      {isLoggedIn ? (
-        <BottomNavbar /> 
-      ) : (
-        <Stacknav />
-      )}
+        {isLoggedIn ? (
+          <BottomNavbar /> 
+        ) : (
+          <Stacknav />
+        )}
     </NavigationContainer>
   );
 };

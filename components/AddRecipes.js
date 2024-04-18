@@ -93,7 +93,7 @@ function AddRecipes() {
 				uid: user.uid,
 				username: user.displayName,
 				strMeal: recipeName,
-				stringredient: strIngredient,
+				strIngredient: strIngredient,
 				strMeasure: strMeasure,
 				strInstructions: instructions,
 				strMealThumb: imageUrl,

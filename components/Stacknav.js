@@ -7,6 +7,7 @@ import ThemeSwitchButton from "./ThemeSwitch/ThemeSwitchButton"
 import Styles from "../Styles"
 import { useTheme } from "../context/useTheme"
 import FullRecipeCard from "./RecipeCard/FullRecipeCard"
+import SearchPage from "./Search/SearchPage"
 
 export default function Stacknav({ initialRoute }) {
 
@@ -25,6 +26,7 @@ export default function Stacknav({ initialRoute }) {
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Signup" component={Signup} />
+      <Stack.Screen name="SearchPage" component={SearchPage}/>
       <Stack.Screen name="FullRecipeCard" component={FullRecipeCard}/>
     </Stack.Navigator>
   )

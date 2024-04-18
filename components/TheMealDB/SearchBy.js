@@ -58,4 +58,29 @@ const fetchMealByName = async (name) => {
     }
   };
 
-export { fetchMealById, fetchRandomMeal, fetchMealByName }
+  const fetchAllCategories = async () => {
+    try {
+      const response = await fetch('https://www.themealdb.com/api/json/v1/1/categories.php');
+      const data = await response.json();
+      setCategories(data.categories || []);
+      setShowCategories(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchMealsByCategory = async (category) => {
+    try {
+      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+      const data = await response.json();
+      console.log("category", data)
+      setMeals(data.meals || []);
+      setSelectedCategory(category);
+      setMeal(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+export { fetchMealById, fetchRandomMeal, fetchMealByName, fetchAllCategories, fetchMealsByCategory }

@@ -11,7 +11,7 @@ async function SearchByIngredient(ingre) {
     const data = []
     try {
         console.log("ingredient", ingre)
-        const docRef = query(collection(firestore, "recipes"), where("ingredients", "array-contains", {ingredient: 'Sipuli'}))
+        const docRef = query(collection(firestore, "recipes"), where("strIngredient", "array-contains", ingre))
         const querySnapshot = await getDocs(docRef)
 
         if (querySnapshot.empty) {
@@ -19,15 +19,18 @@ async function SearchByIngredient(ingre) {
         }
         querySnapshot.forEach((doc) => {
             console.log(doc.id, "=>", doc.data())
+            console.log("asd", doc.data())
+           
             const infoData = {
                 "idMeal": doc.id,
-                "strMealThumb": doc.data().image,
-                "strMeal": doc.data().name,
+                "strMealThumb": doc.data().strMealThumb,
+                "strMeal": doc.data().strMeal,               
             }
+             
+            console.log("info", infoData)
             data.push(infoData)
-            console.log("inf", infoData)
         })
-        console.log("inf", data)
+        console.log("inf2", data)
         return data
         
     } catch (error) {
@@ -40,15 +43,15 @@ async function SearchByName(name) {
     const data = []
     try {
         console.log("name", name)
-        const docRef = query(collection(firestore, "recipes"), where("name", "==", name))
+        const docRef = query(collection(firestore, "recipes"), where("strMeal", "==", name))
 
         const querySnapshot = await getDocs(docRef)
         querySnapshot.forEach((doc) => {
             console.log(doc.id, "=>", doc.data())
             const infoData = {
                 "idMeal": doc.id,
-                "strMealThumb": doc.data().image,
-                "strMeal": doc.data().name,
+                "strMealThumb": doc.data().strMealThumb,
+                "strMeal": doc.data().strMeal,
             }
             data.push(infoData)
             console.log("inf", infoData)
@@ -98,21 +101,22 @@ async function SearchByDocId(DocId) {
 
         const querySnapshot = await getDoc(docRef)
         console.log("asd", querySnapshot.data())
-        console.log("name", querySnapshot.data().name)
-        const Data = {
-            "strCategory": "",
-            "date": convertFireBaseTimeStampToJS(querySnapshot.data().createdAt),
-            "username": querySnapshot.data().username,
-            "strMealThumb": querySnapshot.data().image,
-            "strMeal": querySnapshot.data().name,
-            "strInstructions": querySnapshot.data().instructions,
-            ...querySnapshot.data().ingredients.reduce((acc, ingredient, index) => {
-                acc[`strIngredient${index + 1}`] = ingredient.ingredient;
-                acc[`strMeasure${index + 1}`] = ingredient.measure;
-                return acc;
-            }, {}),
-        }
-        console.log(Data)
+        console.log("name", querySnapshot.data().username)
+        const convdate = convertFireBaseTimeStampToJS(querySnapshot.data().date)
+        const Data = querySnapshot.data()
+        console.log("convdate", convdate)
+        Data.date = convdate
+        const ingreArray = Data.strIngredient
+        const measArray = Data.strMeasure
+        console.log("ingra",ingreArray)
+        for (let i = 0; i < ingreArray.length; i++) {
+            Data[`strIngredient${i + 1}`] = ingreArray[i];
+          }
+          for (let i = 0; i < measArray.length; i++) {
+            Data[`strMeasure${i + 1}`] = measArray[i];
+          }
+        
+        console.log("Data22",Data)
         return Data
 
     } catch (error) {
@@ -130,8 +134,8 @@ async function SearchByUid(uid){
             console.log(doc.id, "=>", doc.data())
             const testi = {
                 "idMeal": doc.id,
-                "strMealThumb": doc.data().image,
-                "strMeal": doc.data().name
+                "strMealThumb": doc.data().strMealThumb,
+                "strMeal": doc.data().strMeal
             }
             data.push(testi)
         })

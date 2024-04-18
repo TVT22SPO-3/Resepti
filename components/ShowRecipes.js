@@ -5,6 +5,7 @@ import { firestore, query, collection } from '../firebase/config';
 import { onSnapshot, orderBy, where } from 'firebase/firestore';
 import { SearchByUid } from '../FirebaseDB/SearchBy';
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
+
 import { Card } from 'react-native-paper';
 import Carousel from 'react-native-snap-carousel';
 

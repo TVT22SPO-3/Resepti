@@ -20,6 +20,7 @@ export default function Stacknav({ initialRoute }) {
   const navigation = useNavigation();
 
   return (
+
     <>
       <TopBar />
       <Stack.Navigator
@@ -36,7 +37,7 @@ export default function Stacknav({ initialRoute }) {
       </Stack.Navigator>
     </>
     
-    
+
   )
 
 }

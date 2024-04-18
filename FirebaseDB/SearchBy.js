@@ -7,31 +7,42 @@ import { useState } from 'react';
 import { getDocs } from 'firebase/firestore';
 import { convertFireBaseTimeStampToJS } from "../helpers/functions";
 
+
+
+
+
+
+
+
+
+
+
 async function SearchByIngredient(ingre) {
     const data = []
     try {
         console.log("ingredient", ingre)
         const docRef = query(collection(firestore, "recipes"), where("strIngredient", "array-contains", ingre))
         const querySnapshot = await getDocs(docRef)
-
+        
         if (querySnapshot.empty) {
             console.log("no match")
+        } else{
+            querySnapshot.forEach((doc) => {
+                console.log(doc.id, "=>", doc.data())
+                console.log("asd", doc.data())
+               
+                const infoData = {
+                    "idMeal": doc.id,
+                    "strMealThumb": doc.data().strMealThumb,
+                    "strMeal": doc.data().strMeal,               
+                }
+                 
+                console.log("info", infoData)
+                data.push(infoData)
+            })
+            console.log("inf2", data)
+            return data
         }
-        querySnapshot.forEach((doc) => {
-            console.log(doc.id, "=>", doc.data())
-            console.log("asd", doc.data())
-           
-            const infoData = {
-                "idMeal": doc.id,
-                "strMealThumb": doc.data().strMealThumb,
-                "strMeal": doc.data().strMeal,               
-            }
-             
-            console.log("info", infoData)
-            data.push(infoData)
-        })
-        console.log("inf2", data)
-        return data
         
     } catch (error) {
         console.log("error", error)
@@ -46,18 +57,23 @@ async function SearchByName(name) {
         const docRef = query(collection(firestore, "recipes"), where("strMeal", "==", name))
 
         const querySnapshot = await getDocs(docRef)
-        querySnapshot.forEach((doc) => {
-            console.log(doc.id, "=>", doc.data())
-            const infoData = {
-                "idMeal": doc.id,
-                "strMealThumb": doc.data().strMealThumb,
-                "strMeal": doc.data().strMeal,
-            }
-            data.push(infoData)
-            console.log("inf", infoData)
-        })
-        console.log("inf", data)
-        return data
+        if (querySnapshot.empty) {
+            console.log("no match")
+        }else{
+            querySnapshot.forEach((doc) => {
+                console.log(doc.id, "=>", doc.data())
+                const infoData = {
+                    "idMeal": doc.id,
+                    "strMealThumb": doc.data().strMealThumb,
+                    "strMeal": doc.data().strMeal,
+                }
+                data.push(infoData)
+                console.log("inf", infoData)
+            })
+            console.log("inf", data)
+            return data
+        }
+        
         
     } catch (error) {
         console.log("error", error)
@@ -95,7 +111,7 @@ async function SearchAllRecipes() {
 }
 
 async function SearchByDocId(DocId) {
-
+console.log("SearchByDocId", DocId)
     try {
         const docRef = (doc(firestore, "recipes", DocId))
 

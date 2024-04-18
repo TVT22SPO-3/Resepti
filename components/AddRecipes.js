@@ -101,6 +101,7 @@ function AddRecipes() {
 				date: serverTimestamp()
 			});
 			clearInputs();
+			setDialogVisible(true);
 			console.log('Recipe saved successfully.');		
 
 		} catch (error) {
@@ -143,9 +144,9 @@ function AddRecipes() {
                 <Text style={styles.buttonText}>Save</Text>
             </Pressable>
 			<Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
-				<Dialog.Title>Confirm Logout</Dialog.Title>
+				<Dialog.Title>Recipe created</Dialog.Title>
 				<Dialog.Content>
-					<Paragraph>Are you sure you want to log out?</Paragraph>
+					<Paragraph>Recipe added succesfully. You can browse your recipes in profile.</Paragraph>
 				</Dialog.Content>
 				<Dialog.Actions>
 					<PaperButton onPress={() => setDialogVisible(false)}>Cancel</PaperButton>

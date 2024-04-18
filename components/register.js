@@ -153,7 +153,6 @@ export default function Register() {
 }
 
 
-
 function AddImage(props) {
 	
   const [selectedImage, setSelectedImage] = useState(null);

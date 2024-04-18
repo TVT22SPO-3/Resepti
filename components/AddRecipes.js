@@ -1,6 +1,6 @@
 import { View, ScrollView, Text, StyleSheet, Pressable, Image, TouchableOpacity, Alert } from 'react-native'
 import React, { useState, useEffect} from 'react'
-import { DataTable, TextInput, Picker, Button, Title } from 'react-native-paper';
+import { DataTable, TextInput, Picker, Button, Title, Chip } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RequestStoragePermission from '../Permissions';
 import * as ImagePicker from 'expo-image-picker';
@@ -9,9 +9,12 @@ import { storage, ref, uploadBytes, getDownloadURL } from '../firebase/config';
 import { useAuth } from '../context/useAuth'
 
 
+
+
 export default function OwnRecipes() {
+
   return (
-    <View>
+    <View>  
       <AddRecipes />
     </View>
   )
@@ -19,69 +22,76 @@ export default function OwnRecipes() {
 
 function AddRecipes() {
 	const { user } = useAuth()
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 	const [recipeName, setRecipeName] = useState('');
-    const [ingredients, setIngredients] = useState([{ ingredient: '', measure: '' }]);
-    const [instructions, setInstructions] = useState('');
+  const [ingredients, setIngredients] = useState([{ ingredient: '', measure: '' }]);
+  const [instructions, setInstructions] = useState('');
+	const [category, setCategory] = useState('');
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [showNotification, setShowNotification] = useState(false);
 
-    const handleImageChange = (imageUri) => {
-        setSelectedImage(imageUri);
-    };
+	const handleImageChange = (imageUri) => {
+		setSelectedImage(imageUri);
+	};
 
-    const toggleAccordion = () => {
-        setIsOpen(!isOpen);
-    };
+  const toggleAccordion = () => {
+    setIsOpen(!isOpen);
+  };
 
 	const saveInstructions = (instructions) => {
-        setInstructions(instructions);
-    };
+    setInstructions(instructions);
+  };
 
 	const saveName = (recipeName) => {
-        setRecipeName(recipeName);
-    };
+    setRecipeName(recipeName);
+  };
 
 	const saveIgredients = (ingredients) => {
-        setIngredients(ingredients);
-    };
+    setIngredients(ingredients);
+  };
+
+	const saveCategory = (category) => {
+    setCategory(category);
+  };
 
 	const clearInputs = () => {
-        setRecipeName('');
+    setRecipeName('');
 		setIngredients([{ ingredient: '', measure: '' }]);
 		setInstructions('');
 		setSelectedImage(null);
-    };	
+  };	
 
     const saveRecipe = async () => {
-        console.log('Recipe Name:', recipeName);
-        console.log('Ingredients:', ingredients);
-        console.log('Instructions:', instructions);
-		console.log('Image:', selectedImage);
+			console.log('Recipe Name:', recipeName);
+			console.log('Ingredients:', ingredients);
+			console.log('Instructions:', instructions);
+			console.log('Image:', selectedImage);
 
-		try {
-			const response = await fetch(selectedImage);
-        	const blob = await response.blob();
+			try {
+				const response = await fetch(selectedImage);
+						const blob = await response.blob();
 
-			const uniqueId = () => {
-				return Math.random().toString(36).substr(2, 9); 
-			};
-			const uniqueFileName = `${Date.now()}_${uniqueId()}.jpg`;
-        	const imageRef = ref(storage, `images/${uniqueFileName}`);
-			await uploadBytes(imageRef, blob);
+				const uniqueId = () => {
+					return Math.random().toString(36).substr(2, 9); 
+				};
+				const uniqueFileName = `${Date.now()}_${uniqueId()}.jpg`;
+						const imageRef = ref(storage, `images/${uniqueFileName}`);
+				await uploadBytes(imageRef, blob);
 
-			console.log(selectedImage);
-			const imageUrl = await getDownloadURL(imageRef);
+				console.log(selectedImage);
+				const imageUrl = await getDownloadURL(imageRef);
 
-			await addDoc(collection(firestore, 'recipes'), {
-				uid: user.uid,
-				username: user.displayName,
-				name: recipeName,
-				ingredients: ingredients,
-				instructions: instructions,
-				image: imageUrl,
-				createdAt: serverTimestamp()
-			});
+				await addDoc(collection(firestore, 'recipes'), {
+					uid: user.uid,
+					username: user.displayName,
+					name: recipeName,
+					category: category,
+					ingredients: ingredients,
+					instructions: instructions,
+					image: imageUrl,
+					createdAt: serverTimestamp()
+				});
+
 			clearInputs();
 			Alert.alert(
 				'Recipe Added',
@@ -120,11 +130,13 @@ function AddRecipes() {
                 </Text>
             </Pressable>
             {isOpen && (
-                <View style={{ padding: 10 }}>
-                    <Text>Pictures</Text>
-                    <AddImages onChangeImage={handleImageChange} />
-					<View style={styles.divider} />
-                </View>
+              <View style={{ padding: 10 }}>
+								<AddCategory value={category} onChangeCategory={saveCategory} onChangeText={setCategory}/>
+								<View style={styles.divider} />
+								<AddImages onChangeImage={handleImageChange} />
+								<View style={styles.divider} />
+              </View>
+							
             )}
             <Pressable style={styles.saveButton} onPress={saveRecipe}>
                 <Text style={styles.buttonText}>Save</Text>
@@ -132,7 +144,6 @@ function AddRecipes() {
         </ScrollView>
     );
 }
-
 
 
 function AddImages(props) {
@@ -166,6 +177,7 @@ function AddImages(props) {
 
     return (
         <View style={{ flex: 1 }}>
+					<Title style={styles.title}>Images</Title>
             <View style={{ alignItems: 'center' }}>
                 {selectedImage && (
                     <Image
@@ -192,7 +204,7 @@ function AddRecipeName(props){
 	const handleTextChange = (text) => {
         onChangeText(text);
         onChangeName(text);
-    };
+  };
 
 	return(
 
@@ -225,7 +237,7 @@ function AddInstructions(props) {
                 editable
                 multiline
                 numberOfLines={6}
-                maxLength={40}
+                maxLength={400}
                 onChangeText={handleTextChange}
                 value={value}
                 style={styles.addInstructions}
@@ -328,15 +340,59 @@ function AddIngredients(props) {
 	);
   }
 
+	
+function AddCategory(props){
+
+	const { value, onChangeCategory, onChangeText } = props;
+
+	const handleTextChange = (text) => {
+		onChangeCategory(text);
+		onChangeText(text);
+  };
+
+	const handleChipPress = (chipValue) => {
+    onChangeCategory(chipValue);
+		onChangeText(chipValue);
+  };
+
+	return(
+		<View style={styles.title}>
+			<Title>Categories</Title>
+			<TextInput
+				  style={styles.textInput}
+				  value={value}
+				  onChangeText={handleTextChange}
+				  placeholder="'Category"
+				  placeholderTextColor="#CCC7B9"
+			/>
+
+			<View style={styles.divider} />
+			<Text>Popular Categories</Text>
+			<View style={styles.chipContainer}>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Dairy')}>Dairy</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Protein')}>Protein</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Vegetarian')}>Vegetarian</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Gluten frees')}>Gluten free</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Dessert')}>Dessert</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Italian')}>Italian</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Keto')}>Keto</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Halal')}>Halal</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Low Calorie')}>Low Calorie</Chip>
+			</View>
+	  </View>
+	);
+}
+
 
   
   const styles = StyleSheet.create({
 	divider: {
-        borderBottomColor: '#E0E0E0', 
-        borderBottomWidth: 1, 
-        marginHorizontal: 10, 
-		marginVertical: 5,
-    },
+		borderBottomColor: '#E0E0E0', 
+		borderBottomWidth: 1, 
+		marginHorizontal: 10, 
+		marginTop: 3,
+		marginBottom: 10,
+	},
 	title: {
 		marginHorizontal: 15,
 	},
@@ -399,6 +455,15 @@ function AddIngredients(props) {
 	image: {
 		width: 18,
 		height: 18,
+	},
+	chipContainer: {
+		flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+	},
+	chip: {
+		marginHorizontal: 3,
+		marginVertical: 3,
 	},
 	highlight: {
 		opacity: 0.4, 

@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
@@ -18,20 +18,25 @@ import ThemeProvider from './components/ThemeProvider';
 
 
 const AppRecipe = () => {
+  const { user } = useAuth(); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const {user} = useAuth()
-
-
-  console.log("app", user.uid)
+  useEffect(() => {
+    setIsLoggedIn(!!user?.uid); 
+    console.log('logged in or out', isLoggedIn);
+  }, [user]);
 
   return (
-
     <NavigationContainer>
-      {user.uid ? <BottomNavbar />: <Stacknav />}
+      {isLoggedIn ? (
+        <BottomNavbar /> 
+      ) : (
+        <Stacknav />
+      )}
     </NavigationContainer>
+  );
+};
 
-  )
-}
 
 
 export default function App() {

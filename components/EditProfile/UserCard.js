@@ -4,11 +4,22 @@ import { useState } from 'react'
 import { useAuth } from '../../context/useAuth'
 import { getAuth, reload } from 'firebase/auth';
 import { Avatar, TextInput, Card, IconButton, Icon } from 'react-native-paper'
+import { Logout } from '../../screens/Login';
+import { useNavigation } from '@react-navigation/native';
+import Login from '../../screens/Login';
+import Stacknav from '../Stacknav';
+import BottomNavbar from '../BottomNavbar';
 
 
 
 export default function UserCard() {
     const { user } = useAuth() 
+    const navigation = useNavigation();
+
+    const handleLogout = () => {
+      Logout();
+      //navigation.navigate('BottomNavBar');
+    }
 
     return (
       <View>
@@ -20,6 +31,7 @@ export default function UserCard() {
               <Avatar.Image size={160} source={require('../../assets/trash.png')} />
             )}
             <Text style={styles.texti}>{user.displayName}</Text>
+            <Button title='Logout' onPress={handleLogout} />
           </View>
         </Card>
       </View>

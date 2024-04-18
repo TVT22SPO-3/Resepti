@@ -6,6 +6,8 @@ import { useTheme } from "../context/useTheme"
 import FullRecipeCard from "./RecipeCard/FullRecipeCard"
 import MealExplorer from "./components"
 
+
+
 export default function Stacknav2({ initialRoute }) {
 
 
@@ -21,7 +23,7 @@ export default function Stacknav2({ initialRoute }) {
       }}
     >
         <Stack.Screen name="MealExplorer" component={MealExplorer}/>
-      <Stack.Screen name="FullRecipeCard" component={FullRecipeCard}/>
+        <Stack.Screen name="FullRecipeCard" component={FullRecipeCard}/>
     </Stack.Navigator>
   )
 

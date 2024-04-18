@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import { Button } from 'react-native-paper'
 import Hometext from '../components/Hometext';
@@ -8,6 +8,7 @@ import LogInText from '../text/HomeTextLogIn';
 import Styles from '../Styles';
 import ThemeSwitchButton from '../components/ThemeSwitch/ThemeSwitchButton';
 import { useTheme } from '../context/useTheme';
+import RandomMeal from '../components/RandomMeal';
 import SearchBar from '../components/Search/SearchBar';
 
 export default function Home({ navigation }) {
@@ -16,11 +17,16 @@ export default function Home({ navigation }) {
   const {isDarkMode} = useTheme()
 
   return (
-    <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
-      <Hometext navigation={navigation}/>
-        <Sign navigation={navigation}/>
-        <SearchBar navigation={navigation}/>
-    </View>
+    <ScrollView contentContainerStyle={{flexGrow:1}}>
+      <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+        <Hometext navigation={navigation}/>
+          <Sign navigation={navigation}/>
+          <SearchBar navigation={navigation}/>
+        <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+          <RandomMeal/>
+        </View>
+      </View>
+    </ScrollView>
 
   )
 }
@@ -34,5 +40,5 @@ const styles = StyleSheet.create({
   button: {
     marginVertical: 12,
     width: 240,
-  }
+  },
 });

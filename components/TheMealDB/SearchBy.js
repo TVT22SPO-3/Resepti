@@ -15,17 +15,21 @@ const fetchMealById = async (id) => {
     }
 }
 
-const fetchRandomMeal = async () =>{
-
+const fetchRandomMeal = async () => {
 
     try {
         const response = await fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
         const data = await response.json()
-        const randomMeal = (data.meals ? data.meals[0] : null)
-        console.log(randomMeal)
-        return randomMeal
+        const meals = data.meals || [];
+        const formattedMeals = meals.map(meal => ({
+            "idMeal": meal.idMeal || '',
+            "strMeal": meal.strMeal || '',
+            "strMealThumb": meal.strMealThumb || ''
+        }));
+        return formattedMeals;
     } catch (error) {
         console.log("Failed to fetch random meals", error);
+        return [];
     }
 }
 

@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Button, TextInput } from 'react-native-paper';
 import { getAuth, auth, signInWithEmailAndPassword, signOut, } from '../firebase/config';
 import { firestore, collection, addDoc, serverTimestamp } from '../firebase/config';
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +8,8 @@ import { useAuth } from '../context/useAuth';
 import { AuthContext } from '../context/CreateAuthContext';
 import Styles from '../Styles';
 import { useTheme } from '../context/useTheme';
+import Stacknav from '../components/Stacknav';
+import TopBarMenu from '../components/TopBar.js/LoginButton';
 
 
 export default function Login() {
@@ -17,9 +20,8 @@ export default function Login() {
 	const navigation = useNavigation()
 	const isDarkMode = useTheme();
 
-
-
 	const login = () => {
+		console.log(password + username);
 		signInWithEmailAndPassword(auth, username, password)
 			.then((userCredential) => {
 				console.log("Login", userCredential);
@@ -38,7 +40,7 @@ export default function Login() {
 			});
 	};
 
-	const logout = () => {
+	/*const logout = () => {
 		signOut(auth)
 			.then(() => {
 				setLogged(false);
@@ -49,44 +51,62 @@ export default function Login() {
 
 				console.error('Error signing out:', error);
 			});
-	};
+	};*/
 
 	return (
-		<View style={[styles.inputView,isDarkMode ? Styles.dark : Styles.light]}>
+		<View style={[styles.inputView]}>
 			<TextInput
 				style={styles.TextInput}
-				placeholder="Username"
-				placeholderTextColor="#003f5c"
+				label="Username"
+				mode='outlined'
+				secureTextEntry={false}
 				onChangeText={(username) => setUsername(username)}
 			/>
 			<TextInput
 				style={styles.TextInput}
-				placeholder="Password"
-				placeholderTextColor="#003f5c"
+				label="Password"
+				mode='outlined'
 				secureTextEntry={true}
 				onChangeText={(password) => setPassword(password)}
 			/>
-			<Button style={styles.loginButton} title='login' onPress={login} />
-			<Button style={styles.loginButton} title='logout' onPress={logout} />
+			<Button style={styles.loginButton} onPress={login}>Login</Button>
 			<Text >{logged ? 'you are logged in :)' : 'you are logged out :('}</Text>
 		</View>
 	);
 }
 
-const styles = StyleSheet.create({
 
+function Logout(){
+	//const navigation = useNavigation();
+	console.log('logout clicked');
+
+	signOut(auth)
+		.then(() => {
+			console.log('User signed out successfully.');
+			//navigation.reset({ index: 0, routes: [{ name: 'Stacknav' }] })
+			console.log(auth);
+		})
+		.catch((error) => {
+
+			console.error('Error signing out:', error);
+	});
+	
+}
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: 'center',
+	  },
 	inputView: {
-		backgroundColor: '#26547C',
-		width: "70%",
-		height: 270,
+		height: 1000,
 		marginBottom: 20,
-		borderRadius: 6,
 		alignItems: "center",
 	},
 	TextInput: {
 		backgroundColor: '#FFFCF9',
-		height: 50,
-		width: 220,
+		height: 40,
+		width: 300,
 		marginTop: 25,
 		margin: 10,
 		padding: 10,
@@ -97,3 +117,5 @@ const styles = StyleSheet.create({
 		margin: 10,
 	},
 });
+
+export { Logout };

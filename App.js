@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
@@ -13,25 +13,33 @@ import { auth, onAuthStateChanged } from './firebase/config';
 import { useState, useEffect, useContext } from 'react';
 import AuthProvider from './context/AuthProvider';
 import { AuthContext } from './context/CreateAuthContext';
-import ThemeProvider from './components/ThemeProvider';
+import ThemeProvider from './components//ThemeSwitch/ThemeProvider';
 
 
 
 const AppRecipe = () => {
+  const { user } = useAuth(); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const {user} = useAuth()
-
-
-  console.log("app", user.uid)
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+      console.log('logged in or out', !!user); 
+    });
+    return () => unsubscribe();
+  }, [auth]);
 
   return (
-
     <NavigationContainer>
-      {user.uid ? <BottomNavbar />: <Stacknav />}
+        {isLoggedIn ? (
+          <BottomNavbar /> 
+        ) : (
+          <Stacknav />
+        )}
     </NavigationContainer>
+  );
+};
 
-  )
-}
 
 
 export default function App() {

@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet, Image, ScrollView, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Card, DataTable } from 'react-native-paper'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation, useNavigationState, useRoute } from '@react-navigation/native'
 import { fetchMealById } from '../TheMealDB/SearchBy'
 import { SearchByDocId } from '../../FirebaseDB/SearchBy'
 
 export default function FullRecipeCard() {
 
-  const navigation = useNavigation()
+  const navigation = useNavigationState(state => state.routes[state.index].state)
   const route = useRoute()
   const { itemid } = route.params
   const [recipe2, setrecipe2] = useState("")
@@ -29,6 +29,7 @@ export default function FullRecipeCard() {
   const accordionInst = () => {
     setshowInst(!showInst)
     console.log("show:", showInst)
+    console.log(recipe2)
   }
 
   useEffect(() => {

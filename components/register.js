@@ -8,6 +8,8 @@ import { useAuth } from '../context/useAuth';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RequestStoragePermission from '../Permissions';
 import * as ImagePicker from 'expo-image-picker';
+import Styles from '../Styles';
+import { useTheme } from '../context/useTheme';
 
 
 export default function Register() {
@@ -20,6 +22,7 @@ export default function Register() {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const {isDarkMode} = useTheme()
 
   const navigation = useNavigation();
 
@@ -97,9 +100,9 @@ export default function Register() {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={[isDarkMode ? Styles.dark : Styles.light]}>
 
-      <Text style={styles.header}>Create account!</Text>
+      <Text style={[styles.header,isDarkMode ? Styles.dark : Styles.light]}>Create account!</Text>
 
       <TextInput
         style={styles.input}
@@ -151,7 +154,6 @@ export default function Register() {
     </ScrollView>
   );
 }
-
 
 
 function AddImage(props) {

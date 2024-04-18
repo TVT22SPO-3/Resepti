@@ -8,6 +8,9 @@ import { SearchByIngredient, SearchByName } from '../FirebaseDB/SearchBy';
  export default function MealExplorer() {
   const { user } = useAuth();
 
+
+  const [mealFBI, setMealFBI] = useState(null);
+  const [mealsFBI, setMealsFBI] = useState([]);
   const [mealFB, setMealfb] = useState(null);
   const [mealsFB, setMealsfb] = useState([]);
   const [meal, setMeal] = useState(null);
@@ -19,14 +22,16 @@ import { SearchByIngredient, SearchByName } from '../FirebaseDB/SearchBy';
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    fetchAllCategories();
-    fetchUserFavorites();
+    fetchAllCategories()
+    fetchUserFavorites()
+    
   }, []);
 
 
   const handleSearch = () => {
     fetchFirebaseByName(setSearchTerm)
     fetchMealByName(setSearchTerm)
+    fetchFirebaseByingredient(setSearchTerm)
   }
 
   const fetchUserFavorites = async () => {
@@ -122,8 +127,8 @@ import { SearchByIngredient, SearchByName } from '../FirebaseDB/SearchBy';
     try {
       const resp = await SearchByName(searchTerm)
       console.log("fetchFirebaseByName1", resp)
-      setMealfb(resp ? resp[0] : null);
-      setMealsfb([]);
+      setMeal(resp ? resp[0] : null);
+      setMeals([]);
       setSelectedCategory('');
     } catch (error) {
       console.log("fetchFirebaseByName", error)
@@ -204,6 +209,7 @@ import { SearchByIngredient, SearchByName } from '../FirebaseDB/SearchBy';
     }
   };
 
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Meal Explorer</Text>
@@ -245,17 +251,16 @@ import { SearchByIngredient, SearchByName } from '../FirebaseDB/SearchBy';
           )}
         />
       )}
-      {(meal || meals.length > 0 || mealFB || mealsFB > 0) && (
-     <FlatList
-     contentContainerStyle={styles.scrollContainer}
-     data={(meal ? [meal] : meals).concat(mealFB ? [mealFB] : mealsFB)}
-     keyExtractor={(item) => item.idMeal}
-     renderItem={({ item }) => (
-       <SmallRecipeCard
-         item={item}
-         addToFavorites={addToFavorites}
-         removeFromFavorites={removeFromFavorites}
-       />
+
+      
+      {(meal || meals.length > 0) && (
+        <FlatList
+          contentContainerStyle={styles.scrollContainer}
+          data={meal ? [meal] : meals}
+          keyExtractor={(item) => item.idMeal}
+          renderItem={({ item }) => (
+            <SmallRecipeCard item={item}/>
+
           /*  <TouchableOpacity onPress={() => fetchMealById(item.idMeal)}>
               <View style={styles.mealContainer}>
                 <Text style={styles.mealName}>{item.strMeal}</Text>

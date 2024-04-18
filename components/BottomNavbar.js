@@ -8,17 +8,21 @@ import Account from "../screens/Account"
 import components from "../components/components"
 import OwnRecipes from "./AddRecipes"
 import LogInText from "../text/HomeTextLogIn"
-import Stacknav2 from "./Stacknav2"
+import {Stacknav2, Stacknav3} from "../components/Stacknav2"
+import TopBar from "./TopBar.js/TopBar"
 
 export default function BottomNavbar() {
 
     const Tab = createBottomTabNavigator();
 
     return (
-        
-            <Tab.Navigator>
-
-                <Tab.Screen name={"LogInText"}
+        <>
+            <TopBar />
+            <Tab.Navigator screenOptions={{
+                headerShown: false
+            }}
+            >
+                <Tab.Screen name={"Home"}
                     component={LogInText}
                     options={{
                         tabBarIcon: ({ color, size }) => (
@@ -27,7 +31,7 @@ export default function BottomNavbar() {
                     }}
                 />
                 <Tab.Screen
-                name={"components"}
+                name={"Search"}
                 component={Stacknav2}
                     options={{
                         tabBarIcon: ({ color, size }) => (
@@ -36,7 +40,7 @@ export default function BottomNavbar() {
                     }}
                 />
                 <Tab.Screen
-                name={"Ownrecipe"}
+                name={"Add Recipes"}
                 component={OwnRecipes}
                     options={{
                         tabBarIcon: ({ color, size }) => (
@@ -45,16 +49,16 @@ export default function BottomNavbar() {
                     }}
                 />
                 <Tab.Screen
-                name={"Account"}
-                component={Account}
+                name={"Profile"}
+                component={Stacknav3}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="account" color={color} size={40} />
                         )
                     }}
                 />
-                
-
             </Tab.Navigator>
+        </>
+            
     )
 }

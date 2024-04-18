@@ -8,12 +8,11 @@ import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 
 import { Card } from 'react-native-paper';
 
-/*
+
 export default function ShowRecipes() {
     const { user } = useAuth()
     const uid = user.uid
     const [recipes, setRecipes] = useState([]);
-    
     
 
     useEffect(() =>{
@@ -33,56 +32,43 @@ export default function ShowRecipes() {
     const renderSeparator = () => <View style={styles.separator} />;
 
     return (
-        <Card style={styles.container}>
-            <FlatList
-                data={recipes}
-                renderItem={({item,index}) => <SmallRecipeCard item={item} key={index}/>}
-                ItemSeparatorComponent={renderSeparator}
-                contentContainerStyle={styles.contentContainer}
-            />
-        </Card>
-      )
-      return (
         <View style={styles.container}>
-            <Text style={styles.text}>YOUR OWN RECIPES</Text>
-          <SafeAreaView style={{ flex: 1, }}>
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
-              <Carousel
-                layout={"default"}
-                ref={ref => this.carousel = ref}
-                data={recipes}
-                sliderWidth={340}
-                itemWidth={300}
-                ItemSeparatorComponent={renderSeparator}
-                renderItem={({ item, index }) => <SmallRecipeCard item={item} key={index} />}
-                //onSnapToItem={index => this.setState({ activeIndex: index })} 
+            <SafeAreaView>
+                <FlatList
+                    horizontal
+                    data={recipes}
+                    renderItem={({item,index}) => <SmallRecipeCard item={item} key={index}/>}
+                    ItemSeparatorComponent={renderSeparator}
+                    contentContainerStyle={styles.contentContainer}
                 />
-            </View>
-          </SafeAreaView>  
+            </SafeAreaView>
         </View>
-      );
-    
-}*/
+      )
+}
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 10,
+        paddingTop: 24,
         paddingBottom:24,
         justifyContent: 'center',
         alignContent: 'center',
-        alignItems: 'center',
         margin: (24, 24, 24, 24),
         borderRadius: '10px',
         backgroundColor: '#faebd7',
       },
     text:{
         paddingBottom: 10,
+        alignContent: 'center',
         fontSize: 18,
     },
     separator: {
         height: 24,
+        width: 20,
+        paddingLeft: 20,
     },
     contentContainer: {
         flexGrow: 1,
+        paddingLeft: 10,
+        paddingEnd: 10,
     },
 })

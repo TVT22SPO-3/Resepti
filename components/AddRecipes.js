@@ -1,6 +1,6 @@
 import { View, ScrollView, Text, StyleSheet, Pressable, Image, TouchableOpacity, Alert } from 'react-native'
 import React, { useState, useEffect} from 'react'
-import { DataTable, TextInput, Picker, Button, Title, Chip } from 'react-native-paper';
+import { DataTable, TextInput, Picker, Button, Title, Chip, Dialog, Paragraph, Button as PaperButton } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RequestStoragePermission from '../Permissions';
 import * as ImagePicker from 'expo-image-picker';
@@ -29,6 +29,7 @@ function AddRecipes() {
 	const [category, setCategory] = useState('');
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [showNotification, setShowNotification] = useState(false);
+	const [dialogVisible, setDialogVisible] = useState(false);
 
 	const handleImageChange = (imageUri) => {
 		setSelectedImage(imageUri);
@@ -88,17 +89,6 @@ function AddRecipes() {
 				console.log(selectedImage);
 				const imageUrl = await getDownloadURL(imageRef);
 
-				await addDoc(collection(firestore, 'recipes'), {
-					uid: user.uid,
-					username: user.displayName,
-					name: recipeName,
-					category: category,
-					ingredients: ingredients,
-					instructions: instructions,
-					image: imageUrl,
-					createdAt: serverTimestamp()
-				});
-
 			await addDoc(collection(firestore, 'recipes'), {
 				uid: user.uid,
 				username: user.displayName,
@@ -107,16 +97,10 @@ function AddRecipes() {
 				strMeasure: strMeasure,
 				strInstructions: instructions,
 				strMealThumb: imageUrl,
+				strCategory: category,
 				date: serverTimestamp()
 			});
 			clearInputs();
-			Alert.alert(
-				'Recipe Added',
-				'Your recipe has been successfully added!',
-				[
-					{ text: 'OK', onPress: () => setShowNotification(false) }
-				]
-			);
 			console.log('Recipe saved successfully.');		
 
 		} catch (error) {
@@ -158,6 +142,15 @@ function AddRecipes() {
             <Pressable style={styles.saveButton} onPress={saveRecipe}>
                 <Text style={styles.buttonText}>Save</Text>
             </Pressable>
+			<Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
+				<Dialog.Title>Confirm Logout</Dialog.Title>
+				<Dialog.Content>
+					<Paragraph>Are you sure you want to log out?</Paragraph>
+				</Dialog.Content>
+				<Dialog.Actions>
+					<PaperButton onPress={() => setDialogVisible(false)}>Cancel</PaperButton>
+				</Dialog.Actions>
+			</Dialog>
         </ScrollView>
     );
 }

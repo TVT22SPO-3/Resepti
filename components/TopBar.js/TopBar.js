@@ -103,7 +103,7 @@ function RegisterButton({ navigation }) {
   return (
       <Button
         title="Register"
-        onPress={() => navigation.navigate('Login')}
+        onPress={() => navigation.navigate('Signup')}
       />
   );
 }

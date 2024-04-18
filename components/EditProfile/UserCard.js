@@ -4,11 +4,17 @@ import { useState } from 'react'
 import { useAuth } from '../../context/useAuth'
 import { getAuth, reload } from 'firebase/auth';
 import { Avatar, TextInput, Card, IconButton, Icon } from 'react-native-paper'
+import { Logout } from '../../screens/Login';
+import { useNavigation } from '@react-navigation/native';
+import Login from '../../screens/Login';
+import Stacknav from '../Stacknav';
+import BottomNavbar from '../BottomNavbar';
 
 
 
 export default function UserCard() {
     const { user } = useAuth() 
+    const navigation = useNavigation();
 
     return (
       <View>

@@ -8,7 +8,9 @@ import MealExplorer from "./components"
 import ShowRecipes from "./ShowRecipes"
 import Account from "../screens/Account"
 
+
  function Stacknav2({ initialRoute }) {
+
 
 
   const Stack = createNativeStackNavigator();
@@ -19,12 +21,13 @@ import Account from "../screens/Account"
     <Stack.Navigator
       style={isDarkMode ? Styles.dark : Styles.light}
       screenOptions={{
-        headerRight: () => <ThemeSwitchButton />
+        headerShown: false
       }}
     >
+
       <Stack.Screen name="MealExplorer" component={MealExplorer} />     
       <Stack.Screen name="FullRecipeCard" component={FullRecipeCard} />
-      
+
     </Stack.Navigator>
   )
 
@@ -41,7 +44,7 @@ function Stacknav3({ initialRoute }) {
     <Stack.Navigator
       style={isDarkMode ? Styles.dark : Styles.light}
       screenOptions={{
-        headerRight: () => <ThemeSwitchButton />
+        headerShown: false
       }}
     >
       <Stack.Screen name="Account" component={Account} />     

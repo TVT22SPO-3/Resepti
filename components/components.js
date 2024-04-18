@@ -260,6 +260,7 @@ import { SearchByIngredient, SearchByName } from '../FirebaseDB/SearchBy';
           keyExtractor={(item) => item.idMeal}
           renderItem={({ item }) => (
             <SmallRecipeCard item={item}/>
+
           /*  <TouchableOpacity onPress={() => fetchMealById(item.idMeal)}>
               <View style={styles.mealContainer}>
                 <Text style={styles.mealName}>{item.strMeal}</Text>
@@ -364,4 +365,6 @@ const styles = StyleSheet.create({
   },
   
 });
+
+  
 

@@ -8,11 +8,11 @@ import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 
 import { Card } from 'react-native-paper';
 
+
 export default function ShowRecipes() {
     const { user } = useAuth()
     const uid = user.uid
     const [recipes, setRecipes] = useState([]);
-    
     
 
     useEffect(() =>{
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center',
         margin: (24, 24, 24, 24),
-        borderRadius: '10px',
+        /*borderRadius: '10px',*/
         backgroundColor: '#faebd7',
       },
     text:{

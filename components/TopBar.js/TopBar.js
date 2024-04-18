@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { View, StyleSheet, Button } from 'react-native';
-import { Appbar } from 'react-native-paper';
+import { Appbar, Dialog, Paragraph, Button as PaperButton, Portal } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import ThemeSwitchButton from '../ThemeSwitch/ThemeSwitchButton';
 import { useAuth } from '../../context/useAuth'
@@ -13,8 +13,16 @@ import { auth, onAuthStateChanged } from '../../firebase/config';
 export default function TopBar() {
   const navigation = useNavigation();
 	const { user } = useAuth();
-
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [dialogVisible, setDialogVisible] = useState(false);
+
+  const handleLogout = () => {
+    setDialogVisible(true);
+  };
+
+  const handleCancelLogout = () => {
+    setDialogVisible(false);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -25,30 +33,44 @@ export default function TopBar() {
   }, [auth]);
  
   return (
-    <Appbar.Header style={styles.topBarContainer}>
-      <Appbar.BackAction onPress={() => navigation.goBack()} />
+		<>
+			<Appbar.Header style={styles.topBarContainer}>
+				<Appbar.BackAction onPress={() => navigation.goBack()} />
 
-      <View style={styles.rightElement}>
-        {isLoggedIn ? (
-          <View style={{ marginRight: 10 }}>
+				<View style={styles.rightElement}>
+					{isLoggedIn ? (
+						<View style={{ marginRight: 10 }}>
+							<Button title="Logout" onPress={handleLogout} />
+						</View>
+					) : (
+						<>
+							<View style={{ marginRight: 10 }}>
+								<LoginButton navigation={navigation}/>
+							</View>
+							<View style={{ marginRight: 10 }}>
+								<RegisterButton navigation={navigation}/>
+							</View>
+						</>
+					)}
+
+					<View style={{ marginRight: 10 }}>
+						<ThemeSwitchButton />
+					</View>
+				</View>
+			</Appbar.Header>
+			<Portal>
+        <Dialog visible={dialogVisible} onDismiss={handleCancelLogout}>
+          <Dialog.Title>Confirm Logout</Dialog.Title>
+          <Dialog.Content>
+            <Paragraph>Are you sure you want to log out?</Paragraph>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <PaperButton onPress={handleCancelLogout}>Cancel</PaperButton>
             <LogoutButton />
-          </View>
-        ) : (
-          <>
-            <View style={{ marginRight: 10 }}>
-              <LoginButton navigation={navigation}/>
-            </View>
-            <View style={{ marginRight: 10 }}>
-              <RegisterButton navigation={navigation}/>
-            </View>
-          </>
-        )}
-
-        <View style={{ marginRight: 10 }}>
-          <ThemeSwitchButton />
-        </View>
-      </View>
-    </Appbar.Header>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+		</>
   );
 }
 

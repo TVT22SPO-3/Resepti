@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center',
         margin: (24, 24, 24, 24),
-        /*borderRadius: '10px',*/
+        borderRadius: 10,
         backgroundColor: '#faebd7',
       },
     text:{

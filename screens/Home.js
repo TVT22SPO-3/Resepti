@@ -16,7 +16,7 @@ export default function Home({ navigation }) {
   const {isDarkMode} = useTheme()
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{flexGrow:1}}>
       <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
         <Hometext navigation={navigation}/>
           <Sign navigation={navigation}/>
@@ -38,5 +38,5 @@ const styles = StyleSheet.create({
   button: {
     marginVertical: 12,
     width: 240,
-  }
+  },
 });

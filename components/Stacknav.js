@@ -11,6 +11,7 @@ import FullRecipeCard from "./RecipeCard/FullRecipeCard"
 import { LoginButton, RegisterButton } from "./TopBar.js/LoginButton"
 import { useNavigation } from "@react-navigation/native"
 import TopBar from "./TopBar.js/TopBar"
+import SearchPage from "./Search/SearchPage"
 
 export default function Stacknav({ initialRoute }) {
 
@@ -33,6 +34,7 @@ export default function Stacknav({ initialRoute }) {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="SearchPage" component={SearchPage}/>
         <Stack.Screen name="FullRecipeCard" component={FullRecipeCard}/>
       </Stack.Navigator>
     </>

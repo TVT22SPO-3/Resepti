@@ -8,6 +8,7 @@ import LogInText from '../text/HomeTextLogIn';
 import Styles from '../Styles';
 import ThemeSwitchButton from '../components/ThemeSwitch/ThemeSwitchButton';
 import { useTheme } from '../context/useTheme';
+import SearchBar from '../components/Search/SearchBar';
 
 export default function Home({ navigation }) {
   const {user} = useAuth()
@@ -18,6 +19,7 @@ export default function Home({ navigation }) {
     <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
       <Hometext navigation={navigation}/>
         <Sign navigation={navigation}/>
+        <SearchBar navigation={navigation}/>
     </View>
 
   )

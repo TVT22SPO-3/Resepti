@@ -62,8 +62,14 @@ const fetchMealByName = async (name) => {
     try {
       const response = await fetch('https://www.themealdb.com/api/json/v1/1/categories.php');
       const data = await response.json();
-      setCategories(data.categories || []);
-      setShowCategories(true);
+      const categories = data.categories || [];
+      const transformedData = categories.map(category => ({
+        idCategory: category.idCategory,
+        strCategory: category.strCategory,
+        strCategoryThumb: category.strCategoryThumb
+      }));
+        console.log("infoData", transformedData);
+        return transformedData;
     } catch (error) {
       console.error(error);
     }

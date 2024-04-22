@@ -4,6 +4,7 @@ import ThemeSwitchButton from "./ThemeSwitch/ThemeSwitchButton"
 import Styles from "../Styles"
 import { useTheme } from "../context/useTheme"
 import FullRecipeCard from "./RecipeCard/FullRecipeCard"
+import FullEditRecipeCard from "./RecipeCard/FullEditRecipeCard"
 import MealExplorer from "./components"
 import ShowRecipes from "./ShowRecipes"
 import Account from "../screens/Account"
@@ -27,7 +28,7 @@ import Account from "../screens/Account"
 
       <Stack.Screen name="MealExplorer" component={MealExplorer} />     
       <Stack.Screen name="FullRecipeCard" component={FullRecipeCard} />
-
+      <Stack.Screen name="FullEditRecipeCard" component={FullEditRecipeCard} />
     </Stack.Navigator>
   )
 
@@ -49,7 +50,7 @@ function Stacknav3({ initialRoute }) {
     >
       <Stack.Screen name="Account" component={Account} />     
       <Stack.Screen name="FullRecipeCard" component={FullRecipeCard}/>
-      
+      <Stack.Screen name="FullEditRecipeCard" component={FullEditRecipeCard}/>
     </Stack.Navigator>
   )
 

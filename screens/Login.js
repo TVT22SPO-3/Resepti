@@ -9,7 +9,7 @@ import { AuthContext } from '../context/CreateAuthContext';
 import Styles from '../Styles';
 import { useTheme } from '../context/useTheme';
 import Stacknav from '../components/Stacknav';
-import TopBarMenu from '../components/TopBar.js/LoginButton';
+import TopBarMenu from '../components/TopBar/LoginButton';
 
 
 export default function Login() {

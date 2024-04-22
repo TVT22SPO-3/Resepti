@@ -63,7 +63,7 @@ export default function FavoriteRecipesCard({ item }) {
             item={item}
             openRecipe={openRecipe}
             removeFromFavorites={removeFromFavorites}
-            showRemoveButton // Pass a prop to indicate that the remove button should be shown
+            showRemoveButton 
           />
           )}
           keyExtractor={(item) => item.id}

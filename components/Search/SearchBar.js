@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
 import { useState } from 'react'
+import { Searchbar } from 'react-native-paper';
 import React from 'react'
 import { SearchByIngredient, SearchByName } from '../../FirebaseDB/SearchBy'
 import { fetchMealByName } from '../TheMealDB/SearchBy'
@@ -11,10 +12,10 @@ export default function SearchBar() {
     const [SearchTerm, setSearchTerm] = useState('')
     const [SearchData, setSearchData] = useState([])
 
-    const handleSearch = async () => {
+    const handleSearch =  () => {
         console.log("Search", SearchTerm)
-
-        try {
+        navigation.navigate('SearchPage', { SearchTerm: SearchTerm })
+       /* try {
             setSearchData([])
             const datafbName = await SearchByName(SearchTerm)
             console.log("SearchbarData", datafbName)
@@ -31,25 +32,28 @@ export default function SearchBar() {
             setSearchData(prevData => [...prevData, ...newData]);
 
             console.log("SearchData", SearchData)
-            navigation.navigate('SearchPage', { SearchData: newData })
+            navigation.navigate('SearchPage', { SearchTerm: SearchTerm })
             setSearchTerm("")
             setSearchData([])
         } catch (error) {
 
             console.log("SearchBarError", error)
-        }
-
+        }*/
+        setSearchTerm("")
+        setSearchData([])
 
     }
 
     return (
 
         <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
+            
+            <Searchbar
                 placeholder="Enter meal name"
                 onChangeText={setSearchTerm}
                 value={SearchTerm}
+                style={styles.search}
+                    
             />
             <Button title="Search" onPress={handleSearch} color="#FFA500" />
         </View>
@@ -58,6 +62,11 @@ export default function SearchBar() {
 
 
 const styles = StyleSheet.create({
+    search:{
+height: 52,
+width: 252,
+textAlign: 'center'
+    },
     container: {
         flex: 1,
         backgroundColor: '#fff',
@@ -68,6 +77,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 5,
+        marginHorizontal: 44,
     },
     input: {
         flex: 1,

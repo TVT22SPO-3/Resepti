@@ -6,24 +6,18 @@ import Styles from '../../Styles';
 import { useTheme } from '../../context/useTheme';
 import { useAuth } from '../../context/useAuth';
 
+
 export default function SmallRecipeCard({ item, addToFavorites, removeFromFavorites }) {
   const {isDarkMode} = useTheme()
+
   const navigation = useNavigation();
   const { user } = useAuth();
   //const [isCurrentUser, setIsCurrentUser] = useState(false);
 
   console.log('item.uid and user.uid = '+ item.uid + ' ' + user.uid);
 
-  const SeeRecipe = () => {
-    navigation.navigate('FullRecipeCard', { itemid: item.idMeal });
-  };
-
-  const handleFavorites = () => {
-    if (item.isFavorite) {
-      removeFromFavorites(item);
-    } else {
-      addToFavorites(item);
-    }
+  const handleSeeRecipe = () => {
+    onSeeRecipe(item.idMeal);
   };
 
   const handleEditRecipe = () => {
@@ -34,24 +28,11 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
     <Card style={styles.container}>
       <Card.Cover source={{ uri: item.strMealThumb }} />
       <Card.Title title={item.strMeal} />
-      <Card.Actions style={styles.actionsContainer}>
-      {item.uid === user.uid && user.uid !== undefined && (
-        <Button style={styles.editButton} onPress={handleEditRecipe}>
-          Edit
+      <Card.Actions>
+        <Button onPress={() => onPressFavorite(item)}>
+          {item.isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
         </Button>
-        )}
-        <IconButton
-          icon={item.isFavorite ? 'star' : 'star-outline'}
-          iconColor={'#001219'}
-          size={35}
-          onPress={handleFavorites}
-        />
-        <IconButton
-          icon='eye'
-          iconColor={'#001219'}
-          size={35}
-          onPress={SeeRecipe}
-        />
+        <Button onPress={handleSeeRecipe}>See recipe!</Button>
       </Card.Actions>
     </Card>
   );
@@ -59,13 +40,6 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
 
 const styles = StyleSheet.create({
   container: {
-    width: 300,
-    
-  },
-  editButton: {
-    
-  },
-  actionsContainer: {
-    
+    width: 360,
   },
 });

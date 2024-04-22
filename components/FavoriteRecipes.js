@@ -15,7 +15,7 @@ export default function FavoriteRecipesCard({ item }) {
 
   useEffect(() => {
     fetchFavoriteRecipes();
-  }, []); // Fetch favorite recipes on component mount
+  }, []); 
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);

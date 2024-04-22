@@ -2,8 +2,13 @@ import React from 'react';
 import { Card, Button } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Styles from '../../Styles';
+import { useTheme } from '../../context/useTheme';
 
-export default function SmallRecipeCard({ item, onPressFavorite, onSeeRecipe }) {
+
+export default function SmallRecipeCard({ item, addToFavorites, removeFromFavorites }) {
+  const {isDarkMode} = useTheme()
+
   const navigation = useNavigation();
 
   const handleSeeRecipe = () => {

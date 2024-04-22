@@ -12,7 +12,7 @@ import { fetchMealByName, fetchMealsByArea, fetchMealsByCategory, fetchMealsByMa
 export default function SearchPage() {
 
   const route = useRoute()
-  const { SearchTerm } = route.params
+  const { SearchTerm } = route.params || {}
   const [datafbName, setDataFbName] = useState([]);
   const [dataIngr, setDataIngr] = useState([]);
   const [dataName, setDataName] = useState([]);
@@ -32,7 +32,7 @@ export default function SearchPage() {
   }
 
   useEffect(() => {
-
+    if(!SearchTerm) return
     const Search = async () => {
       
       console.log("SearchTerm", SearchTerm)
@@ -104,12 +104,12 @@ export default function SearchPage() {
     }
   ]
 
-
+ 
 
 
   //  console.log("SearchPage", SearchData)
   return (
-
+ 
     <View>
       <View style={styles.containerExp}>
         <SearchBar />
@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 8,
     alignItems: 'center',
+    
 
   },
   container1: {
@@ -173,5 +174,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+
 })

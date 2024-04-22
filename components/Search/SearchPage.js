@@ -66,15 +66,11 @@ export default function SearchPage() {
 
         // setSearchTerm("")
         //  setSearchData([])
-        setDataFbName(name || [])
-        setDataIngr(Ingr || [])
-        setDataName(name2 || [])
-        setDataCategory(category || [])
-        setDataArea(area || [])
-        setDataMainIngre(MainIngre || [] )
-        setDataAreaFB(areaFB || [])
-        setDataCategoryFB(categoryFB || [] )
-
+        setDataName([...(name || []), ...(name2 || [])]);
+        setDataIngr([...(Ingr || []), ...(MainIngre || [])])
+        setDataCategory([...(categoryFB || []), ...(category || [])])
+        setDataArea([...(areaFB || []), ...(area || [])])
+        
       } catch (error) {
 
         console.log("SearchBarError", error)
@@ -88,36 +84,25 @@ export default function SearchPage() {
   const title = [
     {
       title: 'Name',
-      data: datafbName
-    },
-    {
-      title: 'Name2',
       data: dataName
     },
+    
     {
       title: 'Ingredient',
       data: dataIngr
     },
-    {
-      title: 'Main Ingredient',
-      data: dataMainIngre
-    },
+    
     {
       title: 'Category',
       data: dataCategory
     },
+    
     {
       title: 'Area',
       data: dataArea
     },
-    {
-      title: 'Area Firebase',
-      data: dataAreaFB
-    },
-    {
-      title: 'Category Firebase',
-      data: dataCategoryFB
-    }
+    
+    
   ]
 
  
@@ -126,7 +111,7 @@ export default function SearchPage() {
   //  console.log("SearchPage", SearchData)
   return (
  
-    <View>
+    <View style={styles.container1}>
       <View style={styles.containerExp}>
         <SearchBar />
       </View>
@@ -151,7 +136,7 @@ export default function SearchPage() {
             renderSectionHeader={({ section: { title, data } }) => (
               data && data.length > 0 && (
                 <View>
-                  <Text>{title}</Text>
+                  <Text style={styles.section}>{title} ({data.length})</Text>
                 </View>
               )
             )}
@@ -166,6 +151,11 @@ export default function SearchPage() {
 }
 
 const styles = StyleSheet.create({
+  section:{
+    paddingVertical: 24,
+    fontSize: 24,
+    
+  },
   containerExp: {
     paddingVertical: 8,
     alignItems: 'center',
@@ -173,13 +163,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   },
   container: {
+    justifyContent:'center',
     paddingTop: 8,
     alignItems: 'center',
-    
 
   },
   container1: {
-
+    flex: 1,
     paddingVertical: 8,
     alignItems: 'center',
 

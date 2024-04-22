@@ -14,6 +14,7 @@ import ChangeProfilePic from '../components/EditProfile/ChangeProfilePic'
 import { RefreshControl, GestureHandlerRootView } from 'react-native-gesture-handler'
 import Styles from '../Styles'
 import { useTheme } from '../context/useTheme'
+import FavoriteRecipes from '../components/FavoriteRecipes'
 
 
 
@@ -43,7 +44,7 @@ export default function Account() {
 
         style={[isDarkMode ? Styles.dark : Styles.light]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleReload}/>}
-        data={[{ key: 'UserCard' }, { key: 'UserInformationCard' }, { key: 'ChangeProfilePic' }, { key: 'ChangePassword' }, { key: 'ShowRecipes' }]}
+        data={[{ key: 'UserCard' }, { key: 'UserInformationCard' }, { key: 'ChangeProfilePic' }, { key: 'ChangePassword' }, { key: 'ShowRecipes' }, {key: 'FavoriteRecipes'}]}
 
         renderItem={({ item }) => {
           switch (item.key) {

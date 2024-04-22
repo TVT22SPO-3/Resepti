@@ -3,19 +3,11 @@ import { Card, Button } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-export default function SmallRecipeCard({ item, addToFavorites, removeFromFavorites }) {
+export default function SmallRecipeCard({ item, onPressFavorite, onSeeRecipe }) {
   const navigation = useNavigation();
 
-  const SeeRecipe = () => {
-    navigation.navigate('FullRecipeCard', { itemid: item.idMeal });
-  };
-
-  const handleFavorites = () => {
-    if (item.isFavorite) {
-      removeFromFavorites(item);
-    } else {
-      addToFavorites(item);
-    }
+  const handleSeeRecipe = () => {
+    onSeeRecipe(item.idMeal);
   };
 
   return (
@@ -23,8 +15,10 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
       <Card.Cover source={{ uri: item.strMealThumb }} />
       <Card.Title title={item.strMeal} />
       <Card.Actions>
-        <Button onPress={handleFavorites}>{item.isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}</Button>
-        <Button onPress={SeeRecipe}>See recipe!</Button>
+        <Button onPress={() => onPressFavorite(item)}>
+          {item.isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+        </Button>
+        <Button onPress={handleSeeRecipe}>See recipe!</Button>
       </Card.Actions>
     </Card>
   );

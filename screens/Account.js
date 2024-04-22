@@ -39,31 +39,31 @@ export default function Account() {
 
   return (
     <GestureHandlerRootView>
-      <FlatList
+        <FlatList
+          contentContainerStyle={{flexGrow:1}}
+          style={[isDarkMode ? Styles.dark : Styles.light]}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleReload}/>}
+          data={[{ key: 'UserCard' }, { key: 'UserInformationCard' }, { key: 'ChangeProfilePic' }, { key: 'ChangePassword' }, { key: 'ShowRecipes' }]}
 
-        style={[isDarkMode ? Styles.dark : Styles.light]}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleReload}/>}
-        data={[{ key: 'UserCard' }, { key: 'UserInformationCard' }, { key: 'ChangeProfilePic' }, { key: 'ChangePassword' }, { key: 'ShowRecipes' }]}
-
-        renderItem={({ item }) => {
-          switch (item.key) {
-            case 'UserCard':
-              return <UserCard />;
-            case 'UserInformationCard':
-              return <UserInformationCard />;
-            case 'ChangeProfilePic':
-              return <ChangeProfilePic />;
-            case 'ChangePassword':
-              return <ChangePassword />;
-            case 'ShowRecipes':
-              return <ShowRecipes />;
-            case 'FavoriteRecipes': 
-              return <FavoriteRecipes />;
-            default:
-              return null;
-          }
-        }}
-      />
+          renderItem={({ item }) => {
+            switch (item.key) {
+              case 'UserCard':
+                return <UserCard />;
+              case 'UserInformationCard':
+                return <UserInformationCard />;
+              case 'ChangeProfilePic':
+                return <ChangeProfilePic />;
+              case 'ChangePassword':
+                return <ChangePassword />;
+              case 'ShowRecipes':
+                return <ShowRecipes />;
+              case 'FavoriteRecipes': 
+                return <FavoriteRecipes />;
+              default:
+                return null;
+            }
+          }}
+        />
     </GestureHandlerRootView>
 
       

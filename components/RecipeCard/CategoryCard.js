@@ -4,15 +4,27 @@ import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Styles from '../../Styles';
 import { useTheme } from '../../context/useTheme';
+import { fetchMealsByCategory } from '../TheMealDB/SearchBy';
 
 export default function CategoryCard({ item }) {
   const {isDarkMode} = useTheme()
   const navigation = useNavigation();
   const [SearchTerm, setSearchTerm] = useState('')
 
-    const SeeCategory = () => {
+    const SeeCategory = async () => {
         console.log("Search", item.strCategory)
-        navigation.navigate('SearchPage', { SearchData: item.strCategory })
+        const SearchTerm = item.strCategory
+        
+        try {
+          console.log("category:", SearchTerm)
+          const dataCategory = await fetchMealsByCategory(SearchTerm)
+          console.log("SearchDataCategory", dataCategory)
+          navigation.navigate('SearchPage', { SearchData: dataCategory })
+
+      } catch (error) {
+
+          console.log("CategoryCard error",error)
+      }
     }
 
   return (
@@ -20,7 +32,7 @@ export default function CategoryCard({ item }) {
       <Card.Cover source={{ uri: item.strCategoryThumb }} />
       <Card.Title title={item.strCategory} />
       <Card.Actions>
-        <Button onPress={SeeCategory}>Seach recipes by this Category !!!</Button>
+        <Button onPress={SeeCategory}>Search recipes by this Category!</Button>
       </Card.Actions>
     </Card>
   );

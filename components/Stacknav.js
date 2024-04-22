@@ -8,9 +8,9 @@ import ThemeSwitchButton from "./ThemeSwitch/ThemeSwitchButton"
 import Styles from "../Styles"
 import { useTheme } from "../context/useTheme"
 import FullRecipeCard from "./RecipeCard/FullRecipeCard"
-import { LoginButton, RegisterButton } from "./TopBar.js/LoginButton"
+import { LoginButton, RegisterButton } from "./TopBar/LoginButton"
 import { useNavigation } from "@react-navigation/native"
-import TopBar from "./TopBar.js/TopBar"
+import TopBar from "./TopBar/TopBar"
 import SearchPage from "./Search/SearchPage"
 
 export default function Stacknav({ initialRoute }) {

@@ -9,7 +9,7 @@ import components from "../components/components"
 import OwnRecipes from "./AddRecipes"
 import LogInText from "../text/HomeTextLogIn"
 import {Stacknav2, Stacknav3} from "../components/Stacknav2"
-import TopBar from "./TopBar.js/TopBar"
+import TopBar from "./TopBar/TopBar"
 
 export default function BottomNavbar() {
 

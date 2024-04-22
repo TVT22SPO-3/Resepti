@@ -27,6 +27,7 @@ function AddRecipes() {
   const [ingredients, setIngredients] = useState([{ ingredient: '', measure: '' }]);
   const [instructions, setInstructions] = useState('');
 	const [category, setCategory] = useState('');
+	const [area, setArea] = useState('');
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [showNotification, setShowNotification] = useState(false);
 	const [dialogVisible, setDialogVisible] = useState(false);
@@ -55,11 +56,17 @@ function AddRecipes() {
     setCategory(category);
   };
 
+  const saveArea = (area) => {
+    setArea(area);
+  };
+
 	const clearInputs = () => {
-    setRecipeName('');
+    	setRecipeName('');
 		setIngredients([{ ingredient: '', measure: '' }]);
 		setInstructions('');
 		setSelectedImage(null);
+		setCategory('');
+		setArea('');
   };	
 
     const saveRecipe = async () => {
@@ -98,9 +105,11 @@ function AddRecipes() {
 				strInstructions: instructions,
 				strMealThumb: imageUrl,
 				strCategory: category,
+				strArea: area,
 				date: serverTimestamp()
 			});
 			clearInputs();
+			setDialogVisible(true);
 			console.log('Recipe saved successfully.');		
 
 		} catch (error) {
@@ -132,7 +141,9 @@ function AddRecipes() {
             </Pressable>
             {isOpen && (
               <View style={{ padding: 10 }}>
-								<AddCategory value={category} onChangeCategory={saveCategory} onChangeText={setCategory}/>
+								<AddCategory value={category} onChangeCategory={saveCategory} onChangeCategoryText={setCategory}/>
+								<View style={styles.divider} />
+								<AddArea value={area} onChangeArea={saveArea} onChangeAreaText={setArea}/>
 								<View style={styles.divider} />
 								<AddImages onChangeImage={handleImageChange} />
 								<View style={styles.divider} />
@@ -143,12 +154,12 @@ function AddRecipes() {
                 <Text style={styles.buttonText}>Save</Text>
             </Pressable>
 			<Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
-				<Dialog.Title>Confirm Logout</Dialog.Title>
+				<Dialog.Title>Recipe created</Dialog.Title>
 				<Dialog.Content>
-					<Paragraph>Are you sure you want to log out?</Paragraph>
+					<Paragraph>Recipe added succesfully. You can browse your recipes in profile.</Paragraph>
 				</Dialog.Content>
 				<Dialog.Actions>
-					<PaperButton onPress={() => setDialogVisible(false)}>Cancel</PaperButton>
+					<PaperButton onPress={() => setDialogVisible(false)}>Close</PaperButton>
 				</Dialog.Actions>
 			</Dialog>
         </ScrollView>
@@ -353,16 +364,15 @@ function AddIngredients(props) {
 	
 function AddCategory(props){
 
-	const { value, onChangeCategory, onChangeText } = props;
+	const { value, onChangeCategory, onChangeCategoryText } = props;
 
-	const handleTextChange = (text) => {
-		onChangeCategory(text);
-		onChangeText(text);
+	const handleCategoryTextChange = (text) => {
+		onChangeCategoryText(text);
   };
 
-	const handleChipPress = (chipValue) => {
-    onChangeCategory(chipValue);
-		onChangeText(chipValue);
+	const handleCategoryChange = (categoryValue) => {
+		onChangeCategory(categoryValue);
+		onChangeCategoryText(categoryValue);
   };
 
 	return(
@@ -371,7 +381,7 @@ function AddCategory(props){
 			<TextInput
 				  style={styles.textInput}
 				  value={value}
-				  onChangeText={handleTextChange}
+				  onChangeText={handleCategoryTextChange}
 				  placeholder="'Category"
 				  placeholderTextColor="#CCC7B9"
 			/>
@@ -379,15 +389,56 @@ function AddCategory(props){
 			<View style={styles.divider} />
 			<Text>Popular Categories</Text>
 			<View style={styles.chipContainer}>
-				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Dairy')}>Dairy</Chip>
-				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Protein')}>Protein</Chip>
-				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Vegetarian')}>Vegetarian</Chip>
-				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Gluten frees')}>Gluten free</Chip>
-				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Dessert')}>Dessert</Chip>
-				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Italian')}>Italian</Chip>
-				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Keto')}>Keto</Chip>
-				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Halal')}>Halal</Chip>
-				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleChipPress('Low Calorie')}>Low Calorie</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleCategoryChange('Dairy')}>Dairy</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleCategoryChange('Protein')}>Protein</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleCategoryChange('Vegetarian')}>Vegetarian</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleCategoryChange('Gluten frees')}>Gluten free</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleCategoryChange('Dessert')}>Dessert</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleCategoryChange('Italian')}>Italian</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleCategoryChange('Keto')}>Keto</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleCategoryChange('Halal')}>Halal</Chip>
+				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleCategoryChange('Low Calorie')}>Low Calorie</Chip>
+			</View>
+	  </View>
+	);
+}
+
+	
+function AddArea(props){
+
+	const { value, onChangeArea, onChangeAreaText } = props;
+
+	const handleAreaTextChange = (text) => {
+		onChangeAreaText(text);
+  };
+
+	const handleAreaChange = (areaValue) => {
+    	onChangeArea(areaValue);
+		onChangeAreaText(areaValue);
+  };
+
+	return(
+		<View style={styles.title}>
+			<Title>Area</Title>
+			<TextInput
+				  style={styles.textInput}
+				  value={value}
+				  onChangeText={handleAreaTextChange}
+				  placeholder="Area"
+				  placeholderTextColor="#CCC7B9"
+			/>
+
+			<View style={styles.divider} />
+			<Text>Popular Areas</Text>
+			<View style={styles.chipContainer}>
+				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('Italy')}>Italy</Chip>
+				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('Japan')}>Japan</Chip>
+				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('France')}>France</Chip>
+				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('Nepal')}>Nepal</Chip>
+				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('China')}>China</Chip>
+				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('Mexico')}>Mexico</Chip>
+				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('USA')}>USA</Chip>
+				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('Greece')}>Greece</Chip>
 			</View>
 	  </View>
 	);

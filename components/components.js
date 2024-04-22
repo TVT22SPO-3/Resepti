@@ -254,12 +254,16 @@ import { SearchByIngredient, SearchByName } from '../FirebaseDB/SearchBy';
 
       
       {(meal || meals.length > 0) && (
-        <FlatList
-          contentContainerStyle={styles.scrollContainer}
-          data={meal ? [meal] : meals}
-          keyExtractor={(item) => item.idMeal}
-          renderItem={({ item }) => (
-            <SmallRecipeCard item={item}/>
+         <FlatList
+         contentContainerStyle={styles.scrollContainer}
+         data={(meal ? [meal] : meals).concat(mealFB ? [mealFB] : mealsFB)}
+         keyExtractor={(item) => item.idMeal}
+         renderItem={({ item }) => (
+           <SmallRecipeCard
+             item={item}
+             onPressFavorite={addToFavorites}
+             onSeeRecipe={(itemId) => navigation.navigate('FullRecipeCard', { itemid: itemId })}
+           />
 
           /*  <TouchableOpacity onPress={() => fetchMealById(item.idMeal)}>
               <View style={styles.mealContainer}>

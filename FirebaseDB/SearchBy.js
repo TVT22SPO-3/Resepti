@@ -150,8 +150,9 @@ async function SearchByUid(uid){
             console.log(doc.id, "=>", doc.data())
             const testi = {
                 "idMeal": doc.id,
+                "uid": doc.data().uid,
                 "strMealThumb": doc.data().strMealThumb,
-                "strMeal": doc.data().strMeal
+                "strMeal": doc.data().strMeal,
             }
             data.push(testi)
         })

@@ -14,6 +14,7 @@ import ChangeProfilePic from '../components/EditProfile/ChangeProfilePic'
 import { RefreshControl, GestureHandlerRootView } from 'react-native-gesture-handler'
 import Styles from '../Styles'
 import { useTheme } from '../context/useTheme'
+import FavoriteRecipes from '../components/FavoriteRecipes'
 
 
 
@@ -40,30 +41,29 @@ export default function Account() {
   return (
     <GestureHandlerRootView>
         <FlatList
-          contentContainerStyle={{flexGrow:1}}
-          style={[isDarkMode ? Styles.dark : Styles.light]}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleReload}/>}
-          data={[{ key: 'UserCard' }, { key: 'UserInformationCard' }, { key: 'ChangeProfilePic' }, { key: 'ChangePassword' }, { key: 'ShowRecipes' }]}
+        style={[isDarkMode ? Styles.dark : Styles.light]}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleReload}/>}
+        data={[{ key: 'UserCard' }, { key: 'UserInformationCard' }, { key: 'ChangeProfilePic' }, { key: 'ChangePassword' }, { key: 'ShowRecipes' }, {key: 'FavoriteRecipes'}]}
 
-          renderItem={({ item }) => {
-            switch (item.key) {
-              case 'UserCard':
-                return <UserCard />;
-              case 'UserInformationCard':
-                return <UserInformationCard />;
-              case 'ChangeProfilePic':
-                return <ChangeProfilePic />;
-              case 'ChangePassword':
-                return <ChangePassword />;
-              case 'ShowRecipes':
-                return <ShowRecipes />;
-              case 'FavoriteRecipes': 
-                return <FavoriteRecipes />;
-              default:
-                return null;
-            }
-          }}
-        />
+        renderItem={({ item }) => {
+          switch (item.key) {
+            case 'UserCard':
+              return <UserCard />;
+            case 'UserInformationCard':
+              return <UserInformationCard />;
+            case 'ChangeProfilePic':
+              return <ChangeProfilePic />;
+            case 'ChangePassword':
+              return <ChangePassword />;
+            case 'ShowRecipes':
+              return <ShowRecipes />;
+            case 'FavoriteRecipes': 
+              return <FavoriteRecipes />;
+            default:
+              return null;
+          }
+        }}
+      />
     </GestureHandlerRootView>
 
       

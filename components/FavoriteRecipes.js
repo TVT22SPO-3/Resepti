@@ -15,7 +15,7 @@ export default function FavoriteRecipesCard({ item }) {
 
   useEffect(() => {
     fetchFavoriteRecipes();
-  }, []); // Fetch favorite recipes on component mount
+  }, []); 
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
@@ -63,7 +63,7 @@ export default function FavoriteRecipesCard({ item }) {
             item={item}
             openRecipe={openRecipe}
             removeFromFavorites={removeFromFavorites}
-            showRemoveButton // Pass a prop to indicate that the remove button should be shown
+            showRemoveButton 
           />
           )}
           keyExtractor={(item) => item.id}

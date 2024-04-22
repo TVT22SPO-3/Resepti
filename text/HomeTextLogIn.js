@@ -9,8 +9,7 @@ export default function LogInText() {
   const {user} = useAuth()
   return (
     <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
-      <Text style={[styles.header,isDarkMode ? Styles.dark : Styles.light]}>Welcome back {user.displayName} to the Foodthusiast home page!</Text>
-      <Text style={[styles.text,isDarkMode ? Styles.dark : Styles.light]}>Here you can find and upload delicious recipes!</Text>
+      <Text style={[styles.header,isDarkMode ? Styles.dark : Styles.light]}>Welcome back {user.displayName} to the Foodthusiast!</Text>
     </View>
   )
 }

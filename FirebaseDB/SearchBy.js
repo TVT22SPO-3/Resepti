@@ -1,4 +1,4 @@
-import { collection, doc, documentId, getDoc, where } from "firebase/firestore";
+import { collection, doc, documentId, getDoc, limit, orderBy, where } from "firebase/firestore";
 import { View, Text } from 'react-native'
 import React from 'react'
 import { useAuth } from '../context/useAuth'
@@ -6,6 +6,40 @@ import { firestore, query, querySnapshot } from '../firebase/config';
 import { useState } from 'react';
 import { getDocs } from 'firebase/firestore';
 import { convertFireBaseTimeStampToJS } from "../helpers/functions";
+
+async function NewestFB() {
+    const data = []
+    try {
+        console.log("newest", )
+        const docRef = query(collection(firestore, "recipes"), orderBy("date", "desc"), limit(5))
+        const querySnapshot = await getDocs(docRef)
+        
+        if (querySnapshot.empty) {
+            console.log("no match")
+        } else{
+            querySnapshot.forEach((doc) => {
+                console.log(doc.id, "=>", doc.data())
+                console.log("asd", doc.data())
+               
+                const infoData = {
+                    "idMeal": doc.id,
+                    "strMealThumb": doc.data().strMealThumb,
+                    "strMeal": doc.data().strMeal,               
+                }
+                 
+                console.log("Newest", infoData)
+                data.push(infoData)
+            })
+            console.log("Newest", data)
+            return data
+        }
+        
+    } catch (error) {
+        console.log("error Newest", error)
+    }
+
+}
+
 
 
 async function SearchByCategories(category) {
@@ -229,4 +263,4 @@ async function SearchByUid(uid){
 }
 
 
-export { SearchAllRecipes, SearchByDocId, SearchByName, SearchByIngredient, SearchByUid, SearchByCategories, SearchByArea }
+export { SearchAllRecipes, SearchByDocId, SearchByName, SearchByIngredient, SearchByUid, SearchByCategories, SearchByArea, NewestFB}

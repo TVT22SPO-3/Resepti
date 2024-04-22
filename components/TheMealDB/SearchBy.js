@@ -132,11 +132,46 @@ const fetchMealByName = async (name) => {
       console.log("no match")
     }
     console.log("meal", infoData)
-    return infoData
-
+    return infoData  
   } catch (error) {
-    console.error("FetchMealByNameError", error);
-  }
-};
+      console.error("FetchMealByNameError", error);
+    }
+  };
+  
 
-export { fetchMealById, fetchRandomMeal, fetchMealByName, fetchMealsByCategory, fetchMealsByArea, fetchMealsByMainIngredient }
+  const fetchAllCategories = async () => {
+    try {
+      const response = await fetch('https://www.themealdb.com/api/json/v1/1/categories.php');
+      const data = await response.json();
+      const categories = data.categories || [];
+      const transformedData = categories.map(category => ({
+        idCategory: category.idCategory,
+        strCategory: category.strCategory,
+        strCategoryThumb: category.strCategoryThumb
+      }));
+        console.log("infoData", transformedData);
+        return transformedData;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchMealByCategory = async (category) => {
+    try {
+      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+      const data = await response.json();
+      if(data.meals && data.meals.length > 0){
+        infoData = data.meals.map( meal => ({
+           "idMeal": meal.idMeal,
+           "strMeal": meal.strMeal,
+           "strMealThumb": meal.strMealThumb
+         }))
+         console.log("infoData", infoData);
+         return infoData;
+    }} catch (error) {
+      console.error(error);
+    }
+  };
+
+
+export { fetchMealById, fetchRandomMeal, fetchMealByName, fetchMealsByCategory, fetchMealsByArea, fetchMealsByMainIngredient, fetchAllCategories, fetchMealByCategory }

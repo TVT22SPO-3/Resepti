@@ -40,8 +40,7 @@ export default function Account() {
 
   return (
     <GestureHandlerRootView>
-      <FlatList
-
+        <FlatList
         style={[isDarkMode ? Styles.dark : Styles.light]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleReload}/>}
         data={[{ key: 'UserCard' }, { key: 'UserInformationCard' }, { key: 'ChangeProfilePic' }, { key: 'ChangePassword' }, { key: 'ShowRecipes' }, {key: 'FavoriteRecipes'}]}

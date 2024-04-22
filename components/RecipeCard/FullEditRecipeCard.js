@@ -7,7 +7,6 @@ import { SearchByDocId } from '../../FirebaseDB/SearchBy'
 
 
 export default function FullEditRecipeCard() {
-
   const navigation = useNavigationState(state => state.routes[state.index].state)
   const route = useRoute()
   const { itemid } = route.params
@@ -16,42 +15,23 @@ export default function FullEditRecipeCard() {
   const [areaText, setAreaText] = useState('');
   const [recipeName, setRecipeName] = useState('');
   const [instructions, setInstructions] = useState('');
-  const [existingIngredients, setExistingIngredients] = useState({ strIngredient: [], strMeasure: [] });
+  const [ingredients, setIngredients] = useState({ strIngredient: [], strMeasure: [] });
   const [newIngredient, setNewIngredient] = useState({ name: '', measure: '' });
 
   useEffect(() => {
     const getRecipe = async () => {
       console.log(itemid)
-      if (itemid.length < 10) {
-        try {
-          const fetchMeal = await fetchMealById(itemid)
-          console.log("fetchMeal:", fetchMeal)
-          fetchMeal.username = "TheMealDB"
-          fetchMeal.date = ""
-          setRecipe2(fetchMeal)
-          const existingIngredientsData = {
-            strIngredient: fetchMeal.ingredients,
-            strMeasure: Array(fetchMeal.ingredients.length).fill('')
-          };
-          setExistingIngredients(existingIngredientsData);
-          console.log("recipe2:", recipe2)
-        } catch (error) {
-          console.log("errorGetmeal", error)
-        }
-
-      } else {
-        try {
-          const DocById = await SearchByDocId(itemid)
-          console.log("GetDoc", DocById)
-          setRecipe2(DocById)
-          const existingIngredientsData = {
-            strIngredient: DocById.ingredients,
-            strMeasure: Array(DocById.ingredients.length).fill('')
-          };
-          setExistingIngredients(existingIngredientsData);
-        } catch (error) {
-          console.log("errorGetMealFB", error)
-        }
+      try {
+        const DocById = await SearchByDocId(itemid)
+        console.log("GetDoc", DocById)
+        setRecipe2(DocById)
+        const existingIngredients = {
+          strIngredient: DocById.ingredients || [], // Add a fallback in case ingredients is undefined
+          strMeasure: DocById.strMeasure || [] // Add a fallback in case strMeasure is undefined
+        };
+        setIngredients(existingIngredients);
+      } catch (error) {
+        console.log("errorGetMealFB", error)
       }
     }
     getRecipe()
@@ -81,6 +61,18 @@ export default function FullEditRecipeCard() {
     }));
   }
 
+  const handleEditIngredient = (text, index) => {
+    const updatedIngredients = { ...ingredients };
+    updatedIngredients.strIngredient[index] = text;
+    setIngredients(updatedIngredients);
+  }
+
+  const handleEditMeasure = (text, index) => {
+    const updatedIngredients = { ...ingredients };
+    updatedIngredients.strMeasure[index] = text;
+    setIngredients(updatedIngredients);
+  }
+
   const handleEditRecipeName = (text) => {
     setRecipeName(text);
     setRecipe2(prevRecipe => ({
@@ -95,23 +87,23 @@ export default function FullEditRecipeCard() {
       category: categoryText,
       area: areaText,
       instructions,
-      ...existingIngredients
+      ...ingredients
     });
     // Here you can implement logic to save changes, like sending to an API, etc.
   }
 
   const handleAddIngredient = () => {
-    const updatedIngredients = { ...existingIngredients };
+    const updatedIngredients = { ...ingredients };
     updatedIngredients.strIngredient.push('');
     updatedIngredients.strMeasure.push('');
-    setExistingIngredients(updatedIngredients);
+    setIngredients(updatedIngredients);
   }
 
   const handleDeleteIngredient = (index) => {
-    const updatedIngredients = { ...existingIngredients };
+    const updatedIngredients = { ...ingredients };
     updatedIngredients.strIngredient.splice(index, 1);
     updatedIngredients.strMeasure.splice(index, 1);
-    setExistingIngredients(updatedIngredients);
+    setIngredients(updatedIngredients);
   }
 
   return (
@@ -149,13 +141,14 @@ export default function FullEditRecipeCard() {
           </View>
         </Card>
 
+        {/* DataTable for existing ingredients */}
         <Card style={styles.cardContainer}>
           <DataTable>
             <DataTable.Header>
               <DataTable.Title>Existing Ingredients</DataTable.Title>
               <DataTable.Title numeric>Measure</DataTable.Title>
             </DataTable.Header>
-            {(existingIngredients.strIngredient || []).map((ingredient, index) => (
+            {(ingredients.strIngredient || []).map((ingredient, index) => (
               <DataTable.Row key={index}>
                 <DataTable.Cell>
                   <TextInput
@@ -167,12 +160,42 @@ export default function FullEditRecipeCard() {
                 <DataTable.Cell>
                   <TextInput
                     style={styles.textInput}
-                    value={existingIngredients.strMeasure[index]}
+                    value={ingredients.strMeasure[index]}
                     onChangeText={(text) => handleEditMeasure(text, index)}
                   />
                 </DataTable.Cell>
+                <IconButton
+                  icon="delete"
+                  size={20}
+                  onPress={() => handleDeleteIngredient(index)}
+                />
+              </DataTable.Row>
+            ))}
+          </DataTable>
+        </Card>
+
+        {/* DataTable for new ingredients */}
+        <Card style={styles.cardContainer}>
+          <DataTable>
+            <DataTable.Header>
+              <DataTable.Title>New Ingredients</DataTable.Title>
+              <DataTable.Title numeric>Measure</DataTable.Title>
+            </DataTable.Header>
+            {(newIngredient.strIngredient || []).map((ingredient, index) => (
+              <DataTable.Row key={index}>
                 <DataTable.Cell>
-                  <IconButton icon="delete" onPress={() => handleDeleteIngredient(index)} />
+                  <TextInput
+                    style={styles.textInput}
+                    value={ingredient}
+                    onChangeText={(text) => handleEditIngredient(text, index)}
+                  />
+                </DataTable.Cell>
+                <DataTable.Cell>
+                  <TextInput
+                    style={styles.textInput}
+                    value={newIngredient.strMeasure[index]}
+                    onChangeText={(text) => handleEditMeasure(text, index)}
+                  />
                 </DataTable.Cell>
               </DataTable.Row>
             ))}

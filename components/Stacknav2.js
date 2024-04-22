@@ -8,6 +8,7 @@ import FullEditRecipeCard from "./RecipeCard/FullEditRecipeCard"
 import MealExplorer from "./components"
 import ShowRecipes from "./ShowRecipes"
 import Account from "../screens/Account"
+import SearchPage from "./Search/SearchPage"
 
 
  function Stacknav2({ initialRoute }) {
@@ -26,7 +27,7 @@ import Account from "../screens/Account"
       }}
     >
 
-      <Stack.Screen name="MealExplorer" component={MealExplorer} />     
+      <Stack.Screen name="SearchPage" component={SearchPage} />     
       <Stack.Screen name="FullRecipeCard" component={FullRecipeCard} />
       <Stack.Screen name="FullEditRecipeCard" component={FullEditRecipeCard} />
     </Stack.Navigator>

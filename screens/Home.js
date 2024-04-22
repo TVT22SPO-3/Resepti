@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
-import { Button } from 'react-native-paper'
+import { useState } from 'react';
+import { Button, IconButton } from 'react-native-paper'
 import Hometext from '../components/Hometext';
 import Sign from '../components/Sign';
 import { useAuth } from '../context/useAuth';
@@ -16,13 +17,20 @@ export default function Home({ navigation }) {
   const {user} = useAuth()
   console.log("Home", user)
   const {isDarkMode} = useTheme()
+  const [visible, setVisible] = useState(true)
 
   return (
     <ScrollView contentContainerStyle={{flexGrow:1}}>
       <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
-        <Hometext navigation={navigation}/>
-          <Sign navigation={navigation}/>
+        {visible && (
+        <View style={styles.container2}>
+          <Hometext navigation={navigation}/>
+          <Button style={styles.closeButton} onPress={() => setVisible(false)}>Close</Button>
+        </View>
+        )}
+        <View style={styles.searchBarContainer}>
           <SearchBar navigation={navigation}/>
+        </View>
         <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
           <RandomMeal/>
         </View>
@@ -41,8 +49,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
   },
+  container2: {
+    flex: 1,
+    borderRadius: 10,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#C7C7C7',
+    marginHorizontal: 10,
+    marginVertical: 40,
+    padding: 20,
+  },
+  closeButtonContainer: {
+    alignItems: 'flex-end',
+  },
   button: {
     marginVertical: 12,
     width: 240,
   },
+  closeButton: {
+    marginTop: 15,
+  }
 });

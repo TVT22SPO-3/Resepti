@@ -1,6 +1,6 @@
 import { View, ScrollView, Text, StyleSheet, Pressable, Image, TouchableOpacity, Alert } from 'react-native'
 import React, { useState, useEffect} from 'react'
-import { DataTable, TextInput, Picker, Button, Title, Chip, Dialog, Paragraph, Button as PaperButton, Snackbar } from 'react-native-paper';
+import { DataTable, TextInput, IconButton, Picker, Button, Title, Chip, Dialog, Paragraph, Button as PaperButton, Snackbar } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RequestStoragePermission from '../Permissions';
 import * as ImagePicker from 'expo-image-picker';
@@ -114,7 +114,7 @@ function AddRecipes() {
 			console.log('Recipe saved successfully.');		
 
 		} catch (error) {
-			
+
 			console.error('Error saving recipe: ', error);
 		}
 		  
@@ -143,12 +143,12 @@ function AddRecipes() {
             </Pressable>
             {isOpen && (
               <View style={{ padding: 10 }}>
-								<AddCategory value={category} onChangeCategory={saveCategory} onChangeCategoryText={setCategory}/>
-								<View style={styles.divider} />
-								<AddArea value={area} onChangeArea={saveArea} onChangeAreaText={setArea}/>
-								<View style={styles.divider} />
-								<AddImages onChangeImage={handleImageChange} />
-								<View style={styles.divider} />
+					<AddCategory value={category} onChangeCategory={saveCategory} onChangeCategoryText={setCategory}/>
+					<View style={styles.divider} />
+					<AddArea value={area} onChangeArea={saveArea} onChangeAreaText={setArea}/>
+					<View style={styles.divider} />
+					<AddImages onChangeImage={handleImageChange} />
+					<View style={styles.divider} />
               </View>
 							
             )}
@@ -310,13 +310,10 @@ function AddIngredients(props) {
 	  <View>
 		<Title style={styles.title}>Ingredients</Title>
 		<DataTable>
-		  <DataTable.Header>
-			<DataTable.Title>Ingredient</DataTable.Title>
-			<DataTable.Title numeric>Amount</DataTable.Title>
-		  </DataTable.Header>
+
   
 		  {ingredients.map((ingredient, index) => (
-			<DataTable.Row key={index}>
+			<DataTable.Row style={styles.tableRow} key={index}>
 			  <DataTable.Cell>
 				<TextInput
 				  style={styles.ingredientInput}
@@ -339,14 +336,7 @@ function AddIngredients(props) {
 				/>
 			  </DataTable.Cell>
 			  <DataTable.Cell>
-				<TouchableOpacity
-					onPress={() => handleRemoveIngredient(index)}
-					onPressIn={handlePressIn}
-					onPressOut={handlePressOut}
-					style={styles.container}
-				>
-      			<MaterialCommunityIcons name="trash-can-outline" color={'black'} size={30} />  
-    		  </TouchableOpacity>	
+      			<IconButton onPress={() => handleRemoveIngredient(index)} icon="delete" color={'#505050'} size={30} />  
 			  </DataTable.Cell>
 			</DataTable.Row>
 		  ))}
@@ -465,9 +455,8 @@ function AddArea(props){
 	textInput: {
 		margin: 15,
 	},	
-	DataTableRow: {
-		alignItems: 'center',
-		justifyContent: 'center',
+	tableRow: {
+		justifyContent: 'space-between',
 		height: 70,
 	},
 	addButtonCell: {
@@ -484,7 +473,7 @@ function AddArea(props){
 	  marginVertical: 5,
 	  borderRadius: 3,
 	  elevation: 3,
-	  backgroundColor: '#BCB8B1',
+	  backgroundColor: '#6D6D6D',
 	},
 	saveButton: {
 	  alignItems: 'center',
@@ -507,7 +496,7 @@ function AddArea(props){
 		borderRadius: 4,
 		elevation: 3,
 		backgroundColor: '#0582CA',
-	  },
+		},
 	buttonText: {
 	  fontSize: 16,
 	  lineHeight: 21,
@@ -521,8 +510,8 @@ function AddArea(props){
 	},
 	chipContainer: {
 		flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
+		flexWrap: 'wrap',
+		alignItems: 'center',
 	},
 	chip: {
 		marginHorizontal: 3,

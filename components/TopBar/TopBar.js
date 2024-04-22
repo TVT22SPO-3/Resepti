@@ -88,7 +88,6 @@ export default function TopBar() {
           action={{
             label: 'Ok',
             onPress: () => {
-
             },
           }}>
           Can't go back!

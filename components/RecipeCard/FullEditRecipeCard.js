@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image, ScrollView, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Card, DataTable, IconButton, TextInput, Button } from 'react-native-paper'
+import { Card, DataTable, IconButton, TextInput, Button, Title } from 'react-native-paper'
 import { useNavigation, useNavigationState, useRoute } from '@react-navigation/native'
 import { fetchMealById } from '../TheMealDB/SearchBy'
 import { SearchByDocId } from '../../FirebaseDB/SearchBy'
@@ -141,10 +141,11 @@ export default function FullEditRecipeCard() {
         <Card style={styles.cardContainer}>
           {recipe2 && <Card.Cover resizeMethod="auto" source={{ uri: recipe2.strMealThumb }} />}
         </Card>
+
         <Card style={styles.cardContainer}>
           <View style={styles.cardContainer2}>
             <View style={styles.container2}>
-              <Text>Recipe name</Text>
+              <Title style={styles.title}>Recipe name</Title>
               <TextInput
                 style={styles.textInput}
                 value={recipeName || recipe2.strMeal}
@@ -152,7 +153,7 @@ export default function FullEditRecipeCard() {
               />
             </View>
             <View style={styles.container2}>
-              <Text>Category</Text>
+              <Title style={styles.title}>Category</Title>
               <TextInput
                 style={styles.textInput}
                 value={categoryText || recipe2.strCategory}
@@ -160,7 +161,7 @@ export default function FullEditRecipeCard() {
               />
             </View>
             <View style={styles.container2}>
-              <Text>Area</Text>
+              <Title style={styles.title}>Area</Title>
               <TextInput
                 style={styles.textInput}
                 value={areaText || recipe2.strArea}
@@ -170,53 +171,60 @@ export default function FullEditRecipeCard() {
           </View>
         </Card>
 
-        {/* DataTable for existing ingredients */}
-        <Card style={styles.cardContainer}>
-          <DataTable>
-            <DataTable.Header>
-              <DataTable.Title>Ingredients</DataTable.Title>
-              <DataTable.Title numeric>Measure</DataTable.Title>
-            </DataTable.Header>
-            {(ingredients.strIngredient || []).map((ingredient, index) => (
-              <DataTable.Row key={index}>
-                <DataTable.Cell>
-                  <TextInput
-                    style={styles.textInput}
-                    value={ingredient}
-                    onChangeText={(text) => handleEditIngredient(text, index)}
-                  />
-                </DataTable.Cell>
-                <DataTable.Cell>
-                  <TextInput
-                    style={styles.textInput}
-                    value={ingredients.strMeasure[index]}
-                    onChangeText={(text) => handleEditMeasure(text, index)}
-                  />
-                </DataTable.Cell>
-                <IconButton
-                  icon="delete"
-                  size={20}
-                  onPress={() => handleDeleteIngredient(index)}
-                />
-              </DataTable.Row>
-            ))}
-          </DataTable>
-          <Button icon="plus" mode="contained" onPress={handleAddIngredient}>Add Ingredient</Button>
-        </Card>
-
-       
-          
 
         <Card style={styles.cardContainer}>
-          <TextInput
-            style={styles.textInput}
-            value={instructions || recipe2.strInstructions}
-            onChangeText={handleEditInstructions}
-            multiline
-          />
+          <View style={styles.cardContainer2}>
+            <Title style={styles.title}>Ingredients</Title>
+            <DataTable>
+              {(ingredients.strIngredient || []).map((ingredient, index) => (
+                <DataTable.Row key={index}>
+                  <DataTable.Cell>
+                    <TextInput
+                      style={styles.textInput}
+                      value={ingredient}
+                      placeholder="Ingredient"
+                      placeholderTextColor="#CCC7B9"
+                      onChangeText={(text) => handleEditIngredient(text, index)}
+                    />
+                  </DataTable.Cell>
+                  <DataTable.Cell>
+                    <TextInput
+                      style={styles.textInput}
+                      value={ingredients.strMeasure[index]}
+                      placeholder="Measure"
+                      placeholderTextColor="#CCC7B9"
+                      onChangeText={(text) => handleEditMeasure(text, index)}
+                    />
+                  </DataTable.Cell>
+                  <IconButton
+                    icon="delete"
+                    size={20}
+                    onPress={() => handleDeleteIngredient(index)}
+                  />
+                </DataTable.Row>
+              ))}
+            </DataTable>
+            <Pressable style={styles.addButton} onPress={handleAddIngredient}>
+              <Text style={styles.buttonText}>+ Add Ingredient</Text>
+            </Pressable>
+          </View>
         </Card>
 
-        <Button onPress={handleSave}>Save Changes</Button>
+        <Card style={styles.cardContainer}>
+          <View style={styles.cardContainer2}>
+            <Title style={styles.title}>Categories</Title>
+            <TextInput
+              style={styles.textInput}
+              value={instructions || recipe2.strInstructions}
+              onChangeText={handleEditInstructions}
+              multiline
+            />
+          </View>
+        </Card>
+
+        <Pressable style={styles.saveButton} onPress={handleSave}>
+          <Text style={styles.buttonText}>Save</Text>
+        </Pressable>
       </View>
     </ScrollView>
   )
@@ -231,10 +239,8 @@ const styles = StyleSheet.create({
 
   },
   cardContainer: {
-
     marginHorizontal: 8,
     marginVertical: 8,
-
   },
   cardContainer2: {
 
@@ -250,6 +256,31 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   textInput: {
-    margin: 15,
-},
+    margin: 10,
+    minWidth: 120,
+  },
+  title: {
+    margin: 10, 
+  },
+  addButton: {
+	  alignItems: 'center',
+	  justifyContent: 'center',
+	  paddingVertical: 5,
+	  marginHorizontal: 10,
+	  marginVertical: 5,
+	  borderRadius: 3,
+	  elevation: 3,
+	  backgroundColor: '#898989',
+	},
+  saveButton: {
+	  alignItems: 'center',
+    height: 50,
+	  justifyContent: 'center',
+	  paddingVertical: 5,
+	  marginHorizontal: 10,
+	  marginVertical: 20,
+	  borderRadius: 3,
+	  elevation: 3,
+    backgroundColor: '#109648',
+	},
 })

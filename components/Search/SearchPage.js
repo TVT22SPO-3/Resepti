@@ -4,7 +4,7 @@ import SearchBar from './SearchBar'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import SmallRecipeCard from '../RecipeCard/SmallRecipeCard'
 import { Button, Chip } from 'react-native-paper'
-import { SearchByIngredient, SearchByName } from '../../FirebaseDB/SearchBy'
+import { SearchByArea, SearchByIngredient, SearchByName, SearchByCategories} from '../../FirebaseDB/SearchBy'
 import { fetchMealByName, fetchMealsByArea, fetchMealsByCategory, fetchMealsByMainIngredient } from '../TheMealDB/SearchBy'
 
 
@@ -13,12 +13,14 @@ export default function SearchPage() {
 
   const route = useRoute()
   const { SearchTerm } = route.params || {}
-  const [datafbName, setDataFbName] = useState([]);
-  const [dataIngr, setDataIngr] = useState([]);
-  const [dataName, setDataName] = useState([]);
-  const [dataCategory, setDataCategory] = useState([]);
-  const [dataArea, setDataArea] = useState([]);
-  const [dataMainIngre, setDataMainIngre] = useState([]);
+  const [datafbName, setDataFbName] = useState([])
+  const [dataIngr, setDataIngr] = useState([])
+  const [dataName, setDataName] = useState([])
+  const [dataCategory, setDataCategory] = useState([])
+  const [dataArea, setDataArea] = useState([])
+  const [dataMainIngre, setDataMainIngre] = useState([])
+  const [dataAreaFB, setDataAreaFB] = useState([])
+  const [dataCategoryFB, setDataCategoryFB] = useState([])
   const sectionRef = useRef(0) 
 
   const ScrollToSection = (index)  => {
@@ -37,16 +39,20 @@ export default function SearchPage() {
       
       console.log("SearchTerm", SearchTerm)
       try {
+        const categoryFB = await SearchByCategories(SearchTerm)
+        console.log("Firebase Category", categoryFB)
+        const areaFB = await SearchByArea(SearchTerm)
+        console.log("Firebase Area", areaFB)
         const MainIngre = await fetchMealsByMainIngredient(SearchTerm)
         console.log("Main ingredient", MainIngre)
         const area = await fetchMealsByArea(SearchTerm)
         console.log("area", area)
         const name = await SearchByName(SearchTerm)
-        console.log("SearchbarData", datafbName)
+        console.log("SearchbarData", name)
         const Ingr = await SearchByIngredient(SearchTerm)
-        console.log("SearchDataIngr", dataIngr)
+        console.log("SearchDataIngr", Ingr)
         const name2 = await fetchMealByName(SearchTerm)
-        console.log("dataName", dataName)
+        console.log("dataName", name2)
         const category = await fetchMealsByCategory(SearchTerm)
         console.log("Category", category)
         console.log("length", datafbName.length, "/", dataIngr.length, "/", dataName.length, "/", dataCategory.length, "/", dataArea.length, "/", dataMainIngre.length)
@@ -66,6 +72,8 @@ export default function SearchPage() {
         setDataCategory(category || [])
         setDataArea(area || [])
         setDataMainIngre(MainIngre || [] )
+        setDataAreaFB(areaFB || [])
+        setDataCategoryFB(categoryFB || [] )
 
       } catch (error) {
 
@@ -101,6 +109,14 @@ export default function SearchPage() {
     {
       title: 'Area',
       data: dataArea
+    },
+    {
+      title: 'Area Firebase',
+      data: dataAreaFB
+    },
+    {
+      title: 'Category Firebase',
+      data: dataCategoryFB
     }
   ]
 

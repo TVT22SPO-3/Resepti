@@ -16,7 +16,7 @@ export default function FullEditRecipeCard() {
   const [areaText, setAreaText] = useState('');
   const [recipeName, setRecipeName] = useState('');
   const [instructions, setInstructions] = useState('');
-  const [ingredients, setIngredients] = useState({ strIngredient: [], strMeasure: [] });
+  const [existingIngredients, setExistingIngredients] = useState({ strIngredient: [], strMeasure: [] });
   const [newIngredient, setNewIngredient] = useState({ name: '', measure: '' });
 
   useEffect(() => {
@@ -29,11 +29,11 @@ export default function FullEditRecipeCard() {
           fetchMeal.username = "TheMealDB"
           fetchMeal.date = ""
           setRecipe2(fetchMeal)
-          const existingIngredients = {
+          const existingIngredientsData = {
             strIngredient: fetchMeal.ingredients,
             strMeasure: Array(fetchMeal.ingredients.length).fill('')
           };
-          setIngredients(existingIngredients);
+          setExistingIngredients(existingIngredientsData);
           console.log("recipe2:", recipe2)
         } catch (error) {
           console.log("errorGetmeal", error)
@@ -44,11 +44,11 @@ export default function FullEditRecipeCard() {
           const DocById = await SearchByDocId(itemid)
           console.log("GetDoc", DocById)
           setRecipe2(DocById)
-          const existingIngredients = {
+          const existingIngredientsData = {
             strIngredient: DocById.ingredients,
             strMeasure: Array(DocById.ingredients.length).fill('')
           };
-          setIngredients(existingIngredients);
+          setExistingIngredients(existingIngredientsData);
         } catch (error) {
           console.log("errorGetMealFB", error)
         }
@@ -81,18 +81,6 @@ export default function FullEditRecipeCard() {
     }));
   }
 
-  const handleEditIngredient = (text, index) => {
-    const updatedIngredients = { ...ingredients };
-    updatedIngredients.strIngredient[index] = text;
-    setIngredients(updatedIngredients);
-  }
-
-  const handleEditMeasure = (text, index) => {
-    const updatedIngredients = { ...ingredients };
-    updatedIngredients.strMeasure[index] = text;
-    setIngredients(updatedIngredients);
-  }
-
   const handleEditRecipeName = (text) => {
     setRecipeName(text);
     setRecipe2(prevRecipe => ({
@@ -107,16 +95,23 @@ export default function FullEditRecipeCard() {
       category: categoryText,
       area: areaText,
       instructions,
-      ...ingredients
+      ...existingIngredients
     });
     // Here you can implement logic to save changes, like sending to an API, etc.
   }
 
   const handleAddIngredient = () => {
-    const updatedIngredients = { ...ingredients };
+    const updatedIngredients = { ...existingIngredients };
     updatedIngredients.strIngredient.push('');
     updatedIngredients.strMeasure.push('');
-    setIngredients(updatedIngredients);
+    setExistingIngredients(updatedIngredients);
+  }
+
+  const handleDeleteIngredient = (index) => {
+    const updatedIngredients = { ...existingIngredients };
+    updatedIngredients.strIngredient.splice(index, 1);
+    updatedIngredients.strMeasure.splice(index, 1);
+    setExistingIngredients(updatedIngredients);
   }
 
   return (
@@ -128,6 +123,7 @@ export default function FullEditRecipeCard() {
         <Card style={styles.cardContainer}>
           <View style={styles.cardContainer2}>
             <View style={styles.container2}>
+              <Text>Recipe name</Text>
               <TextInput
                 style={styles.textInput}
                 value={recipeName || recipe2.strMeal}
@@ -135,6 +131,7 @@ export default function FullEditRecipeCard() {
               />
             </View>
             <View style={styles.container2}>
+              <Text>Category</Text>
               <TextInput
                 style={styles.textInput}
                 value={categoryText || recipe2.strCategory}
@@ -142,6 +139,7 @@ export default function FullEditRecipeCard() {
               />
             </View>
             <View style={styles.container2}>
+              <Text>Area</Text>
               <TextInput
                 style={styles.textInput}
                 value={areaText || recipe2.strArea}
@@ -154,10 +152,10 @@ export default function FullEditRecipeCard() {
         <Card style={styles.cardContainer}>
           <DataTable>
             <DataTable.Header>
-              <DataTable.Title>Ingredients</DataTable.Title>
+              <DataTable.Title>Existing Ingredients</DataTable.Title>
               <DataTable.Title numeric>Measure</DataTable.Title>
             </DataTable.Header>
-            {(ingredients.strIngredient || []).map((ingredient, index) => (
+            {(existingIngredients.strIngredient || []).map((ingredient, index) => (
               <DataTable.Row key={index}>
                 <DataTable.Cell>
                   <TextInput
@@ -169,9 +167,12 @@ export default function FullEditRecipeCard() {
                 <DataTable.Cell>
                   <TextInput
                     style={styles.textInput}
-                    value={ingredients.strMeasure[index]}
+                    value={existingIngredients.strMeasure[index]}
                     onChangeText={(text) => handleEditMeasure(text, index)}
                   />
+                </DataTable.Cell>
+                <DataTable.Cell>
+                  <IconButton icon="delete" onPress={() => handleDeleteIngredient(index)} />
                 </DataTable.Cell>
               </DataTable.Row>
             ))}
@@ -200,8 +201,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container2: {
-    flexDirection: 'row',
-    alignItems: 'center'
+
   },
   cardContainer: {
 

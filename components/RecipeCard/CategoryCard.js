@@ -19,7 +19,7 @@ export default function CategoryCard({ item }) {
           console.log("category:", SearchTerm)
           const dataCategory = await fetchMealByCategory(SearchTerm)
           console.log("SearchDataCategory", dataCategory)
-          navigation.navigate('SearchPage', { SearchData: dataCategory })
+          navigation.navigate('SearchPage', { SearchTerm: SearchTerm })
 
       } catch (error) {
 

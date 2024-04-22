@@ -17,16 +17,7 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
     } else {
       addToFavorites(item);
     }
-  };
-
-
-
-  const handleFavorites = () => {
-    if (item.isFavorite) {
-      removeFromFavorites(item);
-    } else {
-      addToFavorites(item);
-    }
+  }  
 
   const handleSeeRecipe = () => {
     navigation.navigate('FullRecipeCard', { itemid: item.idMeal });
@@ -34,16 +25,12 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
 
   const handleEditRecipe = () => {
     navigation.navigate('FullEditRecipeCard', { itemid: item.idMeal });
-
   };
 
   return (
     <Card style={styles.container}>
       <Card.Cover source={{ uri: item.strMealThumb }} />
       <Card.Title title={item.strMeal} />
-      <Card.Actions>
-        <Button onPress={handleFavorites}>{item.isFavorite ? 'Remove ' : 'Add to Favorites'}</Button>
-        <Button onPress={SeeRecipe}>See recipe!</Button>
       <Card.Actions style={styles.actionsContainer}>
         {item.uid === user.uid && user.uid !== undefined && (
           <Button style={styles.editButton} onPress={handleEditRecipe}>
@@ -64,21 +51,20 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
           size={35}
           onPress={handleSeeRecipe}
         />
-
-
       </Card.Actions>
     </Card>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     width: 300,
+  },
+  editButton: {
 
   },
-  editButton: {},
   actionsContainer: {
-
 
   },
 });

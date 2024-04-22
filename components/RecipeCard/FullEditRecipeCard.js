@@ -4,10 +4,14 @@ import { Card, DataTable, IconButton, TextInput, Button } from 'react-native-pap
 import { useNavigation, useNavigationState, useRoute } from '@react-navigation/native'
 import { fetchMealById } from '../TheMealDB/SearchBy'
 import { SearchByDocId } from '../../FirebaseDB/SearchBy'
+import { useAuth } from '../../context/useAuth'
+import { doc, updateDoc, getDoc, where, collection, firestore} from '../../firebase/config';
+import { set } from 'firebase/database'
 
 
 export default function FullEditRecipeCard() {
   const navigation = useNavigationState(state => state.routes[state.index].state)
+  const { user } = useAuth();
   const route = useRoute()
   const { itemid } = route.params
   const [recipe2, setRecipe2] = useState("")
@@ -26,10 +30,15 @@ export default function FullEditRecipeCard() {
         console.log("GetDoc", DocById)
         setRecipe2(DocById)
         const existingIngredients = {
-          strIngredient: DocById.ingredients || [], // Add a fallback in case ingredients is undefined
-          strMeasure: DocById.strMeasure || [] // Add a fallback in case strMeasure is undefined
+          strIngredient: DocById.strIngredient || [], 
+          strMeasure: DocById.strMeasure || [], 
         };
+        setRecipeName(DocById.strMeal);
+        setInstructions(DocById.strInstructions);
+        setAreaText(DocById.strArea);
+        setCategoryText(DocById.strCategory);
         setIngredients(existingIngredients);
+        console.log(existingIngredients);
       } catch (error) {
         console.log("errorGetMealFB", error)
       }
@@ -81,15 +90,35 @@ export default function FullEditRecipeCard() {
     }));
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     console.log("Saved changes:", {
-      recipeName,
-      category: categoryText,
-      area: areaText,
-      instructions,
+      strMeal: recipeName,
+      strCategory: categoryText,
+      strArea: areaText,
+      strInstructions: instructions,
       ...ingredients
     });
-    // Here you can implement logic to save changes, like sending to an API, etc.
+
+    console.log(user.uid);
+    console.log(itemid);
+
+
+    const docRef = doc(collection(firestore, "recipes"), itemid);
+
+    try {
+        await updateDoc(docRef, {
+          strMeal: recipeName,
+          strCategory: categoryText,
+          strArea: areaText,
+          strInstructions: instructions,
+          ...ingredients
+        })
+        console.log("Recipe updated!")
+
+    } catch (error) {
+        console.log("Recipe update failed", error)
+    }
+
   }
 
   const handleAddIngredient = () => {
@@ -145,7 +174,7 @@ export default function FullEditRecipeCard() {
         <Card style={styles.cardContainer}>
           <DataTable>
             <DataTable.Header>
-              <DataTable.Title>Existing Ingredients</DataTable.Title>
+              <DataTable.Title>Ingredients</DataTable.Title>
               <DataTable.Title numeric>Measure</DataTable.Title>
             </DataTable.Header>
             {(ingredients.strIngredient || []).map((ingredient, index) => (
@@ -172,36 +201,11 @@ export default function FullEditRecipeCard() {
               </DataTable.Row>
             ))}
           </DataTable>
-        </Card>
-
-        {/* DataTable for new ingredients */}
-        <Card style={styles.cardContainer}>
-          <DataTable>
-            <DataTable.Header>
-              <DataTable.Title>New Ingredients</DataTable.Title>
-              <DataTable.Title numeric>Measure</DataTable.Title>
-            </DataTable.Header>
-            {(newIngredient.strIngredient || []).map((ingredient, index) => (
-              <DataTable.Row key={index}>
-                <DataTable.Cell>
-                  <TextInput
-                    style={styles.textInput}
-                    value={ingredient}
-                    onChangeText={(text) => handleEditIngredient(text, index)}
-                  />
-                </DataTable.Cell>
-                <DataTable.Cell>
-                  <TextInput
-                    style={styles.textInput}
-                    value={newIngredient.strMeasure[index]}
-                    onChangeText={(text) => handleEditMeasure(text, index)}
-                  />
-                </DataTable.Cell>
-              </DataTable.Row>
-            ))}
-          </DataTable>
           <Button icon="plus" mode="contained" onPress={handleAddIngredient}>Add Ingredient</Button>
         </Card>
+
+       
+          
 
         <Card style={styles.cardContainer}>
           <TextInput

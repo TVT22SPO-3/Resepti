@@ -4,6 +4,7 @@ import { Card, DataTable } from 'react-native-paper'
 import { useNavigation, useNavigationState, useRoute } from '@react-navigation/native'
 import { fetchMealById } from '../TheMealDB/SearchBy'
 import { SearchByDocId } from '../../FirebaseDB/SearchBy'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function FullRecipeCard() {
 
@@ -153,7 +154,11 @@ getRecipe()
             <Pressable onPress={toggleAccordion}>
               <DataTable.Header>
                 <DataTable.Title>Ingredients</DataTable.Title>
-                <DataTable.Title>Show Ingredients</DataTable.Title>
+                {show ? 
+                  <MaterialCommunityIcons name="chevron-up" color={'black'} size={40} /> 
+                  : 
+                  <MaterialCommunityIcons name="chevron-down" color={'black'} size={40} />  
+				        }
                 <DataTable.Title numeric>Measure</DataTable.Title>
               </DataTable.Header>
             </Pressable>
@@ -174,8 +179,13 @@ getRecipe()
         </Card>
         <Pressable onPress={accordionInst}>
           <Card style={styles.cardContainer}>
-            <View style={styles.cardContainer}>
+            <View style={styles.cardContainer3}>
               <Text style={styles.texti}>Show instructions</Text>
+              {show ? 
+                <MaterialCommunityIcons name="chevron-up" color={'black'} size={40} /> 
+                : 
+                <MaterialCommunityIcons name="chevron-down" color={'black'} size={40} />  
+				      }
             </View>
             {showInst && (
               <View style={styles.cardContainer}>
@@ -201,10 +211,13 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   cardContainer: {
-
     marginHorizontal: 8,
     marginVertical: 8,
-
+  },
+  cardContainer3: {
+    alignItems: 'center',
+    marginHorizontal: 8,
+    marginVertical: 8,
   },
   cardContainer2: {
     flexDirection: 'row',

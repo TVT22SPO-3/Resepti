@@ -1,6 +1,6 @@
 import { View, ScrollView, Text, StyleSheet, Pressable, Image, TouchableOpacity, Alert } from 'react-native'
 import React, { useState, useEffect} from 'react'
-import { DataTable, TextInput, Picker, Button, Title, Chip, Dialog, Paragraph, Button as PaperButton } from 'react-native-paper';
+import { DataTable, TextInput, Picker, Button, Title, Chip, Dialog, Paragraph, Button as PaperButton, Snackbar } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RequestStoragePermission from '../Permissions';
 import * as ImagePicker from 'expo-image-picker';
@@ -30,7 +30,8 @@ function AddRecipes() {
 	const [area, setArea] = useState('');
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [showNotification, setShowNotification] = useState(false);
-	const [dialogVisible, setDialogVisible] = useState(false);
+	const [snackbarVisible, setSnackbarVisible] = useState(false);
+	const onDismissSnackBar = () => setVisible(false);
 
 	const handleImageChange = (imageUri) => {
 		setSelectedImage(imageUri);
@@ -109,10 +110,11 @@ function AddRecipes() {
 				date: serverTimestamp()
 			});
 			clearInputs();
-			setDialogVisible(true);
+			setSnackbarVisible(true);
 			console.log('Recipe saved successfully.');		
 
 		} catch (error) {
+			
 			console.error('Error saving recipe: ', error);
 		}
 		  
@@ -153,15 +155,15 @@ function AddRecipes() {
             <Pressable style={styles.saveButton} onPress={saveRecipe}>
                 <Text style={styles.buttonText}>Save</Text>
             </Pressable>
-			<Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
-				<Dialog.Title>Recipe created</Dialog.Title>
-				<Dialog.Content>
-					<Paragraph>Recipe added succesfully. You can browse your recipes in profile.</Paragraph>
-				</Dialog.Content>
-				<Dialog.Actions>
-					<PaperButton onPress={() => setDialogVisible(false)}>Close</PaperButton>
-				</Dialog.Actions>
-			</Dialog>
+			<Snackbar
+				visible={snackbarVisible}
+				onDismiss={onDismissSnackBar}
+				duration={3000}
+				action={{
+					label: 'Ok',
+				}}>
+          		Recipe created!
+        	</Snackbar>
         </ScrollView>
     );
 }

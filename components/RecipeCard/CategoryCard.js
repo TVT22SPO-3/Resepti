@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Styles from '../../Styles';
 import { useTheme } from '../../context/useTheme';
-import { fetchMealsByCategory } from '../TheMealDB/SearchBy';
+import { fetchMealByCategory } from '../TheMealDB/SearchBy';
 
 export default function CategoryCard({ item }) {
   const {isDarkMode} = useTheme()
@@ -17,7 +17,7 @@ export default function CategoryCard({ item }) {
         
         try {
           console.log("category:", SearchTerm)
-          const dataCategory = await fetchMealsByCategory(SearchTerm)
+          const dataCategory = await fetchMealByCategory(SearchTerm)
           console.log("SearchDataCategory", dataCategory)
           navigation.navigate('SearchPage', { SearchData: dataCategory })
 

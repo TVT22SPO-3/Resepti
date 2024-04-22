@@ -6,11 +6,12 @@ import SmallRecipeCard from '../RecipeCard/SmallRecipeCard'
 import { Button, Chip } from 'react-native-paper'
 import { SearchByIngredient, SearchByName } from '../../FirebaseDB/SearchBy'
 import { fetchMealByName, fetchMealsByArea, fetchMealsByCategory, fetchMealsByMainIngredient } from '../TheMealDB/SearchBy'
-
+import Styles from '../../Styles'
+import { useTheme } from '../../context/useTheme'
 
 
 export default function SearchPage() {
-
+  const {isDarkMode} = useTheme()
   const route = useRoute()
   const { SearchTerm } = route.params || {}
   const [datafbName, setDataFbName] = useState([]);
@@ -110,22 +111,23 @@ export default function SearchPage() {
   //  console.log("SearchPage", SearchData)
   return (
  
-    <View>
-      <View style={styles.containerExp}>
+    <View style={[isDarkMode ? Styles.dark : Styles.light]}>
+      <View style={[styles.containerExp,isDarkMode ? Styles.dark : Styles.light]}>
         <SearchBar />
       </View>
 
-      <View style={styles.buttonContainer}>
+      <View style={[styles.buttonContainer,isDarkMode ? Styles.dark : Styles.light]}>
         {title.map((section, index) => (
           section.data && section.data.length > 0 &&(
           <Chip key={index} onPress={() => ScrollToSection(index)}>{section.title} ({section.data.length})</Chip>
         )))}
         
-        <View style={styles.container}>
+        <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
 
           <SectionList
           ref={sectionRef}
             sections={title}
+            style={isDarkMode ? Styles.dark : Styles.light}
             keyExtractor={(item, index) => item.idMeal + index}
             renderItem={({ item }) => (
               <View style={styles.container1}>
@@ -135,7 +137,7 @@ export default function SearchPage() {
             renderSectionHeader={({ section: { title, data } }) => (
               data && data.length > 0 && (
                 <View>
-                  <Text>{title}</Text>
+                  <Text style={isDarkMode ? Styles.dark : Styles.light}>{title}</Text>
                 </View>
               )
             )}
@@ -174,6 +176,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
+    rowGap: 5,
+    columnGap: 5,
   },
 
 })

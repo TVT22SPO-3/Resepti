@@ -6,8 +6,11 @@ import { firestore, collection, getDocs, deleteDoc, doc } from '../firebase/conf
 import { useNavigation } from '@react-navigation/native';
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 import FavoritesCard from './RecipeCard/FavoritesCard';
+import Styles from '../Styles';
+import { useTheme } from '../context/useTheme';
 
 export default function FavoriteRecipesCard({ item }) {
+  const {isDarkMode} = useTheme()
   const navigation = useNavigation();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -47,8 +50,8 @@ export default function FavoriteRecipesCard({ item }) {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={toggleAccordion} style={styles.button}>
-        <Text style={styles.buttonText}>Favorite Recipes</Text>
+      <Pressable onPress={toggleAccordion} style={[styles.button,isDarkMode ? Styles.dark : Styles.light ]}>
+        <Text style={[styles.buttonText,isDarkMode ? Styles.dark : Styles.light]}>Favorite Recipes</Text>
         <MaterialCommunityIcons
           name={isOpen ? 'arrow-up-thick' : 'arrow-down-thick'}
           size={24}

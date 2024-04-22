@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../context/useTheme';
 import { useAuth } from '../../context/useAuth';
+import Styles from '../../Styles';
 
 export default function SmallRecipeCard({ item, addToFavorites, removeFromFavorites }) {
   const { isDarkMode } = useTheme();
@@ -21,12 +22,6 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
 
 
 
-  const handleFavorites = () => {
-    if (item.isFavorite) {
-      removeFromFavorites(item);
-    } else {
-      addToFavorites(item);
-    }
 
   const handleSeeRecipe = () => {
     navigation.navigate('FullRecipeCard', { itemid: item.idMeal });
@@ -38,12 +33,9 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
   };
 
   return (
-    <Card style={styles.container}>
+    <Card style={[styles.container,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
       <Card.Cover source={{ uri: item.strMealThumb }} />
-      <Card.Title title={item.strMeal} />
-      <Card.Actions>
-        <Button onPress={handleFavorites}>{item.isFavorite ? 'Remove ' : 'Add to Favorites'}</Button>
-        <Button onPress={SeeRecipe}>See recipe!</Button>
+      <Card.Title title={item.strMeal} titleStyle={[styles.title,isDarkMode ? Styles.darkCard : Styles.lightCard]}/>
       <Card.Actions style={styles.actionsContainer}>
         {item.uid === user.uid && user.uid !== undefined && (
           <Button style={styles.editButton} onPress={handleEditRecipe}>
@@ -80,5 +72,8 @@ const styles = StyleSheet.create({
   actionsContainer: {
 
 
+  },
+  title:{
+    fontSize: 20,
   },
 });

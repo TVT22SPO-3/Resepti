@@ -25,7 +25,7 @@ export default function Stacknav({ initialRoute }) {
     <>
       <TopBar />
       <Stack.Navigator
-        style={isDarkMode ? Styles.dark : Styles.light}
+        style={[isDarkMode ? Styles.dark : Styles.light]}
         screenOptions={{
           headerShown: false,
           /*headerRight: () => <ThemeSwitchButton />, */

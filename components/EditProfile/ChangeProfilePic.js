@@ -7,7 +7,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { storage, ref, uploadBytes, getDownloadURL, auth } from '../../firebase/config';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { useAuth } from '../../context/useAuth'
-
+import { useTheme } from '../../context/useTheme';
+import Styles from '../../Styles';
 
 
 export default function ChangeProfilePic(){
@@ -16,6 +17,7 @@ export default function ChangeProfilePic(){
     const [selectedImage, setSelectedImage] = useState(null);
     const { user } = useAuth();
     const [avatarUrl, setAvatarUrl] = useState(user.photoURL);
+    const {isDarkMode} = useTheme()
 
     const toggleAccordion = () => {
         setIsOpen(!isOpen)
@@ -80,11 +82,11 @@ export default function ChangeProfilePic(){
     };
 
     return(
-        <View style={{ paddingTop: 12 }}>
-            <Card style={styles.container1}>
+        <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+            <Card style={[styles.container1,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
               <Pressable onPress={toggleAccordion}>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.texti2}>CHANGE PROFILE PICTURE</Text>
+                <View style={[styles.infoContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                  <Text style={[styles.texti2,isDarkMode ? Styles.darkCard : Styles.lightCard]}>CHANGE PROFILE PICTURE</Text>
                   <MaterialCommunityIcons
                     name='arrow-down-thick'
                     size={24}
@@ -92,8 +94,8 @@ export default function ChangeProfilePic(){
                 </View>
               </Pressable>
               {isOpen && (
-                <View style={styles.container2}>
-                  <View style={styles.container3}>
+                <View style={[styles.container2,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                  <View style={[styles.container3,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                     {avatarUrl ? (
                         <Avatar.Image size={70} source={{ uri: avatarUrl }} />
                         ) : (
@@ -122,6 +124,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#faebd7',
     marginHorizontal: 12,
   },
+  container:{
+    marginTop: 12,
+  },
   container2: {
     flex: 1, 
     flexDirection: 'row',
@@ -140,11 +145,12 @@ const styles = StyleSheet.create({
   texti2: {
     fontSize: 18,
     textAlign: 'center',
-    paddingRight: 24
+    paddingRight: 24,
   },
   infoContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     paddingVertical: 4,
+    borderRadius:10,
   },
 });

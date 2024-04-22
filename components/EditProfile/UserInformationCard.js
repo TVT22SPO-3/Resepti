@@ -8,12 +8,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { firestore } from '../../firebase/config'
 import { doc, updateDoc, getDoc, where, collection } from '../../firebase/config';
 import { querySnapshot, onSnapshot, query, docSnapshot } from 'firebase/firestore';
+import Styles from '../../Styles'
+import { useTheme } from '../../context/useTheme'
 
 
 export default function UserInformationCard() {
 
     const { user } = useAuth()
-
+    const {isDarkMode} = useTheme()
     const [newfname, setNewfname] = useState("")
     const [newlname, setNewlname] = useState("")
     const [newEmail, setNewEmail] = useState("")
@@ -107,10 +109,10 @@ export default function UserInformationCard() {
     }
 
     return (
-        <Card style={styles.container3}>
+        <Card style={[styles.container3,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
             <Pressable onPress={toggleAccordion}>
                 <View style={styles.infoContainer}>
-                    <Text style={styles.texti2}>INFORMATION</Text>
+                    <Text style={[styles.texti2,isDarkMode ? Styles.darkCard : Styles.lightCard]}>INFORMATION</Text>
 
                     <MaterialCommunityIcons
                         name='arrow-down-thick'
@@ -123,55 +125,54 @@ export default function UserInformationCard() {
 
             {isOpen && (
                 <View>
-                    <View style={styles.container4}>
-                        <View style={styles.container5}>
+                    <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                        <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <MaterialCommunityIcons
                                 name="account"
                                 size={32}
                             />
                         </View>
 
-                        <View style={styles.iconContainer}>
+                        <View style={[styles.iconContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
                                 mode='outlined'
-                                outlineColor='#faebd7'
-                                backgroundColor='#faebd7'
+                                outlineColor='#d3d3d3'
                                 placeholder={profileData.fname}
                                 editable={true}
                                 onChangeText={text => setNewfname(text)}
                             />
                         </View>
 
-                        <View style={styles.container5}>
+                        <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <Button
                                 onPress={Fname}
+                                style={[isDarkMode ? Styles.darkCard : Styles.lightCard]}
                             >
                                 EDIT
                             </Button>
                         </View>
                     </View>
-                    <View style={styles.container4}>
-                        <View style={styles.container5}>
+                    <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                        <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <MaterialCommunityIcons
                                 name="account"
                                 size={32}
                             />
                         </View>
 
-                        <View style={styles.iconContainer}>
+                        <View style={[styles.iconContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
                                 mode='outlined'
-                                outlineColor='#faebd7'
-                                backgroundColor='#faebd7'
+                                outlineColor='#d3d3d3'
                                 placeholder={profileData.lname}
                                 editable={true}
                                 onChangeText={text => setNewlname(text)}
                             />
                         </View>
 
-                        <View style={styles.container5}>
+                        <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <Button
                                 onPress={Lname}>
                                 EDIT
@@ -179,26 +180,25 @@ export default function UserInformationCard() {
                         </View>
                     </View>
 
-                    <View style={styles.container4}>
-                        <View style={styles.container5}>
+                    <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                        <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <MaterialCommunityIcons
                                 name="email"
                                 size={32}
                             />
                         </View>
 
-                        <View style={styles.iconContainer}>
+                        <View style={[styles.iconContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
                                 mode='outlined'
-                                outlineColor='#faebd7'
-                                backgroundColor='#faebd7'
+                                outlineColor='#d3d3d3'
                                 placeholder={user.email}
                                 editable={true}
                                 onChangeText={text => setNewEmail(text)} />
                         </View>
 
-                        <View style={styles.container5}>
+                        <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <Button
                                 onPress={NewEmail}
                             >

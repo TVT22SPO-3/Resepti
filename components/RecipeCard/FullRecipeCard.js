@@ -4,6 +4,8 @@ import { Card, DataTable } from 'react-native-paper'
 import { useNavigation, useNavigationState, useRoute } from '@react-navigation/native'
 import { fetchMealById } from '../TheMealDB/SearchBy'
 import { SearchByDocId } from '../../FirebaseDB/SearchBy'
+import { useTheme } from '../../context/useTheme'
+import Styles from '../../Styles'
 
 export default function FullRecipeCard() {
 
@@ -19,6 +21,8 @@ export default function FullRecipeCard() {
   const [show, setShow] = useState(false)
   const [showInst, setshowInst] = useState(false)
   const [tagArray, setTagArray] = useState([])
+  const {isDarkMode} = useTheme()
+
 
 
 
@@ -106,65 +110,65 @@ getRecipe()
 
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Card style={styles.cardContainer}>
+    <ScrollView style={isDarkMode ? Styles.dark : Styles.light}>
+      <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+        <Card style={[styles.cardContainer, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
           {recipe2 && <Card.Cover resizeMethod="auto" source={{ uri: recipe2.strMealThumb }} />}
         </Card>
 
-        <Card style={styles.cardContainer}>
+        <Card style={[styles.cardContainer, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
           <View style={styles.cardContainer2}>
             <View style={styles.container2}>
-              <Text style={styles.texti}> {recipe2.username}</Text>
+              <Text style={[styles.texti, isDarkMode ? Styles.darkCard : Styles.lightCard]}> {recipe2.username}</Text>
             </View>
             <View style={styles.container2}>
-              <Text style={styles.texti}>{recipe2.date}</Text>
+              <Text style={[styles.texti, isDarkMode ? Styles.darkCard : Styles.lightCard]}>{recipe2.date}</Text>
             </View>
           </View>
         </Card>
 
-        <Card style={styles.cardContainer}>
+        <Card style={[styles.cardContainer, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
           <View style={styles.cardContainer2}>
             <View style={styles.container2}>
-              <Text style={styles.texti}>{recipe2.strCategory}</Text>
+              <Text style={[styles.texti, isDarkMode ? Styles.darkCard : Styles.lightCard]}>{recipe2.strCategory}</Text>
             </View>
             <View style={styles.container2}>
-              <Text style={styles.texti}>{recipe2.strArea}</Text>
+              <Text style={[styles.texti, isDarkMode ? Styles.darkCard : Styles.lightCard]}>{recipe2.strArea}</Text>
             </View>
 
           </View>
         </Card>
         {tagArray.length > 0 && (
-          <Card style={styles.cardContainer}>
-            <View style={styles.cardContainer2}>
+          <Card style={[styles.cardContainer, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+            <View style={[styles.cardContainer2, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
               {
                 tagArray.map((tag, index) => (
 
-                  <View key={index} style={styles.container2}>
-                    <Text style={styles.texti}>{tag}</Text>
+                  <View key={index} style={[styles.container2, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                    <Text style={[styles.texti, isDarkMode ? Styles.darkCard : Styles.lightCard]}>{tag}</Text>
                   </View>
                 ))
               }
             </View>
           </Card>
         )}
-        <Card style={styles.cardContainer}>
-          <DataTable>
+        <Card style={[styles.cardContainer, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+          <DataTable >
             <Pressable onPress={toggleAccordion}>
-              <DataTable.Header>
-                <DataTable.Title>Ingredients</DataTable.Title>
-                <DataTable.Title>Show Ingredients</DataTable.Title>
-                <DataTable.Title numeric>Measure</DataTable.Title>
+              <DataTable.Header >
+                <DataTable.Title textStyle={isDarkMode ? Styles.darkCard : Styles.lightCard}>Ingredients</DataTable.Title>
+                <DataTable.Title textStyle={isDarkMode ? Styles.darkCard : Styles.lightCard}>Show Ingredients</DataTable.Title>
+                <DataTable.Title textStyle={isDarkMode ? Styles.darkCard : Styles.lightCard} numeric>Measure</DataTable.Title>
               </DataTable.Header>
             </Pressable>
             {show && (
-              <View>
+              <View >
                 {
                   ingreArray.map((ingredient, index) => (
 
-                    <DataTable.Row key={index}>
-                      <DataTable.Cell>{ingredient}</DataTable.Cell>
-                      <DataTable.Cell numeric>{measureArray[index]}</DataTable.Cell>
+                    <DataTable.Row  key={index}>
+                      <DataTable.Cell textStyle={isDarkMode ? Styles.darkCard : Styles.lightCard}>{ingredient}</DataTable.Cell>
+                      <DataTable.Cell textStyle={isDarkMode ? Styles.darkCard : Styles.lightCard} numeric>{measureArray[index]}</DataTable.Cell>
                     </DataTable.Row>
                   ))
                 }
@@ -172,15 +176,15 @@ getRecipe()
             )}
           </DataTable>
         </Card>
-        <Pressable onPress={accordionInst}>
-          <Card style={styles.cardContainer}>
-            <View style={styles.cardContainer}>
-              <Text style={styles.texti}>Show instructions</Text>
+        <Pressable onPress={accordionInst} >
+          <Card style={[styles.cardContainer, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+            <View style={[styles.cardContainer, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+              <Text style={[styles.texti, isDarkMode ? Styles.darkCard : Styles.lightCard]}>Show instructions</Text>
             </View>
             {showInst && (
-              <View style={styles.cardContainer}>
+              <View style={[styles.cardContainer, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
 
-                <Text style={styles.text2}>{recipe2.strInstructions}</Text>
+                <Text style={[styles.text2, isDarkMode ? Styles.darkCard : Styles.lightCard]}>{recipe2.strInstructions}</Text>
 
               </View>
             )}
@@ -194,7 +198,6 @@ getRecipe()
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
   },
   container2: {
     flex: 1,

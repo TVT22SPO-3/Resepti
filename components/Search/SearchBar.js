@@ -78,6 +78,7 @@ textAlign: 'center'
         alignItems: 'center',
         marginBottom: 5,
         marginHorizontal: 44,
+        columnGap:10,
     },
     input: {
         flex: 1,

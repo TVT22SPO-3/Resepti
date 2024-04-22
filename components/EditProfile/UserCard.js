@@ -9,23 +9,26 @@ import { useNavigation } from '@react-navigation/native';
 import Login from '../../screens/Login';
 import Stacknav from '../Stacknav';
 import BottomNavbar from '../BottomNavbar';
+import Styles from '../../Styles';
+import { useTheme } from '../../context/useTheme';
 
 
 
 export default function UserCard() {
+    const {isDarkMode} = useTheme()
     const { user } = useAuth() 
     const navigation = useNavigation();
 
     return (
       <View>
-        <Card style={styles.container}>
+        <Card style={[styles.container,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
           <View style={styles.container2}>
             {user.photoURL ? (
               <Avatar.Image size={160} source={{ uri: user.photoURL }} />
             ) : (
               <Avatar.Image size={160} source={require('../../assets/trash.png')} />
             )}
-            <Text style={styles.texti}>{user.displayName}</Text>
+            <Text style={[styles.texti,isDarkMode ? Styles.darkCard : Styles.lightCard]}>{user.displayName}</Text>
           </View>
         </Card>
       </View>

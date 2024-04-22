@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button } from 'react-native-paper';
+import { Card, Button, IconButton } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Styles from '../../Styles';
@@ -28,11 +28,15 @@ export default function CategoryCard({ item }) {
     }
 
   return (
-    <Card style={styles.container}>
+    <Card style={[styles.container,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
       <Card.Cover source={{ uri: item.strCategoryThumb }} />
-      <Card.Title title={item.strCategory} />
+      <Card.Title titleStyle={[styles.title,isDarkMode ? Styles.darkCard : Styles.lightCard]} title={item.strCategory} />
       <Card.Actions>
-        <Button onPress={SeeCategory}>Search recipes by this Category!</Button>
+      <IconButton
+          icon='magnify'
+          color='#001219'
+          size={35} 
+          onPress={SeeCategory}/>
       </Card.Actions>
     </Card>
   );
@@ -41,5 +45,8 @@ export default function CategoryCard({ item }) {
 const styles = StyleSheet.create({
   container: {
     width: 300,
+  },
+  title:{
+    fontSize:22,
   },
 });

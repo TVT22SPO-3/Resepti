@@ -13,8 +13,8 @@ import ChangePassword from '../components/EditProfile/ChangePassword'
 import ChangeProfilePic from '../components/EditProfile/ChangeProfilePic'
 import { RefreshControl, GestureHandlerRootView } from 'react-native-gesture-handler'
 import Styles from '../Styles'
-import { useTheme } from '../context/useTheme'
 import FavoriteRecipes from '../components/FavoriteRecipes'
+import { useTheme } from '../context/useTheme'
 
 
 
@@ -39,7 +39,7 @@ export default function Account() {
   };
 
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView >
         <FlatList
         style={[isDarkMode ? Styles.dark : Styles.light]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleReload}/>}

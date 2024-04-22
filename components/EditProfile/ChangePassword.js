@@ -9,6 +9,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { firestore } from '../../firebase/config'
 import { doc, updateDoc, getDoc, where, collection } from '../../firebase/config';
 import { querySnapshot, onSnapshot, query } from 'firebase/firestore';
+import Styles from '../../Styles'
+import { useTheme } from '../../context/useTheme'
+
+
 export default function ChangePassword() {
 
         const { user } = useAuth()
@@ -16,6 +20,7 @@ export default function ChangePassword() {
         const [isOpen, setIsOpen] = useState(false)
         const [newPassword, setNewPassword] = useState("")
         const [newPassword2, setNewPassword2] = useState("")
+        const {isDarkMode} = useTheme()
         const toggleAccordion = () => {
           setIsOpen(!isOpen)
         }
@@ -37,13 +42,13 @@ export default function ChangePassword() {
         }
     
         return (
-          <View style={{ paddingTop: 12 }}>
+          <View style={[styles.containeri,isDarkMode ? Styles.dark : Styles.light]}>
     
     
-            <Card style={styles.container3}>
+            <Card style={[styles.container3,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
               <Pressable onPress={toggleAccordion}>
                 <View style={styles.infoContainer}>
-                  <Text style={styles.texti2}>CHANGE PASSWORD</Text>
+                  <Text style={[styles.texti2,isDarkMode ? Styles.darkCard : Styles.lightCard]}>CHANGE PASSWORD</Text>
     
                   <MaterialCommunityIcons
                     name='arrow-down-thick'
@@ -53,31 +58,29 @@ export default function ChangePassword() {
               </Pressable>
               {isOpen && (
                 <View>
-                  <View style={styles.container4}>
-                    <View style={styles.container5}>
+                  <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                    <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                       <MaterialCommunityIcons
                         name="key"
                         size={32}
                       />
                     </View>
     
-                    <View style={styles.iconContainer}>
+                    <View style={[styles.iconContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                       {showpw ?
                         <TextInput
-                          style={styles.input}
+                          style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
                           mode='outlined'
-                          outlineColor='#faebd7'
-                          backgroundColor='#faebd7'
+                          outlineColor='#d3d3d3'
                           placeholder={"New password"}
                           editable={true}
                           secureTextEntry={true}
                           onChangeText={text => setNewPassword(text)}
                         /> :
                         <TextInput
-                          style={styles.input}
+                          style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
                           mode='outlined'
-                          outlineColor='#faebd7'
-                          backgroundColor='#faebd7'
+                          outlineColor='#d3d3d3'
                           placeholder={"New password"}
                           editable={true}
                           secureTextEntry={false}
@@ -86,38 +89,36 @@ export default function ChangePassword() {
                       }
                     </View>
     
-                    <View style={styles.container5}>
+                    <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                       <Button
                         onPress={show}>
                         <MaterialCommunityIcons name="eye" size={24} />
                       </Button>
                     </View>
                   </View>
-                  <View style={styles.container4}>
-                    <View style={styles.container5}>
+                  <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                    <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                       <MaterialCommunityIcons
                         name="key"
                         size={32}
                       />
                     </View>
     
-                    <View style={styles.iconContainer}>
+                    <View style={[styles.iconContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                       {showpw ?
                         <TextInput
-                          style={styles.input}
+                          style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
                           mode='outlined'
-                          outlineColor='#faebd7'
-                          backgroundColor='#faebd7'
+                          outlineColor='#d3d3d3'
                           placeholder={"Confirm new password"}
                           editable={true}
                           secureTextEntry={true}
                           onChangeText={text => setNewPassword2(text)}
                         /> :
                         <TextInput
-                          style={styles.input}
+                          style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
                           mode='outlined'
-                          outlineColor='#faebd7'
-                          backgroundColor='#faebd7'
+                          outlineColor='#d3d3d3'
                           placeholder={"Confirm new password"}
                           editable={true}
                           secureTextEntry={false}
@@ -190,6 +191,9 @@ export default function ChangePassword() {
         },
         iconContainer: {
           flex: 4
+        },
+        containeri:{
+          marginTop:12,
         }
       });
       

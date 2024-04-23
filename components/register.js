@@ -35,7 +35,7 @@ export default function Register() {
    const available =  await checkUsernameUse(username)
    console.log("available",available)
     setAvailableUser(available)
-    setErrorMessage("Username is already use!")
+    setErrorMessage("Username is already in use!")
   }
 
 

@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Pressable, FlatList, StyleSheet, Image } from 'react-native';
+import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAuth } from '../context/useAuth';
-import { firestore, collection, doc, getDoc } from '../firebase/config';
+import { firestore, doc, getDoc } from '../firebase/config';
 import { useNavigation } from '@react-navigation/native';
 import FavoritesCard from './RecipeCard/FavoritesCard';
 import Styles from '../Styles';
 import { useTheme } from '../context/useTheme';
 import { removeFromFavorites } from './favorites'; // Import removeFromFavorites
+import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
+import { fetchMealById } from './TheMealDB/SearchBy';
+
 
 export default function FavoriteRecipesCard({ item }) {
   const {isDarkMode} = useTheme()
+
+
   const navigation = useNavigation();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -32,17 +37,20 @@ export default function FavoriteRecipesCard({ item }) {
       if (docSnapshot.exists()) {
         const data = docSnapshot.data();
         const favoriteRecipeIDs = data.favorite;
-  
-        // Fetch details of each favorite recipe
-        const promises = favoriteRecipeIDs.map(async (favorite) => {
-          const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${favorite}`);
-          const data = await response.json();
-          return data.meals[0]; // Assuming the API response structure
+        
+        const promises = favoriteRecipeIDs.map(async (favoriteId) => {
+          try {
+            const recipe = await fetchMealById(favoriteId);
+            return recipe;
+          } catch (error) {
+            console.error("Error fetching recipe:", error);
+            return null;
+          }
         });
-  
-        // Wait for all promises to resolve
+
         const favoriteRecipesData = await Promise.all(promises);
-        setFavoriteRecipes(favoriteRecipesData);
+        console.log("Favorite Recipes:", favoriteRecipesData);
+        setFavoriteRecipes(favoriteRecipesData.filter(recipe => recipe !== null));
       } else {
         console.log("Document does not exist");
       }
@@ -51,24 +59,8 @@ export default function FavoriteRecipesCard({ item }) {
     }
   };
 
-  const openRecipe = (recipeId) => {
-    navigation.navigate('FullRecipeCard', { recipeId });
-  };
-
-  const removeFromFavoritesAndUpdate = async (recipeId) => {
-    try {
-      // Remove the recipe from the favoriteRecipes state
-      setFavoriteRecipes(prevRecipes => prevRecipes.filter(recipe => recipe.idMeal !== recipeId));
-  
-      // Call removeFromFavorites function to remove the recipe from the database
-      await removeFromFavorites(user.uid, recipeId);
-    } catch (error) {
-      console.error("Error removing from favorites:", error);
-    }
-  };
-
   const renderSeparator = () => <View style={styles.separator} />;
-/*
+
   return (
     <View style={styles.container}>
       <Pressable onPress={toggleAccordion} style={[styles.button,isDarkMode ? Styles.dark : Styles.light ]}>
@@ -81,34 +73,13 @@ export default function FavoriteRecipesCard({ item }) {
 
       {isOpen && (
         <FlatList
+          horizontal
           data={favoriteRecipes}
-          renderItem={({ item }) => (
-            <FavoritesCard
-              item={item}
-              openRecipe={() => openRecipe(item.idMeal)} 
-              removeFromFavorites={removeFromFavoritesAndUpdate} // Use removeFromFavoritesAndUpdate
-              showRemoveButton={true}
-            />
-          )}
+          renderItem={({ item, index }) => <SmallRecipeCard item={item} key={index} />}
+          ItemSeparatorComponent={renderSeparator}
+          contentContainerStyle={styles.contentContainer}
         />
       )}
-    </View>
-  );*/
-  return (
-    <View style={[styles.container,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
-        <FlatList
-          data={favoriteRecipes}
-          renderItem={({ item }) => (
-            <FavoritesCard
-            item={item}
-            openRecipe={openRecipe}
-            ItemSeparatorComponent={renderSeparator}
-            removeFromFavorites={removeFromFavorites}
-            showRemoveButton 
-          />
-          )}
-          keyExtractor={(item) => item.id}
-        />
     </View>
   );
 }
@@ -116,7 +87,7 @@ export default function FavoriteRecipesCard({ item }) {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 24,
-    paddingBottom:24,
+    paddingBottom: 24,
     justifyContent: 'center',
     alignContent: 'center',
     margin: (24, 24, 24, 24),

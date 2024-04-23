@@ -113,11 +113,17 @@ export default function UserInformationCard() {
             <Pressable onPress={toggleAccordion}>
                 <View style={styles.infoContainer}>
                     <Text style={[styles.texti2,isDarkMode ? Styles.darkCard : Styles.lightCard]}>INFORMATION</Text>
-
-                    <MaterialCommunityIcons
-                        name='arrow-down-thick'
-                        size={24}
+                    {isOpen ? (
+                        <MaterialCommunityIcons
+                        name='chevron-up'
+                        size={32}
                     />
+                    ) : (
+                        <MaterialCommunityIcons
+                        name='chevron-down'
+                        size={32}
+                    />
+                    )}
                 </View>
 
             </Pressable>
@@ -257,11 +263,13 @@ const styles = StyleSheet.create({
     infoContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
+        alignItems: 'center',
         paddingVertical: 4,
     },
     container4: {
         backgroundColor: '#faebd7',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginBottom: 12,
     },
     container5: {
         flex: 1,

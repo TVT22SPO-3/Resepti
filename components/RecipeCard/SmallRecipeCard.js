@@ -25,21 +25,20 @@ export default function SmallRecipeCard({ item }) {
 
 
 
-
   const handleSeeRecipe = () => {
     navigation.navigate('FullRecipeCard', { itemid: item.idMeal });
   };
 
   const handleEditRecipe = () => {
     navigation.navigate('FullEditRecipeCard', { itemid: item.idMeal });
-
   };
 
   return (
     <Card style={styles.container}>
       <Card.Cover source={{ uri: item.strMealThumb }} />
       <Card.Title title={item.strMeal} />
-      <Card.Actions style={styles.actionsContainer}>  
+      <Card.Actions style={styles.actionsContainer}>
+
         {item.uid === user.uid && user.uid !== undefined && (
           <Button style={styles.editButton} onPress={handleEditRecipe}>
             Edit
@@ -59,21 +58,21 @@ export default function SmallRecipeCard({ item }) {
           size={35}
           onPress={handleSeeRecipe}
         />
-
-
       </Card.Actions>
     </Card>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     width: 300,
+    marginBottom: 5,
+  },
+  editButton: {
 
   },
-  editButton: {},
   actionsContainer: {
-
 
   },
 }); 

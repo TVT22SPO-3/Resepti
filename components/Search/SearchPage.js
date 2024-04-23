@@ -4,7 +4,7 @@ import SearchBar from './SearchBar'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import SmallRecipeCard from '../RecipeCard/SmallRecipeCard'
 import { Button, Chip } from 'react-native-paper'
-import { SearchByIngredient, SearchByName } from '../../FirebaseDB/SearchBy'
+import { SearchByArea, SearchByIngredient, SearchByName, SearchByCategories} from '../../FirebaseDB/SearchBy'
 import { fetchMealByName, fetchMealsByArea, fetchMealsByCategory, fetchMealsByMainIngredient } from '../TheMealDB/SearchBy'
 import { fetchUserFavorites, addToFavorites, removeFromFavorites, updateMealFavoriteStatus } from '../favorites';
 
@@ -13,12 +13,15 @@ export default function SearchPage() {
 
   const route = useRoute()
   const { SearchTerm } = route.params || {}
-  const [datafbName, setDataFbName] = useState([]);
-  const [dataIngr, setDataIngr] = useState([]);
-  const [dataName, setDataName] = useState([]);
-  const [dataCategory, setDataCategory] = useState([]);
-  const [dataArea, setDataArea] = useState([]);
-  const [dataMainIngre, setDataMainIngre] = useState([]);
+  const [datafbName, setDataFbName] = useState([])
+  const [dataIngr, setDataIngr] = useState([])
+  const [dataName, setDataName] = useState([])
+  const [dataCategory, setDataCategory] = useState([])
+  const [dataArea, setDataArea] = useState([])
+  const [dataMainIngre, setDataMainIngre] = useState([])
+  const [dataAreaFB, setDataAreaFB] = useState([])
+  const [dataCategoryFB, setDataCategoryFB] = useState([])
+  const [showSearch, setShowSearch] = useState(false);
   const sectionRef = useRef(0) 
 
   const ScrollToSection = (index)  => {
@@ -41,16 +44,20 @@ export default function SearchPage() {
       
       console.log("SearchTerm", SearchTerm)
       try {
+        const categoryFB = await SearchByCategories(SearchTerm)
+        console.log("Firebase Category", categoryFB)
+        const areaFB = await SearchByArea(SearchTerm)
+        console.log("Firebase Area", areaFB)
         const MainIngre = await fetchMealsByMainIngredient(SearchTerm)
         console.log("Main ingredient", MainIngre)
         const area = await fetchMealsByArea(SearchTerm)
         console.log("area", area)
         const name = await SearchByName(SearchTerm)
-        console.log("SearchbarData", datafbName)
+        console.log("SearchbarData", name)
         const Ingr = await SearchByIngredient(SearchTerm)
-        console.log("SearchDataIngr", dataIngr)
+        console.log("SearchDataIngr", Ingr)
         const name2 = await fetchMealByName(SearchTerm)
-        console.log("dataName", dataName)
+        console.log("dataName", name2)
         const category = await fetchMealsByCategory(SearchTerm)
         console.log("Category", category)
         console.log("length", datafbName.length, "/", dataIngr.length, "/", dataName.length, "/", dataCategory.length, "/", dataArea.length, "/", dataMainIngre.length)
@@ -64,13 +71,11 @@ export default function SearchPage() {
 
         // setSearchTerm("")
         //  setSearchData([])
-        setDataFbName(name || [])
-        setDataIngr(Ingr || [])
-        setDataName(name2 || [])
-        setDataCategory(category || [])
-        setDataArea(area || [])
-        setDataMainIngre(MainIngre || [] )
-
+        setDataName([...(name || []), ...(name2 || [])]);
+        setDataIngr([...(Ingr || []), ...(MainIngre || [])])
+        setDataCategory([...(categoryFB || []), ...(category || [])])
+        setDataArea([...(areaFB || []), ...(area || [])])
+        
       } catch (error) {
 
         console.log("SearchBarError", error)
@@ -84,37 +89,32 @@ export default function SearchPage() {
   const title = [
     {
       title: 'Name',
-      data: datafbName
-    },
-    {
-      title: 'Name2',
       data: dataName
     },
+    
     {
       title: 'Ingredient',
       data: dataIngr
     },
-    {
-      title: 'Main Ingredient',
-      data: dataMainIngre
-    },
+    
     {
       title: 'Category',
       data: dataCategory
     },
+    
     {
       title: 'Area',
       data: dataArea
-    }
+    },
+    
+    
   ]
 
  
-
-
   //  console.log("SearchPage", SearchData)
   return (
  
-    <View>
+    <View style={styles.container1}>
       <View style={styles.containerExp}>
         <SearchBar />
       </View>
@@ -143,7 +143,7 @@ export default function SearchPage() {
             renderSectionHeader={({ section: { title, data } }) => (
               data && data.length > 0 && (
                 <View>
-                  <Text>{title}</Text>
+                  <Text style={styles.section}>{title} ({data.length})</Text>
                 </View>
               )
             )}
@@ -158,6 +158,11 @@ export default function SearchPage() {
 }
 
 const styles = StyleSheet.create({
+  section:{
+    paddingVertical: 24,
+    fontSize: 24,
+    
+  },
   containerExp: {
     paddingVertical: 8,
     alignItems: 'center',
@@ -165,13 +170,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   },
   container: {
+    justifyContent:'center',
     paddingTop: 8,
     alignItems: 'center',
-    
 
   },
   container1: {
-
+    flex: 1,
     paddingVertical: 8,
     alignItems: 'center',
 

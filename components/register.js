@@ -1,5 +1,5 @@
 import { View, ScrollView, Text, StyleSheet, Image, Pressable } from 'react-native'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button, Icon, TextInput } from 'react-native-paper'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { firestore, setDoc, addDoc, collection, doc, profile, serverTimestamp, storage, ref, uploadBytes, getDownloadURL } from '../firebase/config';
@@ -10,6 +10,9 @@ import RequestStoragePermission from '../Permissions';
 import * as ImagePicker from 'expo-image-picker';
 import Styles from '../Styles';
 import { useTheme } from '../context/useTheme';
+import * as React from 'react';
+import { secureTextEntry } from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
+import { checkUsernameUse } from '../functions/getProfile';
 
 
 export default function Register() {
@@ -22,7 +25,19 @@ export default function Register() {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
-  const {isDarkMode} = useTheme()
+  const { isDarkMode } = useTheme()
+  const [errorMessage, setErrorMessage] = useState("Create Account!")
+  const [showError, setShowError] = useState(false)
+  const [showPw, setShowPw] = useState(true)
+  const [availableUser, setAvailableUser] = useState()
+
+  const checkUsername = async (username) => {
+   const available =  await checkUsernameUse(username)
+   console.log("available",available)
+    setAvailableUser(available)
+    setErrorMessage("Username is already use!")
+  }
+
 
   const navigation = useNavigation();
 
@@ -31,7 +46,10 @@ export default function Register() {
   };
 
   const submit = async () => {
-    if (password === password2 && email.length > 5) {
+    setShowError(true)
+    checkUsername(username)
+    console.log("availableUser",availableUser)
+    if (password === password2 && email.length > 5 && username.length > 0 && fname.length > 0 && lname.length > 0 && availableUser === true) {
       const auth = getAuth();
 
 
@@ -44,10 +62,10 @@ export default function Register() {
 
 
       await createUserWithEmailAndPassword(auth, email, password)
-        .then(async(userCredential) => {
+        .then(async (userCredential) => {
           console.log(userCredential.user);
           console.log('Account created successfully');
-          
+
           const imageRef = ref(storage, `images/${uniqueFileName}`);
           await uploadBytes(imageRef, blob);
           console.log(selectedImage);
@@ -81,91 +99,108 @@ export default function Register() {
           console.log(error);
           if (error.code === 'auth/email-already-in-use') {
             console.log('Email already in use!');
+            setErrorMessage("Email already in use!")
 
           }
           if (error.code === 'auth/invalid') {
             console.log('Invalid email!');
+            setErrorMessage("Invalid Email!")
+          
           }
           if (error.code === 'auth/weak-password') {
             console.log('Password weak');
+            setErrorMessage("Passwrod Weak")
           }
           if (error.code === 'auth/invalid-email') {
             console.log('Invalid email');
           }
 
         });
-    } else {
+    }
+    else {
       console.log('Check email and passwords!');
+      setErrorMessage("Remember to fill every field!")
+      
     }
   };
 
   return (
+
     <ScrollView style={[isDarkMode ? Styles.dark : Styles.light]}>
-
-      <Text style={[styles.header,isDarkMode ? Styles.dark : Styles.light]}>Create account!</Text>
-
+      
+      <Text style={[styles.header, isDarkMode ? Styles.dark : Styles.light]}>{errorMessage}</Text>
+      
       <TextInput
         style={styles.input}
         label="Username"
         value={username}
         mode='outlined'
         secureTextEntry={false}
-        onChangeText={text => setUsername(text)} />
+        onChangeText={text => setUsername(text)}
+        error={(username.length === 0 || availableUser === false) && showError} />
       <TextInput
         style={styles.input}
         label="Email"
         value={email}
         mode='outlined'
         inputMode='email'
-        onChangeText={text => setEmail(text)} />
+        onChangeText={text => setEmail(text)}
+        error={email.length === 0 && showError} />
       <TextInput
         style={styles.input}
         label="Password"
         value={password}
         mode='outlined'
         secureTextEntry={true}
-        onChangeText={text => setPassword(text)} />
+        onChangeText={text => setPassword(text)}
+        error={password.length === 0 && showError}
+        right={<TextInput.Icon icon="eye" onPress={() => setShowPw(!showPw)}/>} />
       <TextInput
         style={styles.input}
         label="Confirm password"
         value={password2}
         mode='outlined'
-        secureTextEntry={true}
-        onChangeText={text => setPassword2(text)} />
+        secureTextEntry={showPw}
+        onChangeText={text => setPassword2(text)}
+        error={password2.length === 0 && showError}
+        right={<TextInput.Icon icon="eye" onPress={() => setShowPw(!showPw)}/>} />
       <TextInput
         style={styles.input}
         label="Firstname"
         value={fname}
         mode='outlined'
         secureTextEntry={false}
-        onChangeText={text => setFname(text)} />
+        onChangeText={text => setFname(text)}
+        error={fname.length === 0 && showError} />
       <TextInput
         style={styles.input}
         label="Lastname"
         value={lname}
         mode='outlined'
         secureTextEntry={false}
-        onChangeText={text => setLname(text)} />
+        onChangeText={text => setLname(text)}
+        error={lname.length === 0 && showError} />
       <AddImage onChangeImage={handleImageChange} />
-      <Button
-        onPress={submit}
-      >Submit</Button>
-      
+      <Pressable style={styles.submitButton} onPress={submit}>
+          <MaterialCommunityIcons name="check" color={'black'} size={30} />
+          <Text style={styles.buttonText}>Submit</Text>
+        </Pressable>
+
     </ScrollView>
   );
 }
 
 
 function AddImage(props) {
-	
+
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const openImagePicker = async () => { 
-  
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync(); 
+  const openImagePicker = async () => {
+
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
-    alert('Permission to access camera roll is required!');
-    RequestStoragePermission();
+      alert('Permission to access camera roll is required!');
+      RequestStoragePermission();
       return;
     }
 
@@ -186,23 +221,23 @@ function AddImage(props) {
   };
 
   return (
-      <View>
-          <View style={{ alignItems: 'center' }}>
-              {selectedImage && (
-                  <Image
-                      source={{ uri: selectedImage }}
-                      style={{ width: 200, height: 200, borderRadius: 10 }}
-                      resizeMode="cover"
-                  />
-              )}
-          </View>
-          <View style={{ marginTop: 20 }}>
-              <Pressable style={styles.addImagesButton} onPress={openImagePicker}>
-                  <MaterialCommunityIcons name="camera-outline" color={'black'} size={30} />
-                  <Text style={styles.buttonText}>Add profile picture</Text>
-              </Pressable>
-          </View>
+    <View>
+      <View style={{ alignItems: 'center' }}>
+        {selectedImage && (
+          <Image
+            source={{ uri: selectedImage }}
+            style={{ width: 200, height: 200, borderRadius: 10 }}
+            resizeMode="cover"
+          />
+        )}
       </View>
+      <View style={{ marginTop: 20 }}>
+        <Pressable style={styles.addImagesButton} onPress={openImagePicker}>
+          <MaterialCommunityIcons name="camera-outline" color={'black'} size={30} />
+          <Text style={styles.buttonText}>Add profile picture</Text>
+        </Pressable>
+      </View>
+    </View>
   );
 }
 
@@ -214,7 +249,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
-    fontSize: 36,
+    fontSize: 24,
     paddingTop: 24,
     paddingBottom: 24,
     marginHorizontal: 12,
@@ -226,22 +261,34 @@ export const styles = StyleSheet.create({
   },
   addImagesButton: {
     flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-		paddingVertical: 12,
-		paddingHorizontal: 32,
-		marginHorizontal: 15,
-		marginVertical: 15,
-		borderRadius: 4,
-		elevation: 3,
-		backgroundColor: '#0582CA',
-	},
-	buttonText: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    marginHorizontal: 15,
+    marginVertical: 15,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#0582CA',
+  },
+  buttonText: {
     marginLeft: 10,
-	  fontSize: 16,
-	  lineHeight: 21,
-	  fontWeight: 'bold',
-	  letterSpacing: 0.25,
-	  color: 'white',
-	},
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
+  submitButton:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    marginHorizontal: 15,
+    marginVertical: 8,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'green'
+  }
 });

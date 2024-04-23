@@ -70,7 +70,6 @@ export default function Login() {
 				onChangeText={(password) => setPassword(password)}
 			/>
 			<Button style={styles.loginButton} onPress={login}>Login</Button>
-			<Text >{logged ? 'you are logged in :)' : 'you are logged out :('}</Text>
 		</View>
 	);
 }

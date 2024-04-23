@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { View, StyleSheet, Button } from 'react-native';
-import { Appbar, Dialog, Paragraph, Button as PaperButton, Portal } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import { Appbar, Dialog, Paragraph, Button as PaperButton, Portal, Snackbar } from 'react-native-paper';
+import { useNavigation} from '@react-navigation/native';
 import ThemeSwitchButton from '../ThemeSwitch/ThemeSwitchButton';
 import { useAuth } from '../../context/useAuth'
 import { Logout } from '../../screens/Login';
@@ -15,6 +15,8 @@ export default function TopBar() {
 	const { user } = useAuth();
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [dialogVisible, setDialogVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const onDismissSnackBar = () => setVisible(false);
 
   const handleLogout = () => {
     setDialogVisible(true);
@@ -31,11 +33,21 @@ export default function TopBar() {
     });
     return () => unsubscribe();
   }, [auth]);
+
+  const handleGoBack = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }else{
+      setVisible(true);
+      console.log('cant go back');
+    }
+  }
  
   return (
 		<>
 			<Appbar.Header style={styles.topBarContainer}>
-				<Appbar.BackAction onPress={() => navigation.goBack()} />
+        
+				<Appbar.BackAction onPress={handleGoBack} />
 
 				<View style={styles.rightElement}>
 					{isLoggedIn ? (
@@ -69,6 +81,17 @@ export default function TopBar() {
             <LogoutButton />
           </Dialog.Actions>
         </Dialog>
+        <Snackbar
+          visible={visible}
+          onDismiss={onDismissSnackBar}
+          duration={1500}
+          action={{
+            label: 'Ok',
+            onPress: () => {
+            },
+          }}>
+          Can't go back!
+        </Snackbar>
       </Portal>
 		</>
   );

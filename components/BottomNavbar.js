@@ -12,6 +12,7 @@ import {Stacknav2, Stacknav3} from "../components/Stacknav2"
 import TopBar from "./TopBar/TopBar"
 import HomeLogged from "../screens/HomeLogged"
 
+
 export default function BottomNavbar() {
 
     const Tab = createBottomTabNavigator();
@@ -19,9 +20,13 @@ export default function BottomNavbar() {
     return (
         <>
             <TopBar />
-            <Tab.Navigator screenOptions={{
-                headerShown: false
+            <Tab.Navigator 
+            
+            screenOptions={{
+                headerShown: false,
+                tabBarActiveTintColor: '#FFA500'
             }}
+            
             >
                 <Tab.Screen name={"Home"}
                     component={HomeLogged}

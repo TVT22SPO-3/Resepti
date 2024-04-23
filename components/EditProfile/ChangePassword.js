@@ -61,6 +61,7 @@ export default function ChangePassword() {
                   <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                     <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                       <MaterialCommunityIcons
+                        color={'#FFA500'}
                         name="key"
                         size={32}
                       />
@@ -92,13 +93,14 @@ export default function ChangePassword() {
                     <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                       <TouchableOpacity
                         onPress={show}>
-                        <MaterialCommunityIcons name="eye" size={24} style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]} />
+                        <MaterialCommunityIcons color={'#FFA500'} name="eye" size={24} style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]} />
                       </TouchableOpacity>
                     </View>
                   </View>
                   <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                     <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                       <MaterialCommunityIcons
+                      color={'#FFA500'}
                         name="key"
                         size={32}
                       />

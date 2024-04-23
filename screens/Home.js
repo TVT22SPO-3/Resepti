@@ -59,6 +59,9 @@ const styles = StyleSheet.create({
     marginVertical: 40,
     padding: 20,
   },
+  searchBarContainer: {
+    marginTop: 15,
+  },
   closeButtonContainer: {
     alignItems: 'flex-end',
   },

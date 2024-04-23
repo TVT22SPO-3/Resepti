@@ -60,6 +60,7 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
 const styles = StyleSheet.create({
   container: {
     width: 300,
+    marginBottom: 5,
   },
   editButton: {
 

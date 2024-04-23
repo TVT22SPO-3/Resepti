@@ -32,7 +32,7 @@ export default function CategoryCard({ item }) {
       <Card.Cover source={{ uri: item.strCategoryThumb }} />
       <Card.Title title={item.strCategory} />
       <Card.Actions>
-        <Button onPress={SeeCategory}>Search recipes by this Category!</Button>
+        <Button style={styles.button} onPress={SeeCategory}>Search recipes by this Category!</Button>
       </Card.Actions>
     </Card>
   );
@@ -42,4 +42,7 @@ const styles = StyleSheet.create({
   container: {
     width: 300,
   },
+  button: {
+    width: '100%',
+  }
 });

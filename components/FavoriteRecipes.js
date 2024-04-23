@@ -45,6 +45,8 @@ export default function FavoriteRecipesCard({ item }) {
     }
   };
 
+  const renderSeparator = () => <View style={styles.separator} />;
+/*
   return (
     <View style={styles.container}>
       <Pressable onPress={toggleAccordion} style={styles.button}>
@@ -70,14 +72,35 @@ export default function FavoriteRecipesCard({ item }) {
         />
       )}
     </View>
+  );*/
+  return (
+    <View style={styles.container}>
+        <FlatList
+          data={favoriteRecipes}
+          renderItem={({ item }) => (
+            <FavoritesCard
+            item={item}
+            openRecipe={openRecipe}
+            ItemSeparatorComponent={renderSeparator}
+            removeFromFavorites={removeFromFavorites}
+            showRemoveButton 
+          />
+          )}
+          keyExtractor={(item) => item.id}
+        />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginHorizontal: 12,
-    backgroundColor: '#FAEBD7',
+    paddingTop: 24,
+    paddingBottom:24,
+    justifyContent: 'center',
+    alignContent: 'center',
+    margin: (24, 24, 24, 24),
+    borderRadius: 10,
+    backgroundColor: '#faebd7',
   },
   button: {
     flexDirection: 'row',

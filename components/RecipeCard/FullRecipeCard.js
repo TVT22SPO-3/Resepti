@@ -181,7 +181,7 @@ getRecipe()
           <Card style={styles.cardContainer}>
             <View style={styles.cardContainer3}>
               <Text style={styles.texti}>Show instructions</Text>
-              {show ? 
+              {showInst ? 
                 <MaterialCommunityIcons name="chevron-up" color={'black'} size={40} /> 
                 : 
                 <MaterialCommunityIcons name="chevron-down" color={'black'} size={40} />  

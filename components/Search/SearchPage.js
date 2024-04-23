@@ -21,6 +21,7 @@ export default function SearchPage() {
   const [dataMainIngre, setDataMainIngre] = useState([])
   const [dataAreaFB, setDataAreaFB] = useState([])
   const [dataCategoryFB, setDataCategoryFB] = useState([])
+  const [showSearch, setShowSearch] = useState(false);
   const sectionRef = useRef(0) 
 
   const ScrollToSection = (index)  => {
@@ -106,8 +107,6 @@ export default function SearchPage() {
   ]
 
  
-
-
   //  console.log("SearchPage", SearchData)
   return (
  

@@ -40,9 +40,15 @@ export default function SmallRecipeCard({ item }) {
       <Card.Actions style={styles.actionsContainer}>
 
         {item.uid === user.uid && user.uid !== undefined && (
-          <Button style={styles.editButton} onPress={handleEditRecipe}>
-            Edit
-          </Button>
+           <IconButton
+           mode='contained'
+           icon={'pencil'}
+           iconColor='#FFA500'
+           color={'#001219'}
+           size={35}
+           onPress={handleEditRecipe}
+         />
+
         )}
         {user.uid && (
           <IconButton
@@ -72,7 +78,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   editButton: {
-
+    
   },
   actionsContainer: {
 

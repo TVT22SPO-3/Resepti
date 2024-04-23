@@ -198,7 +198,8 @@ export default function FullEditRecipeCard() {
                   </DataTable.Cell>
                   <IconButton
                     icon="delete"
-                    size={20}
+                    iconColor='#FFA500'
+                    size={30}
                     onPress={() => handleDeleteIngredient(index)}
                   />
                 </DataTable.Row>
@@ -212,7 +213,7 @@ export default function FullEditRecipeCard() {
 
         <Card style={styles.cardContainer}>
           <View style={styles.cardContainer2}>
-            <Title style={styles.title}>Categories</Title>
+            <Title style={styles.title}>Instructions</Title>
             <TextInput
               style={styles.textInput}
               value={instructions || recipe2.strInstructions}
@@ -270,7 +271,7 @@ const styles = StyleSheet.create({
 	  marginVertical: 5,
 	  borderRadius: 3,
 	  elevation: 3,
-	  backgroundColor: '#898989',
+	  backgroundColor: '#ffa500',
 	},
   saveButton: {
 	  alignItems: 'center',
@@ -283,4 +284,7 @@ const styles = StyleSheet.create({
 	  elevation: 3,
     backgroundColor: '#109648',
 	},
+  buttonText:{
+    color: 'white'
+  }
 })

@@ -54,7 +54,7 @@ export default function Login() {
 	};*/
 
 	return (
-		<View style={[styles.inputView]}>
+		<View style={[styles.inputView, isDarkMode ? Styles.dark : Styles.light]}>
 			<TextInput
 				style={styles.TextInput}
 				label="Username"
@@ -69,8 +69,8 @@ export default function Login() {
 				secureTextEntry={true}
 				onChangeText={(password) => setPassword(password)}
 			/>
-			<Button style={styles.loginButton} onPress={login}>Login</Button>
-			<Text >{logged ? 'you are logged in :)' : 'you are logged out :('}</Text>
+			<Button style={[styles.loginButton]} onPress={login}>Login</Button>
+			<Text style={[isDarkMode ? Styles.dark : Styles.light]}>{logged ? 'you are logged in :)' : 'Log in using using Username and Password!'}</Text>
 		</View>
 	);
 }
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	  },
 	inputView: {
-		height: 1000,
+		height: '100%',
 		marginBottom: 20,
 		alignItems: "center",
 	},

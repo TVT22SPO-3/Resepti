@@ -19,7 +19,7 @@ export default function Login() {
 	const [errorTrue, setErrorTrue] = useState(false);
 	const { setUser } = useAuth()
 	const navigation = useNavigation()
-	const isDarkMode = useTheme();
+	const { isDarkMode } = useTheme();
 
 	const login = () => {
 		console.log(password + username);

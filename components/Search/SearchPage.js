@@ -122,7 +122,7 @@ export default function SearchPage() {
       <View style={styles.buttonContainer}>
         {title.map((section, index) => (
           section.data && section.data.length > 0 &&(
-          <Chip key={index} onPress={() => ScrollToSection(index)}>{section.title} ({section.data.length})</Chip>
+          <Chip style={{backgroundColor: '#FFA500'}}key={index} onPress={() => ScrollToSection(index)}> <Text style={{color: 'white'}}>{section.title} ({section.data.length})</Text></Chip>
         )))}
         </View>
         <View style={styles.container}>

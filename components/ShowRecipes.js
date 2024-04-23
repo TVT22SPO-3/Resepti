@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, FlatList, SafeAreaView } from 'react-native';
 import { useAuth } from '../context/useAuth';
 import { firestore, query, collection } from '../firebase/config';
-import { onSnapshot, orderBy, where } from 'firebase/firestore';
+import { onSnapshot, orderBy, where, } from 'firebase/firestore';
 import { SearchByUid } from '../FirebaseDB/SearchBy';
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
-
+import { getAuth } from 'firebase/auth'
 import { Card } from 'react-native-paper';
 import Styles from '../Styles';
 import { useTheme } from '../context/useTheme';
+import database from '@react-native-firebase/database';
 
 
 export default function ShowRecipes() {
@@ -16,15 +17,45 @@ export default function ShowRecipes() {
     const { user } = useAuth()
     const uid = user.uid
     const [recipes, setRecipes] = useState([]);
-    
+    const [changes, setChanges] = useState([]);
+    const auth = getAuth();
+
+
+    useEffect(() => {
+        const { currentUser } = getAuth();
+        const uid = currentUser.uid;
+
+        const q = query(collection(firestore, 'recipes'), where('uid', '==', uid));
+
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const recipeData = [];
+          querySnapshot.forEach((doc) => {
+            recipeData.push({ id: doc.id, ...doc.data() });
+          });
+
+          const extractedData = recipeData.map(data => {
+            return {
+              idMeal: data.id,   
+              strMeal: data.strMeal,
+              strMealThumb: data.strMealThumb,
+              uid: data.uid
+            };
+          });
+          setRecipes(extractedData);
+        });
+      
+        return () => {
+          unsubscribe();
+        };
+    }, []);
+
 
     useEffect(() =>{
         const getRecipeByUid = async () => {
         try{
             const data = await SearchByUid(uid)
-            console.log("tässä data: ",data)
             setRecipes(data)
-            console.log(recipes)
+            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaadasdasdasdasd',recipes)
         }catch(error){
             console.log("Error receiving data by uid",error)
         }

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAuth } from '../context/useAuth';
-import { firestore, doc, getDoc } from '../firebase/config';
+import { firestore, doc, getDoc, query, collection } from '../firebase/config';
+import { onSnapshot } from 'firebase/firestore';
+import { getAuth } from '../firebase/config';
 import { useNavigation } from '@react-navigation/native';
 import FavoritesCard from './RecipeCard/FavoritesCard';
 import Styles from '../Styles';
 import { useTheme } from '../context/useTheme';
-import { removeFromFavorites } from './favorites'; // Import removeFromFavorites
+import { removeFromFavorites } from './favorites'; 
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 import { fetchMealById } from './TheMealDB/SearchBy';
 import { Card } from 'react-native-paper';
@@ -29,6 +31,27 @@ export default function FavoriteRecipesCard({ item }) {
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
+
+ /* useEffect(() => {
+    const q = query(doc(firestore, 'profile', user.uid));
+  
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const favorites = [];
+      querySnapshot.forEach((doc) => {
+        const userData = doc.data();
+        if (userData.favorite !== undefined) { 
+          favorites.push(userData.favorite);
+        }
+      });
+      console.log('favoriiiitit',favorites);
+      //setFavoriteRecipes(favorites);
+    });
+  
+    return () => {
+      unsubscribe();
+    };
+  }, []);*/
+
 
   const fetchFavoriteRecipes = async () => {
     const docRef = doc(firestore, "profile", user.uid);

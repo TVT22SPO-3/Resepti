@@ -118,7 +118,7 @@ export default function SearchPage() {
  
   //  console.log("SearchPage", SearchData)
   return (
-    <View style={[isDarkMode ? Styles.dark : Styles.light]}>
+    <View style={[styles.container1,isDarkMode ? Styles.dark : Styles.light]}>
       <View style={[styles.containerExp,isDarkMode ? Styles.dark : Styles.light]}>
         <SearchBar />
       </View>
@@ -129,7 +129,7 @@ export default function SearchPage() {
           <Chip key={index} onPress={() => ScrollToSection(index)}>{section.title} ({section.data.length})</Chip>
         )))}
         </View>
-        <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+        <View style={[styles.container,]}>
 
           <SectionList
           ref={sectionRef}

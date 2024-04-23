@@ -5,7 +5,7 @@ import { useAuth } from '../context/useAuth';
 import { firestore, collection, doc, getDoc } from '../firebase/config';
 import { useNavigation } from '@react-navigation/native';
 import FavoritesCard from './RecipeCard/FavoritesCard';
-import { removeFromFavorites } from './favorites'; // Import removeFromFavorites
+import { removeFromFavorites } from './favorites'; 
 
 export default function FavoriteRecipesCard({ item }) {
   const navigation = useNavigation();
@@ -30,14 +30,14 @@ export default function FavoriteRecipesCard({ item }) {
         const data = docSnapshot.data();
         const favoriteRecipeIDs = data.favorite;
   
-        // Fetch details of each favorite recipe
+       
         const promises = favoriteRecipeIDs.map(async (favorite) => {
           const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${favorite}`);
           const data = await response.json();
-          return data.meals[0]; // Assuming the API response structure
+          return data.meals[0]; 
         });
   
-        // Wait for all promises to resolve
+        
         const favoriteRecipesData = await Promise.all(promises);
         setFavoriteRecipes(favoriteRecipesData);
       } else {
@@ -54,10 +54,10 @@ export default function FavoriteRecipesCard({ item }) {
 
   const removeFromFavoritesAndUpdate = async (recipeId) => {
     try {
-      // Remove the recipe from the favoriteRecipes state
+   
       setFavoriteRecipes(prevRecipes => prevRecipes.filter(recipe => recipe.idMeal !== recipeId));
   
-      // Call removeFromFavorites function to remove the recipe from the database
+      
       await removeFromFavorites(user.uid, recipeId);
     } catch (error) {
       console.error("Error removing from favorites:", error);
@@ -65,7 +65,7 @@ export default function FavoriteRecipesCard({ item }) {
   };
 
   const renderSeparator = () => <View style={styles.separator} />;
-/*
+
   return (
     <View style={styles.container}>
       <Pressable onPress={toggleAccordion} style={styles.button}>
@@ -83,15 +83,15 @@ export default function FavoriteRecipesCard({ item }) {
             <FavoritesCard
               item={item}
               openRecipe={() => openRecipe(item.idMeal)} 
-              removeFromFavorites={removeFromFavoritesAndUpdate} // Use removeFromFavoritesAndUpdate
+              removeFromFavorites={removeFromFavoritesAndUpdate} 
               showRemoveButton={true}
             />
           )}
         />
       )}
     </View>
-  );*/
-  return (
+  );
+  /*return (
     <View style={styles.container}>
         <FlatList
           data={favoriteRecipes}
@@ -107,7 +107,7 @@ export default function FavoriteRecipesCard({ item }) {
           keyExtractor={(item) => item.id}
         />
     </View>
-  );
+  );*/
 }
 
 const styles = StyleSheet.create({

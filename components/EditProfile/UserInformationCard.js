@@ -130,6 +130,7 @@ export default function UserInformationCard() {
                             <MaterialCommunityIcons
                                 name="account"
                                 size={32}
+                                color={'#FFA500'}
                             />
                         </View>
 
@@ -157,6 +158,7 @@ export default function UserInformationCard() {
                     <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                         <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <MaterialCommunityIcons
+                            color={'#FFA500'}
                                 name="account"
                                 size={32}
                             />
@@ -187,6 +189,7 @@ export default function UserInformationCard() {
                     <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                         <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <MaterialCommunityIcons
+                            color={'#FFA500'}
                                 name="email"
                                 size={32}
                             />

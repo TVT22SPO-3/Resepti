@@ -340,7 +340,7 @@ function AddIngredients(props) {
 				/>
 			  </DataTable.Cell>
 			  <DataTable.Cell>
-      			<IconButton onPress={() => handleRemoveIngredient(index)} icon="delete" color={'#505050'} size={30} />  
+      			<IconButton onPress={() => handleRemoveIngredient(index)} icon="delete" iconColor={'#FFA500'}color={'#505050'} size={30} />  
 			  </DataTable.Cell>
 			</DataTable.Row>
 		  ))}
@@ -477,7 +477,7 @@ function AddArea(props){
 	  marginVertical: 5,
 	  borderRadius: 3,
 	  elevation: 3,
-	  backgroundColor: '#6D6D6D',
+	  backgroundColor: '#FFA500',
 	},
 	saveButton: {
 	  alignItems: 'center',

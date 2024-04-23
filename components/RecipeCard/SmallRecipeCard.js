@@ -38,7 +38,7 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
             Edit
           </Button>
         )}
-        {user.uid !== undefined && (
+        {user.uid && (
           <IconButton
             icon={item.isFavorite ? 'star' : 'star-outline'}
             color={'#001219'}

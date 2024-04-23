@@ -16,6 +16,7 @@ export default function Login() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [logged, setLogged] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
 	const { setUser } = useAuth()
 	const navigation = useNavigation()
 	const isDarkMode = useTheme();
@@ -32,26 +33,15 @@ export default function Login() {
 			.catch((error) => {
 				if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
 					console.log('Invalid credentials');
+					setErrorMessage('Invalid credentials!');
 				} else if (error.code === 'auth/too-many-requests') {
 					console.log('Too many attempts to login');
+					setErrorMessage('Too many attempts to login!');
 				} else {
 					console.error(error.code, error.message);
 				}
 			});
 	};
-
-	/*const logout = () => {
-		signOut(auth)
-			.then(() => {
-				setLogged(false);
-				console.log('User signed out successfully.');
-				navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-			})
-			.catch((error) => {
-
-				console.error('Error signing out:', error);
-			});
-	};*/
 
 	return (
 		<View style={[styles.inputView]}>
@@ -69,6 +59,7 @@ export default function Login() {
 				secureTextEntry={true}
 				onChangeText={(password) => setPassword(password)}
 			/>
+			<Text>{errorMessage}</Text>
 			<Button style={styles.loginButton} onPress={login}>Login</Button>
 		</View>
 	);

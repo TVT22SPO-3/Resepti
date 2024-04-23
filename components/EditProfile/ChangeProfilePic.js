@@ -7,7 +7,9 @@ import * as ImagePicker from 'expo-image-picker';
 import { storage, ref, uploadBytes, getDownloadURL, auth } from '../../firebase/config';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { useAuth } from '../../context/useAuth'
-
+import { useTheme } from '../../context/useTheme';
+import Styles from '../../Styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 export default function ChangeProfilePic(){
@@ -16,6 +18,7 @@ export default function ChangeProfilePic(){
     const [selectedImage, setSelectedImage] = useState(null);
     const { user } = useAuth();
     const [avatarUrl, setAvatarUrl] = useState(user.photoURL);
+    const {isDarkMode} = useTheme()
 
     const toggleAccordion = () => {
         setIsOpen(!isOpen)
@@ -80,32 +83,39 @@ export default function ChangeProfilePic(){
     };
 
     return(
-        <View style={{ paddingTop: 12 }}>
-            <Card style={styles.container1}>
+        <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+            <Card style={[styles.container1,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
               <Pressable onPress={toggleAccordion}>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.texti2}>CHANGE PROFILE PICTURE</Text>
-                  <MaterialCommunityIcons
-                    name='arrow-down-thick'
-                    size={24}
+                <View style={[styles.infoContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                  <Text style={[styles.texti2,isDarkMode ? Styles.darkCard : Styles.lightCard]}>CHANGE PROFILE PICTURE</Text>
+                  {isOpen ? (
+                    <MaterialCommunityIcons
+                    name='chevron-up'
+                    size={32}
                   />
+                  ) : (
+                    <MaterialCommunityIcons
+                    name='chevron-down'
+                    size={32}
+                  />
+                  )}
                 </View>
               </Pressable>
               {isOpen && (
-                <View style={styles.container2}>
-                  <View style={styles.container3}>
-                    {avatarUrl ? (
-                        <Avatar.Image size={70} source={{ uri: avatarUrl }} />
-                        ) : (
-                        <Avatar.Image size={70} source={require('../../assets/trash.png')} />
-                    )}
-                    <Button onPress={openImagePicker}>
-                        <Text style={{textDecorationLine: 'underline'}}>CHOOSE PICTURE</Text>
-                    </Button>
-                  </View> 
-                    <Button onPress={handleImageChange}>
-                      EDIT
-                    </Button>             
+                <View style={[styles.container2,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                  <TouchableOpacity  onPress={openImagePicker}>
+                    <View style={[styles.container3, isDarkMode ? Styles.dark : Styles.light]}>
+                        {avatarUrl ? (
+                            <Avatar.Image size={50} source={{ uri: avatarUrl }} />
+                            ) : (
+                            <Avatar.Image size={50} source={require('../../assets/trash.png')} />
+                        )}          
+                      <Text style={[{marginLeft: 10}, isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}>CHOOSE PICTURE</Text>
+                    </View> 
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{ marginHorizontal: 30 }} onPress={handleImageChange}>
+                    <Text style={[ isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}>EDIT</Text>
+                  </TouchableOpacity>             
                 </View>
               )}
             </Card>
@@ -122,29 +132,35 @@ const styles = StyleSheet.create({
     backgroundColor: '#faebd7',
     marginHorizontal: 12,
   },
+  container:{
+    marginTop: 12,
+  },
   container2: {
     flex: 1, 
     flexDirection: 'row',
     marginVertical: (12, 12),
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#faebd7',
   },
   container3: {
     flex: 1, 
+    padding: 12,
     flexDirection: 'row',
     marginLeft: 12,
     alignItems: 'center',
-    backgroundColor: '#faebd7',
+    backgroundColor: '#60495A',
+    borderRadius: 12,
   },
   texti2: {
     fontSize: 18,
     textAlign: 'center',
-    paddingRight: 24
+    paddingRight: 24,
   },
   infoContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: 4,
+    borderRadius:10,
   },
 });

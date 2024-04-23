@@ -35,7 +35,7 @@ export default function Register() {
    const available =  await checkUsernameUse(username)
    console.log("available",available)
     setAvailableUser(available)
-    setErrorMessage("Username is already use!")
+    setErrorMessage("Username is already in use!")
   }
 
 
@@ -154,7 +154,7 @@ export default function Register() {
         secureTextEntry={true}
         onChangeText={text => setPassword(text)}
         error={password.length === 0 && showError}
-        right={<TextInput.Icon icon="eye" onPress={() => setShowPw(!showPw)}/>} />
+        right={<TextInput.Icon color={'#FFA500'}icon="eye" onPress={() => setShowPw(!showPw)}/>} />
       <TextInput
         style={styles.input}
         label="Confirm password"
@@ -163,7 +163,7 @@ export default function Register() {
         secureTextEntry={showPw}
         onChangeText={text => setPassword2(text)}
         error={password2.length === 0 && showError}
-        right={<TextInput.Icon icon="eye" onPress={() => setShowPw(!showPw)}/>} />
+        right={<TextInput.Icon color={'#FFA500'} icon="eye" onPress={() => setShowPw(!showPw)}/>} />
       <TextInput
         style={styles.input}
         label="Firstname"
@@ -233,7 +233,7 @@ function AddImage(props) {
       </View>
       <View style={{ marginTop: 20 }}>
         <Pressable style={styles.addImagesButton} onPress={openImagePicker}>
-          <MaterialCommunityIcons name="camera-outline" color={'black'} size={30} />
+          <MaterialCommunityIcons name="camera-outline" color={'#FFA500'} size={30} />
           <Text style={styles.buttonText}>Add profile picture</Text>
         </Pressable>
       </View>

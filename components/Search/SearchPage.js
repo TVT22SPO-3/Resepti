@@ -4,10 +4,11 @@ import SearchBar from './SearchBar'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import SmallRecipeCard from '../RecipeCard/SmallRecipeCard'
 import { Button, Chip } from 'react-native-paper'
+import Styles from '../../Styles'
 import { SearchByArea, SearchByIngredient, SearchByName, SearchByCategories} from '../../FirebaseDB/SearchBy'
 import { fetchMealByName, fetchMealsByArea, fetchMealsByCategory, fetchMealsByMainIngredient } from '../TheMealDB/SearchBy'
 import { fetchUserFavorites, addToFavorites, removeFromFavorites, updateMealFavoriteStatus } from '../favorites';
-
+import { useTheme } from '../../context/useTheme'
 
 export default function SearchPage() {
 
@@ -23,6 +24,7 @@ export default function SearchPage() {
   const [dataCategoryFB, setDataCategoryFB] = useState([])
   const [showSearch, setShowSearch] = useState(false);
   const sectionRef = useRef(0) 
+  const {isDarkMode} = useTheme()
 
   const ScrollToSection = (index)  => {
     console.log(index)
@@ -33,10 +35,6 @@ export default function SearchPage() {
     })
      
   }
-
-
-
-
 
   useEffect(() => {
     if(!SearchTerm) return
@@ -106,23 +104,20 @@ export default function SearchPage() {
       title: 'Area',
       data: dataArea
     },
-    
-    
+     
   ]
 
- 
   //  console.log("SearchPage", SearchData)
   return (
- 
-    <View style={styles.container1}>
-      <View style={styles.containerExp}>
+    <View style={[styles.container1,isDarkMode ? Styles.dark : Styles.light]}>
+      <View style={[styles.containerExp,isDarkMode ? Styles.dark : Styles.light]}>
         <SearchBar />
       </View>
 
-      <View style={styles.buttonContainer}>
+      <View style={[styles.buttonContainer,isDarkMode ? Styles.dark : Styles.light]}>
         {title.map((section, index) => (
           section.data && section.data.length > 0 &&(
-          <Chip key={index} onPress={() => ScrollToSection(index)}>{section.title} ({section.data.length})</Chip>
+          <Chip style={{backgroundColor: '#FFA500'}}key={index} onPress={() => ScrollToSection(index)}> <Text style={{color: 'white'}}>{section.title} ({section.data.length})</Text></Chip>
         )))}
         </View>
         <View style={styles.container}>
@@ -139,7 +134,7 @@ export default function SearchPage() {
             renderSectionHeader={({ section: { title, data } }) => (
               data && data.length > 0 && (
                 <View>
-                  <Text style={styles.section}>{title} ({data.length})</Text>
+                  <Text style={[styles.section,isDarkMode ? Styles.dark : Styles.light]}>{title} ({data.length})</Text>
                 </View>
               )
             )}
@@ -175,6 +170,7 @@ const styles = StyleSheet.create({
   container1: {
     width:'100%',
     flex: 1,
+    flexDirection: 'column',
     paddingVertical: 12,
     alignItems: 'center',
   },

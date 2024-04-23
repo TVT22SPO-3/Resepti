@@ -4,7 +4,10 @@ import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../context/useTheme';
 import { useAuth } from '../../context/useAuth';
-import { addToFavorites, removeFromFavorites } from '../favorites';
+import Styles from '../../Styles';
+import { addToFavorites } from '../favorites';
+import { removeFromFavorites } from '../favorites';
+
 
 export default function SmallRecipeCard({ item }) {
   const { isDarkMode } = useTheme();
@@ -28,15 +31,22 @@ export default function SmallRecipeCard({ item }) {
   };
 
   return (
-    <Card style={styles.container}>
+    <Card style={[styles.container,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
       <Card.Cover source={{ uri: item.strMealThumb }} />
-      <Card.Title title={item.strMeal} />
+      <Card.Title title={item.strMeal} titleStyle={[styles.title,isDarkMode ? Styles.darkCard : Styles.lightCard]}/>
       <Card.Actions style={styles.actionsContainer}>
         {item.uid === user.uid && user.uid !== undefined && (
-          <Button style={styles.editButton} onPress={handleEditRecipe}>
-            Edit
-          </Button>
+           <IconButton
+           mode='contained'
+           icon={'pencil'}
+           iconColor='#FFA500'
+           color={'#001219'}
+           size={35}
+           onPress={handleEditRecipe}
+         />
+
         )}
+
 
         {user.uid !== undefined && item.isFavorite ? (
           <IconButton
@@ -56,6 +66,7 @@ export default function SmallRecipeCard({ item }) {
 
         <IconButton
           icon='eye'
+          iconColor='#FFA500'
           color={'#001219'}
           size={35}
           onPress={handleSeeRecipe}
@@ -70,6 +81,15 @@ const styles = StyleSheet.create({
     width: 320,
     marginBottom: 5,
   },
-  editButton: {},
-  actionsContainer: {},
+
+  editButton: {
+    
+  },
+  actionsContainer: {
+
+  },
+  title:{
+    fontSize: 20,
+  },
 });
+

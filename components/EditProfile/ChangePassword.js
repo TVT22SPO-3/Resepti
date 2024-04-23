@@ -9,6 +9,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { firestore } from '../../firebase/config'
 import { doc, updateDoc, getDoc, where, collection } from '../../firebase/config';
 import { querySnapshot, onSnapshot, query } from 'firebase/firestore';
+import Styles from '../../Styles'
+import { useTheme } from '../../context/useTheme'
+
+
 export default function ChangePassword() {
 
         const { user } = useAuth()
@@ -16,6 +20,7 @@ export default function ChangePassword() {
         const [isOpen, setIsOpen] = useState(false)
         const [newPassword, setNewPassword] = useState("")
         const [newPassword2, setNewPassword2] = useState("")
+        const {isDarkMode} = useTheme()
         const toggleAccordion = () => {
           setIsOpen(!isOpen)
         }
@@ -37,47 +42,53 @@ export default function ChangePassword() {
         }
     
         return (
-          <View style={{ paddingTop: 12 }}>
+          <View style={[styles.containeri,isDarkMode ? Styles.dark : Styles.light]}>
     
     
-            <Card style={styles.container3}>
+            <Card style={[styles.container3,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
               <Pressable onPress={toggleAccordion}>
                 <View style={styles.infoContainer}>
-                  <Text style={styles.texti2}>CHANGE PASSWORD</Text>
-    
-                  <MaterialCommunityIcons
-                    name='arrow-down-thick'
-                    size={24}
+                  <Text style={[styles.texti2,isDarkMode ? Styles.darkCard : Styles.lightCard]}>CHANGE PASSWORD</Text>
+                  {isOpen ? (
+                    <MaterialCommunityIcons
+                    name='chevron-up'
+                    size={32}
                   />
+                  ) : (
+                    <MaterialCommunityIcons
+                    name='chevron-down'
+                    size={32}
+                  />
+                  )}
+                  
                 </View>
               </Pressable>
               {isOpen && (
                 <View>
-                  <View style={styles.container4}>
-                    <View style={styles.container5}>
+                  <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                    <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                       <MaterialCommunityIcons
+                        color={'#FFA500'}
                         name="key"
                         size={32}
                       />
                     </View>
     
-                    <View style={styles.iconContainer}>
+                    <View style={[styles.iconContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                       {showpw ?
                         <TextInput
-                          style={styles.input}
-                          mode='outlined'
-                          outlineColor='#faebd7'
-                          backgroundColor='#faebd7'
+                          style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
+                          //mode='outlined'
+                          placeholderTextColor={isDarkMode ? '#aaa' : '#555'}
                           placeholder={"New password"}
                           editable={true}
                           secureTextEntry={true}
                           onChangeText={text => setNewPassword(text)}
                         /> :
                         <TextInput
-                          style={styles.input}
-                          mode='outlined'
-                          outlineColor='#faebd7'
-                          backgroundColor='#faebd7'
+                          style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
+                          //mode='outlined'
+                          placeholderTextColor={isDarkMode ? '#aaa' : '#555'}
                           placeholder={"New password"}
                           editable={true}
                           secureTextEntry={false}
@@ -86,38 +97,37 @@ export default function ChangePassword() {
                       }
                     </View>
     
-                    <View style={styles.container5}>
-                      <Button
+                    <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                      <TouchableOpacity
                         onPress={show}>
-                        <MaterialCommunityIcons name="eye" size={24} />
-                      </Button>
+                        <MaterialCommunityIcons color={'#FFA500'} name="eye" size={24} style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]} />
+                      </TouchableOpacity>
                     </View>
                   </View>
-                  <View style={styles.container4}>
-                    <View style={styles.container5}>
+                  <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                    <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                       <MaterialCommunityIcons
+                      color={'#FFA500'}
                         name="key"
                         size={32}
                       />
                     </View>
     
-                    <View style={styles.iconContainer}>
+                    <View style={[styles.iconContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                       {showpw ?
                         <TextInput
-                          style={styles.input}
-                          mode='outlined'
-                          outlineColor='#faebd7'
-                          backgroundColor='#faebd7'
+                          style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
+                          //mode='outlined'
+                          placeholderTextColor={isDarkMode ? '#aaa' : '#555'}
                           placeholder={"Confirm new password"}
                           editable={true}
                           secureTextEntry={true}
                           onChangeText={text => setNewPassword2(text)}
                         /> :
                         <TextInput
-                          style={styles.input}
-                          mode='outlined'
-                          outlineColor='#faebd7'
-                          backgroundColor='#faebd7'
+                          style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
+                          //mode='outlined'
+                          placeholderTextColor={isDarkMode ? '#aaa' : '#555'}
                           placeholder={"Confirm new password"}
                           editable={true}
                           secureTextEntry={false}
@@ -126,13 +136,14 @@ export default function ChangePassword() {
                       }
                     </View>
     
-                    <View style={styles.container5}>
-                      <Button
+                    <TouchableOpacity style={styles.container5}>
+                      <Text
+                        style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}
                         onPress={updatePW}
                       >
                         EDIT
-                      </Button>
-                    </View>
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
     
@@ -177,11 +188,13 @@ export default function ChangePassword() {
         infoContainer: {
           flexDirection: 'row',
           justifyContent: 'center',
+          alignItems: 'center',
           paddingVertical: 4,
         },
         container4: {
           backgroundColor: '#faebd7',
-          flexDirection: 'row'
+          flexDirection: 'row',
+          marginBottom: 12,
         },
         container5: {
           flex: 1,
@@ -190,6 +203,9 @@ export default function ChangePassword() {
         },
         iconContainer: {
           flex: 4
+        },
+        containeri:{
+          marginTop:12,
         }
       });
       

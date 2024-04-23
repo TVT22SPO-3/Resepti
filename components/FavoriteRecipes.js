@@ -4,11 +4,21 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useAuth } from '../context/useAuth';
 import { firestore, doc, getDoc } from '../firebase/config';
 import { useNavigation } from '@react-navigation/native';
+import FavoritesCard from './RecipeCard/FavoritesCard';
+import Styles from '../Styles';
+import { useTheme } from '../context/useTheme';
+import { removeFromFavorites } from './favorites'; // Import removeFromFavorites
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 import { fetchMealById } from './TheMealDB/SearchBy';
 import { SearchByDocId } from '../FirebaseDB/SearchBy';
+import { Card } from 'react-native-paper';
 
-export default function FavoriteRecipesCard() {
+
+export default function FavoriteRecipesCard({ item }) {
+  const {isDarkMode} = useTheme()
+
+
+
   const navigation = useNavigation();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -72,9 +82,9 @@ export default function FavoriteRecipesCard() {
   const renderSeparator = () => <View style={styles.separator} />;
 
   return (
-    <View style={styles.container}>
-      <Pressable onPress={toggleAccordion} style={styles.button}>
-        <Text style={styles.buttonText}>Favorite Recipes</Text>
+    <Card style={[styles.container,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+      <Pressable onPress={toggleAccordion} style={[styles.button,isDarkMode ? Styles.darkCard : Styles.lightCard ]}>
+        <Text style={[styles.buttonText,isDarkMode ? Styles.darkCard : Styles.lightCard]}>Favorite Recipes</Text>
         <MaterialCommunityIcons
           name={isOpen ? 'arrow-up-thick' : 'arrow-down-thick'}
           size={24}
@@ -90,7 +100,7 @@ export default function FavoriteRecipesCard() {
           contentContainerStyle={styles.contentContainer}
         />
       )}
-    </View>
+    </Card>
   );
 }
 
@@ -102,7 +112,8 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     margin: (24, 24, 24, 24),
     borderRadius: 10,
-    backgroundColor: '#faebd7',
+    //backgroundColor: '#faebd7',
+    paddingLeft: 15,
   },
   button: {
     flexDirection: 'row',
@@ -110,10 +121,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 8,
     paddingHorizontal: 16,
-    borderBottomWidth: 1,
+    //borderBottomWidth: 1,
     borderBottomColor: '#CCC',
   },
   buttonText: {
     fontSize: 18,
+  },
+  separator: {
+    height: 24,
+    width: 20,
+    paddingLeft: 20,
   },
 });

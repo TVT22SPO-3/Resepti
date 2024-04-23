@@ -7,9 +7,12 @@ import { SearchByUid } from '../FirebaseDB/SearchBy';
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 
 import { Card } from 'react-native-paper';
+import Styles from '../Styles';
+import { useTheme } from '../context/useTheme';
 
 
 export default function ShowRecipes() {
+    const {isDarkMode} = useTheme()
     const { user } = useAuth()
     const uid = user.uid
     const [recipes, setRecipes] = useState([]);
@@ -32,33 +35,39 @@ export default function ShowRecipes() {
     const renderSeparator = () => <View style={styles.separator} />;
 
     return (
-        <View style={styles.container}>
-            <SafeAreaView>
-                <FlatList
-                    horizontal
-                    data={recipes}
-                    renderItem={({item,index}) => <SmallRecipeCard item={item} key={index}/>}
-                    ItemSeparatorComponent={renderSeparator}
-                    contentContainerStyle={styles.contentContainer}
-                />
-            </SafeAreaView>
+        <View >
+            <Card style={[styles.container,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                <Text style={[styles.text,isDarkMode ? Styles.darkCard : Styles.lightCard]}>Own Recipes:</Text>
+                <SafeAreaView>
+                    <FlatList
+                        horizontal
+                        data={recipes}
+                        renderItem={({item,index}) => <SmallRecipeCard item={item} key={index}/>}
+                        ItemSeparatorComponent={renderSeparator}
+                        contentContainerStyle={styles.contentContainer}
+                    />
+                </SafeAreaView>
+            </Card>
         </View>
       )
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 24,
+        paddingTop: 10,
         paddingBottom:24,
-        justifyContent: 'center',
-        alignContent: 'center',
         margin: (24, 24, 24, 24),
         borderRadius: 10,
-        backgroundColor: '#faebd7',
+        
       },
+    
+    container2: {
+        backgroundColor: '#faebd7',
+        marginHorizontal: 12,
+    },
     text:{
         paddingBottom: 10,
-        alignContent: 'center',
+        alignSelf: 'center',
         fontSize: 18,
     },
     separator: {

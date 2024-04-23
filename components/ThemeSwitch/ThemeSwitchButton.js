@@ -6,6 +6,6 @@ export default function ThemeSwitchButton() {
     const { isDarkMode, toggleDarkMode } = useTheme()
 
     return (
-        <Switch value={isDarkMode} onValueChange={toggleDarkMode}/>
+        <Switch color={'#FFA500'}value={isDarkMode} onValueChange={toggleDarkMode}/>
   )
 }

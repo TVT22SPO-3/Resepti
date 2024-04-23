@@ -103,12 +103,12 @@ export default function ChangeProfilePic(){
                         <Avatar.Image size={70} source={require('../../assets/trash.png')} />
                     )}
                     <TouchableOpacity  onPress={openImagePicker}>
-                        <Text style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}>CHOOSE PICTURE</Text>
+                        <Text style={[{paddingLeft:10},isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}>CHOOSE PICTURE</Text>
                     </TouchableOpacity>
                   </View> 
-                    <TouchableOpacity style={{ marginHorizontal: 30 }} onPress={handleImageChange}>
+                    <TouchableOpacity style={{ marginHorizontal: 20 }} onPress={handleImageChange}>
                       <Text style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}>EDIT</Text>
-                    </TouchableOpacity>             
+                    </TouchableOpacity>
                 </View>
               )}
             </Card>

@@ -7,14 +7,15 @@ import * as ImagePicker from 'expo-image-picker';
 import { firestore, collection, addDoc, serverTimestamp } from '../firebase/config';
 import { storage, ref, uploadBytes, getDownloadURL } from '../firebase/config';
 import { useAuth } from '../context/useAuth'
-
+import Styles from '../Styles';
+import { useTheme } from '../context/useTheme';
 
 
 
 export default function OwnRecipes() {
-
+	const {isDarkMode} = useTheme()
   return (
-    <View>  
+    <View style={[{height:'100%'},isDarkMode ? Styles.dark : Styles.light]}>  
       <AddRecipes />
     </View>
   )
@@ -32,6 +33,7 @@ function AddRecipes() {
 	const [showNotification, setShowNotification] = useState(false);
 	const [snackbarVisible, setSnackbarVisible] = useState(false);
 	const onDismissSnackBar = () => setVisible(false);
+	const {isDarkMode} = useTheme()
 
 	const handleImageChange = (imageUri) => {
 		setSelectedImage(imageUri);
@@ -121,8 +123,8 @@ function AddRecipes() {
     };
 
     return (
-        <ScrollView>
-            <AddRecipeName value={recipeName} onChangeText={setRecipeName} onChangeName={saveName} />
+        <ScrollView style={[isDarkMode ? Styles.dark : Styles.light]}>
+            <AddRecipeName style={[isDarkMode ? Styles.dark : Styles.light]} value={recipeName} onChangeText={setRecipeName} onChangeName={saveName} />
             <View style={styles.divider} />
             <AddIngredients onChangeIngredients={saveIgredients} />
             <View style={styles.divider} />
@@ -132,7 +134,7 @@ function AddRecipes() {
                 onPress={toggleAccordion}
                 style={{ padding: 10 }}
             >
-                <Text style={{ fontSize: 16 }}>
+                <Text style={[{ fontSize: 16 },isDarkMode ? Styles.dark : Styles.light]}>
 				{isOpen ? 
 					<MaterialCommunityIcons name="chevron-up" color={'black'} size={40} /> 
 					: 
@@ -170,7 +172,7 @@ function AddRecipes() {
 
 
 function AddImages(props) {
-	
+	const {isDarkMode} = useTheme()
     const [selectedImage, setSelectedImage] = useState(null);
 
     const openImagePicker = async () => { 
@@ -200,7 +202,7 @@ function AddImages(props) {
 
     return (
         <View style={{ flex: 1 }}>
-					<Title style={styles.title}>Images</Title>
+					<Title style={[styles.title,isDarkMode ? Styles.dark : Styles.light]}>Images</Title>
             <View style={{ alignItems: 'center' }}>
                 {selectedImage && (
                     <Image
@@ -222,6 +224,8 @@ function AddImages(props) {
 
 function AddRecipeName(props){
 
+	const {isDarkMode} = useTheme()
+
 	const { value, onChangeText, onChangeName } = props;
 
 	const handleTextChange = (text) => {
@@ -231,8 +235,8 @@ function AddRecipeName(props){
 
 	return(
 
-		<View style={styles.container}>
-			<Title style={styles.title}>Recipe name</Title>
+		<View style={[styles.container,]}>
+			<Title style={[styles.title,isDarkMode ? Styles.dark : Styles.light]}>Recipe name</Title>
 			<TextInput
 				  style={styles.textInput}
 				  value={value}
@@ -247,7 +251,7 @@ function AddRecipeName(props){
 
 function AddInstructions(props) {
     const { value, onChangeText, onChangeInstructions } = props;
-
+	const {isDarkMode} = useTheme()
     const handleTextChange = (text) => {
         onChangeText(text);
         onChangeInstructions(text);
@@ -255,7 +259,7 @@ function AddInstructions(props) {
 
     return (
         <View style={styles.container}>
-            <Title style={styles.title}>Instructions</Title>
+            <Title style={[styles.title,isDarkMode ? Styles.dark : Styles.light]}>Instructions</Title>
             <TextInput
                 editable
                 multiline
@@ -274,7 +278,7 @@ function AddInstructions(props) {
 
 function AddIngredients(props) {
 
-	
+	const {isDarkMode} = useTheme()
 	const [ingredients, setIngredients] = useState([{ ingredient: '', measure: '' }]);
 	const [isPressed, setIsPressed] = useState(false);
   
@@ -308,7 +312,7 @@ function AddIngredients(props) {
   
 	return (
 	  <View>
-		<Title style={styles.title}>Ingredients</Title>
+		<Title style={[styles.title,isDarkMode ? Styles.dark : Styles.light]}>Ingredients</Title>
 		<DataTable>
 
   
@@ -355,7 +359,7 @@ function AddIngredients(props) {
 
 	
 function AddCategory(props){
-
+	const {isDarkMode} = useTheme()
 	const { value, onChangeCategory, onChangeCategoryText } = props;
 
 	const handleCategoryTextChange = (text) => {
@@ -368,8 +372,8 @@ function AddCategory(props){
   };
 
 	return(
-		<View style={styles.title}>
-			<Title>Categories</Title>
+		<View >
+			<Title style={[styles.title,isDarkMode ? Styles.dark : Styles.light]}>Categories</Title>
 			<TextInput
 				  style={styles.textInput}
 				  value={value}
@@ -379,7 +383,7 @@ function AddCategory(props){
 			/>
 
 			<View style={styles.divider} />
-			<Text>Popular Categories</Text>
+			<Text style={[styles.title,isDarkMode ? Styles.dark : Styles.light]}>Popular Categories</Text>
 			<View style={styles.chipContainer}>
 				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleCategoryChange('Dairy')}>Dairy</Chip>
 				<Chip style={styles.chip} icon="food-drumstick" onPress={() => handleCategoryChange('Protein')}>Protein</Chip>
@@ -397,7 +401,7 @@ function AddCategory(props){
 
 	
 function AddArea(props){
-
+	const {isDarkMode} = useTheme()
 	const { value, onChangeArea, onChangeAreaText } = props;
 
 	const handleAreaTextChange = (text) => {
@@ -411,7 +415,7 @@ function AddArea(props){
 
 	return(
 		<View style={styles.title}>
-			<Title>Area</Title>
+			<Title style={[styles.title,isDarkMode ? Styles.dark : Styles.light]}>Area</Title>
 			<TextInput
 				  style={styles.textInput}
 				  value={value}
@@ -421,7 +425,7 @@ function AddArea(props){
 			/>
 
 			<View style={styles.divider} />
-			<Text>Popular Areas</Text>
+			<Text style={[styles.title,isDarkMode ? Styles.dark : Styles.light]}>Popular Areas</Text>
 			<View style={styles.chipContainer}>
 				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('Italy')}>Italy</Chip>
 				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('Japan')}>Japan</Chip>

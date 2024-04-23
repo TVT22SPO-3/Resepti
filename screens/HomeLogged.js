@@ -28,6 +28,9 @@ export default function HomeLogged({ }) {
           <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
             <Newest/>
           </View>
+          <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+            <Categories/>
+          </View>
         </View>
       </ScrollView>
   

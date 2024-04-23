@@ -35,10 +35,6 @@ export default function SearchPage() {
      
   }
 
-
-
-
-
   useEffect(() => {
     if(!SearchTerm) return
     const Search = async () => {
@@ -107,11 +103,9 @@ export default function SearchPage() {
       title: 'Area',
       data: dataArea
     },
-    
-    
+     
   ]
 
- 
   //  console.log("SearchPage", SearchData)
   return (
     <View style={[styles.container1,isDarkMode ? Styles.dark : Styles.light]}>

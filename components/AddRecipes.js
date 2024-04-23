@@ -32,7 +32,7 @@ function AddRecipes() {
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [showNotification, setShowNotification] = useState(false);
 	const [snackbarVisible, setSnackbarVisible] = useState(false);
-	const onDismissSnackBar = () => setVisible(false);
+	const onDismissSnackBar = () => setSnackbarVisible(false);
 	const {isDarkMode} = useTheme()
 
 	const handleImageChange = (imageUri) => {

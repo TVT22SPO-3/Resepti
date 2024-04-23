@@ -88,10 +88,17 @@ export default function ChangeProfilePic(){
               <Pressable onPress={toggleAccordion}>
                 <View style={[styles.infoContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                   <Text style={[styles.texti2,isDarkMode ? Styles.darkCard : Styles.lightCard]}>CHANGE PROFILE PICTURE</Text>
-                  <MaterialCommunityIcons
-                    name='arrow-down-thick'
-                    size={24}
+                  {isOpen ? (
+                    <MaterialCommunityIcons
+                    name='chevron-up'
+                    size={32}
                   />
+                  ) : (
+                    <MaterialCommunityIcons
+                    name='chevron-down'
+                    size={32}
+                  />
+                  )}
                 </View>
               </Pressable>
               {isOpen && (
@@ -152,6 +159,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: 4,
     borderRadius:10,
   },

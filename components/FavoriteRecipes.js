@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Pressable, FlatList, StyleSheet, Image } from 'react-native';
+import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAuth } from '../context/useAuth';
-import { firestore, collection, doc, getDoc } from '../firebase/config';
+import { firestore, doc, getDoc } from '../firebase/config';
 import { useNavigation } from '@react-navigation/native';
-import FavoritesCard from './RecipeCard/FavoritesCard';
-import { removeFromFavorites } from './favorites'; 
+import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
+import { fetchMealById } from './TheMealDB/SearchBy';
 
-export default function FavoriteRecipesCard({ item }) {
+export default function FavoriteRecipesCard() {
   const navigation = useNavigation();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -29,38 +29,25 @@ export default function FavoriteRecipesCard({ item }) {
       if (docSnapshot.exists()) {
         const data = docSnapshot.data();
         const favoriteRecipeIDs = data.favorite;
-  
-       
-        const promises = favoriteRecipeIDs.map(async (favorite) => {
-          const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${favorite}`);
-          const data = await response.json();
-          return data.meals[0]; 
-        });
-  
         
+        const promises = favoriteRecipeIDs.map(async (favoriteId) => {
+          try {
+            const recipe = await fetchMealById(favoriteId);
+            return recipe;
+          } catch (error) {
+            console.error("Error fetching recipe:", error);
+            return null;
+          }
+        });
+
         const favoriteRecipesData = await Promise.all(promises);
-        setFavoriteRecipes(favoriteRecipesData);
+        console.log("Favorite Recipes:", favoriteRecipesData);
+        setFavoriteRecipes(favoriteRecipesData.filter(recipe => recipe !== null));
       } else {
         console.log("Document does not exist");
       }
     } catch (error) {
       console.error("Error:", error);
-    }
-  };
-
-  const openRecipe = (recipeId) => {
-    navigation.navigate('FullRecipeCard', { recipeId });
-  };
-
-  const removeFromFavoritesAndUpdate = async (recipeId) => {
-    try {
-   
-      setFavoriteRecipes(prevRecipes => prevRecipes.filter(recipe => recipe.idMeal !== recipeId));
-  
-      
-      await removeFromFavorites(user.uid, recipeId);
-    } catch (error) {
-      console.error("Error removing from favorites:", error);
     }
   };
 
@@ -78,42 +65,21 @@ export default function FavoriteRecipesCard({ item }) {
 
       {isOpen && (
         <FlatList
+          horizontal
           data={favoriteRecipes}
-          renderItem={({ item }) => (
-            <FavoritesCard
-              item={item}
-              openRecipe={() => openRecipe(item.idMeal)} 
-              removeFromFavorites={removeFromFavoritesAndUpdate} 
-              showRemoveButton={true}
-            />
-          )}
+          renderItem={({ item, index }) => <SmallRecipeCard item={item} key={index} />}
+          ItemSeparatorComponent={renderSeparator}
+          contentContainerStyle={styles.contentContainer}
         />
       )}
     </View>
   );
-  /*return (
-    <View style={styles.container}>
-        <FlatList
-          data={favoriteRecipes}
-          renderItem={({ item }) => (
-            <FavoritesCard
-            item={item}
-            openRecipe={openRecipe}
-            ItemSeparatorComponent={renderSeparator}
-            removeFromFavorites={removeFromFavorites}
-            showRemoveButton 
-          />
-          )}
-          keyExtractor={(item) => item.id}
-        />
-    </View>
-  );*/
 }
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: 24,
-    paddingBottom:24,
+    paddingBottom: 24,
     justifyContent: 'center',
     alignContent: 'center',
     margin: (24, 24, 24, 24),

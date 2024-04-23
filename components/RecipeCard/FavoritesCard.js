@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import { Card, Button } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 export default function FavoritesCard({ item, openRecipe, removeFromFavorites, showRemoveButton }) {
     const navigation = useNavigation();
   
-    const seeRecipe = () => {
+    const openRecipe = () => {
       navigation.navigate('FullRecipeCard', { recipeId: item.idMeal });
     };
   
@@ -22,7 +22,7 @@ export default function FavoritesCard({ item, openRecipe, removeFromFavorites, s
           {showRemoveButton && (
             <Button onPress={handleRemoveFromFavorites}>Remove</Button>
           )}
-          <Button onPress={seeRecipe}>See recipe!</Button>
+          <Button onPress={openRecipe}>See recipe!</Button>
         </Card.Actions>
       </Card>
     );
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
   container: {
     width: 300,
   },
-});
+});*/

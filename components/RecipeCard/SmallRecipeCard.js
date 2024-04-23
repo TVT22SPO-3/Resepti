@@ -4,26 +4,20 @@ import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../context/useTheme';
 import { useAuth } from '../../context/useAuth';
-import { addToFavorites } from '../favorites';
-import { removeFromFavorites } from '../favorites';
-
+import { addToFavorites, removeFromFavorites } from '../favorites';
 
 export default function SmallRecipeCard({ item }) {
   const { isDarkMode } = useTheme();
-
   const navigation = useNavigation();
   const { user } = useAuth();
 
   const handleFavorites = () => {
-    if (item.isFavorite) {
-      removeFromFavorites (user.uid, item.idMeal)
-    } else{
-      addToFavorites (user.uid, item.idMeal)
-    }
-   
-    }
+    addToFavorites(user.uid, item.idMeal);
+  };
 
-
+  const handleRemoveFromFavorites = () => {
+    removeFromFavorites(user.uid, item.idMeal);
+  };
 
   const handleSeeRecipe = () => {
     navigation.navigate('FullRecipeCard', { itemid: item.idMeal });
@@ -38,20 +32,28 @@ export default function SmallRecipeCard({ item }) {
       <Card.Cover source={{ uri: item.strMealThumb }} />
       <Card.Title title={item.strMeal} />
       <Card.Actions style={styles.actionsContainer}>
-
         {item.uid === user.uid && user.uid !== undefined && (
           <Button style={styles.editButton} onPress={handleEditRecipe}>
             Edit
           </Button>
         )}
-        {user.uid !== undefined && (
+
+        {user.uid !== undefined && item.isFavorite ? (
           <IconButton
-            icon={item.isFavorite ? 'star' : 'star-outline'}
+            icon='star'
+            color={'#001219'}
+            size={35}
+            onPress={handleRemoveFromFavorites}
+          />
+        ) : (
+          <IconButton
+            icon='star-outline'
             color={'#001219'}
             size={35}
             onPress={handleFavorites}
           />
         )}
+
         <IconButton
           icon='eye'
           color={'#001219'}
@@ -63,16 +65,11 @@ export default function SmallRecipeCard({ item }) {
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     width: 320,
     marginBottom: 5,
   },
-  editButton: {
-
-  },
-  actionsContainer: {
-
-  },
-}); 
+  editButton: {},
+  actionsContainer: {},
+});

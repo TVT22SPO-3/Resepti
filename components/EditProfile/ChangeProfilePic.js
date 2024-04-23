@@ -88,27 +88,34 @@ export default function ChangeProfilePic(){
               <Pressable onPress={toggleAccordion}>
                 <View style={[styles.infoContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                   <Text style={[styles.texti2,isDarkMode ? Styles.darkCard : Styles.lightCard]}>CHANGE PROFILE PICTURE</Text>
-                  <MaterialCommunityIcons
-                    name='arrow-down-thick'
-                    size={24}
+                  {isOpen ? (
+                    <MaterialCommunityIcons
+                    name='chevron-up'
+                    size={32}
                   />
+                  ) : (
+                    <MaterialCommunityIcons
+                    name='chevron-down'
+                    size={32}
+                  />
+                  )}
                 </View>
               </Pressable>
               {isOpen && (
                 <View style={[styles.container2,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
-                  <View style={[styles.container3,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
-                    {avatarUrl ? (
-                        <Avatar.Image size={70} source={{ uri: avatarUrl }} />
-                        ) : (
-                        <Avatar.Image size={70} source={require('../../assets/trash.png')} />
-                    )}
-                    <TouchableOpacity  onPress={openImagePicker}>
-                        <Text style={[{paddingLeft:10},isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}>CHOOSE PICTURE</Text>
-                    </TouchableOpacity>
-                  </View> 
-                    <TouchableOpacity style={{ marginHorizontal: 20 }} onPress={handleImageChange}>
-                      <Text style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}>EDIT</Text>
-                    </TouchableOpacity>
+                  <TouchableOpacity  onPress={openImagePicker}>
+                    <View style={[styles.container3, isDarkMode ? Styles.dark : Styles.light]}>
+                        {avatarUrl ? (
+                            <Avatar.Image size={50} source={{ uri: avatarUrl }} />
+                            ) : (
+                            <Avatar.Image size={50} source={require('../../assets/trash.png')} />
+                        )}          
+                      <Text style={[{marginLeft: 10}, isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}>CHOOSE PICTURE</Text>
+                    </View> 
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{ marginHorizontal: 30 }} onPress={handleImageChange}>
+                    <Text style={[ isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}>EDIT</Text>
+                  </TouchableOpacity>             
                 </View>
               )}
             </Card>
@@ -134,14 +141,15 @@ const styles = StyleSheet.create({
     marginVertical: (12, 12),
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#faebd7',
   },
   container3: {
     flex: 1, 
+    padding: 12,
     flexDirection: 'row',
     marginLeft: 12,
     alignItems: 'center',
-    backgroundColor: '#faebd7',
+    backgroundColor: '#60495A',
+    borderRadius: 12,
   },
   texti2: {
     fontSize: 18,
@@ -151,6 +159,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: 4,
     borderRadius:10,
   },

@@ -74,13 +74,11 @@ export default function Login() {
 
 
 function Logout(){
-	//const navigation = useNavigation();
 	console.log('logout clicked');
 
 	signOut(auth)
 		.then(() => {
 			console.log('User signed out successfully.');
-			//navigation.reset({ index: 0, routes: [{ name: 'Stacknav' }] })
 			console.log(auth);
 		})
 		.catch((error) => {

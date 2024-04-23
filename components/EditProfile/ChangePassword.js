@@ -49,11 +49,18 @@ export default function ChangePassword() {
               <Pressable onPress={toggleAccordion}>
                 <View style={styles.infoContainer}>
                   <Text style={[styles.texti2,isDarkMode ? Styles.darkCard : Styles.lightCard]}>CHANGE PASSWORD</Text>
-    
-                  <MaterialCommunityIcons
-                    name='arrow-down-thick'
-                    size={24}
+                  {isOpen ? (
+                    <MaterialCommunityIcons
+                    name='chevron-up'
+                    size={32}
                   />
+                  ) : (
+                    <MaterialCommunityIcons
+                    name='chevron-down'
+                    size={32}
+                  />
+                  )}
+                  
                 </View>
               </Pressable>
               {isOpen && (
@@ -181,11 +188,13 @@ export default function ChangePassword() {
         infoContainer: {
           flexDirection: 'row',
           justifyContent: 'center',
+          alignItems: 'center',
           paddingVertical: 4,
         },
         container4: {
           backgroundColor: '#faebd7',
-          flexDirection: 'row'
+          flexDirection: 'row',
+          marginBottom: 12,
         },
         container5: {
           flex: 1,

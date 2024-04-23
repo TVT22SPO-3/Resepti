@@ -11,19 +11,16 @@ import { removeFromFavorites } from '../favorites';
 
 export default function SmallRecipeCard({ item }) {
   const { isDarkMode } = useTheme();
-
   const navigation = useNavigation();
   const { user } = useAuth();
 
   const handleFavorites = () => {
-    if (item.isFavorite) {
-      removeFromFavorites (user.uid, item.idMeal)
-    } else{
-      addToFavorites (user.uid, item.idMeal)
-    }
+    addToFavorites(user.uid, item.idMeal);
   };
 
-
+  const handleRemoveFromFavorites = () => {
+    removeFromFavorites(user.uid, item.idMeal);
+  };
 
   const handleSeeRecipe = () => {
     navigation.navigate('FullRecipeCard', { itemid: item.idMeal });
@@ -38,7 +35,6 @@ export default function SmallRecipeCard({ item }) {
       <Card.Cover source={{ uri: item.strMealThumb }} />
       <Card.Title title={item.strMeal} titleStyle={[styles.title,isDarkMode ? Styles.darkCard : Styles.lightCard]}/>
       <Card.Actions style={styles.actionsContainer}>
-
         {item.uid === user.uid && user.uid !== undefined && (
            <IconButton
            mode='contained'
@@ -50,15 +46,24 @@ export default function SmallRecipeCard({ item }) {
          />
 
         )}
-        {user.uid && (
+
+
+        {user.uid !== undefined && item.isFavorite ? (
           <IconButton
-            icon={item.isFavorite ? 'star' : 'star-outline'}
-            iconColor='#FFA500'
+            icon='star'
+            color={'#001219'}
+            size={35}
+            onPress={handleRemoveFromFavorites}
+          />
+        ) : (
+          <IconButton
+            icon='star-outline'
             color={'#001219'}
             size={35}
             onPress={handleFavorites}
           />
         )}
+
         <IconButton
           icon='eye'
           iconColor='#FFA500'
@@ -71,12 +76,12 @@ export default function SmallRecipeCard({ item }) {
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     width: 320,
     marginBottom: 5,
   },
+
   editButton: {
     
   },
@@ -87,3 +92,4 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
+

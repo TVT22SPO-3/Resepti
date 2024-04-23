@@ -9,6 +9,8 @@ import MealExplorer from "./components"
 import ShowRecipes from "./ShowRecipes"
 import Account from "../screens/Account"
 import SearchPage from "./Search/SearchPage"
+import SmallRecipeCard from "./RecipeCard/SmallRecipeCard"
+import CategoryCard from "./RecipeCard/CategoryCard"
 
 
  function Stacknav2({ initialRoute }) {
@@ -26,10 +28,11 @@ import SearchPage from "./Search/SearchPage"
         headerShown: false
       }}
     >
-
       <Stack.Screen name="SearchPage" component={SearchPage} />     
       <Stack.Screen name="FullRecipeCard" component={FullRecipeCard} />
       <Stack.Screen name="FullEditRecipeCard" component={FullEditRecipeCard} />
+      <Stack.Screen name="CategoryCard" component={CategoryCard} />
+      
     </Stack.Navigator>
   )
 
@@ -52,6 +55,7 @@ function Stacknav3({ initialRoute }) {
       <Stack.Screen name="Account" component={Account} />     
       <Stack.Screen name="FullRecipeCard" component={FullRecipeCard}/>
       <Stack.Screen name="FullEditRecipeCard" component={FullEditRecipeCard}/>
+      <Stack.Screen name="CategoryCard" component={CategoryCard} />
     </Stack.Navigator>
   )
 

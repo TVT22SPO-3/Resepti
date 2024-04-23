@@ -54,7 +54,7 @@ export default function Login() {
 	};*/
 
 	return (
-		<View style={[styles.inputView, isDarkMode ? Styles.dark : Styles.light]}>
+		<View style={[styles.container, isDarkMode ? Styles.dark : Styles.light]}>
 			<TextInput
 				style={styles.TextInput}
 				label="Username"
@@ -69,7 +69,7 @@ export default function Login() {
 				secureTextEntry={true}
 				onChangeText={(password) => setPassword(password)}
 			/>
-			<Button style={[styles.loginButton]} onPress={login}>Login</Button>
+			<Button mode='outlined' style={[styles.loginButton, isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]} onPress={login}>Login</Button>
 		</View>
 	);
 }
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	TextInput: {
-		backgroundColor: '#FFFCF9',
+		//backgroundColor: '#FFFCF9',
 		height: 40,
 		width: 300,
 		marginTop: 25,

@@ -95,7 +95,7 @@ export default function FavoriteRecipesCard({ item }) {
     </View>
   );*/
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
         <FlatList
           data={favoriteRecipes}
           renderItem={({ item }) => (

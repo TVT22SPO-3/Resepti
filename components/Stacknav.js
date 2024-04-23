@@ -28,7 +28,6 @@ export default function Stacknav({ initialRoute }) {
         style={[isDarkMode ? Styles.dark : Styles.light]}
         screenOptions={{
           headerShown: false,
-          /*headerRight: () => <ThemeSwitchButton />, */
         }}
       >
         <Stack.Screen name="Home" component={Home} />

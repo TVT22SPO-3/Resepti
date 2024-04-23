@@ -1,5 +1,5 @@
 
-import { View, Text, ScrollView, FlatList } from 'react-native'
+import { View, Text, ScrollView, FlatList, StyleSheet } from 'react-native'
 import React from 'react'
 import { useState } from 'react'
 import Profileinfo from '../components/Profileinfo'
@@ -41,7 +41,7 @@ export default function Account() {
   return (
     <GestureHandlerRootView >
         <FlatList
-        style={[isDarkMode ? Styles.dark : Styles.light]}
+        style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleReload}/>}
         data={[{ key: 'UserCard' }, { key: 'UserInformationCard' }, { key: 'ChangeProfilePic' }, { key: 'ChangePassword' }, { key: 'ShowRecipes' }, {key: 'FavoriteRecipes'}]}
 
@@ -70,3 +70,8 @@ export default function Account() {
   )
 } 
 
+const styles = StyleSheet.create({
+  container:{
+    height:'100%',
+  },
+})

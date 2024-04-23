@@ -10,6 +10,7 @@ import { useTheme } from '../context/useTheme';
 import { removeFromFavorites } from './favorites'; // Import removeFromFavorites
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 import { fetchMealById } from './TheMealDB/SearchBy';
+import { Card } from 'react-native-paper';
 
 
 export default function FavoriteRecipesCard({ item }) {
@@ -62,9 +63,9 @@ export default function FavoriteRecipesCard({ item }) {
   const renderSeparator = () => <View style={styles.separator} />;
 
   return (
-    <View style={styles.container}>
-      <Pressable onPress={toggleAccordion} style={[styles.button,isDarkMode ? Styles.dark : Styles.light ]}>
-        <Text style={[styles.buttonText,isDarkMode ? Styles.dark : Styles.light]}>Favorite Recipes</Text>
+    <Card style={[styles.container,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+      <Pressable onPress={toggleAccordion} style={[styles.button,isDarkMode ? Styles.darkCard : Styles.lightCard ]}>
+        <Text style={[styles.buttonText,isDarkMode ? Styles.darkCard : Styles.lightCard]}>Favorite Recipes</Text>
         <MaterialCommunityIcons
           name={isOpen ? 'arrow-up-thick' : 'arrow-down-thick'}
           size={24}
@@ -80,7 +81,7 @@ export default function FavoriteRecipesCard({ item }) {
           contentContainerStyle={styles.contentContainer}
         />
       )}
-    </View>
+    </Card>
   );
 }
 
@@ -100,10 +101,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 8,
     paddingHorizontal: 16,
-    borderBottomWidth: 1,
+    //borderBottomWidth: 1,
     borderBottomColor: '#CCC',
   },
   buttonText: {
     fontSize: 18,
+  },
+  separator: {
+    height: 24,
+    width: 20,
+    paddingLeft: 20,
   },
 });

@@ -4,6 +4,7 @@ import SearchBar from './SearchBar'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import SmallRecipeCard from '../RecipeCard/SmallRecipeCard'
 import { Button, Chip } from 'react-native-paper'
+import Styles from '../../Styles'
 import { SearchByArea, SearchByIngredient, SearchByName, SearchByCategories} from '../../FirebaseDB/SearchBy'
 import { fetchMealByName, fetchMealsByArea, fetchMealsByCategory, fetchMealsByMainIngredient } from '../TheMealDB/SearchBy'
 import { fetchUserFavorites, addToFavorites, removeFromFavorites, updateMealFavoriteStatus } from '../favorites';
@@ -113,9 +114,8 @@ export default function SearchPage() {
  
   //  console.log("SearchPage", SearchData)
   return (
- 
-    <View style={styles.container1}>
-      <View style={styles.containerExp}>
+    <View style={[styles.container1,isDarkMode ? Styles.dark : Styles.light]}>
+      <View style={[styles.containerExp,isDarkMode ? Styles.dark : Styles.light]}>
         <SearchBar />
       </View>
 

@@ -27,9 +27,9 @@ export default StyleSheet.create({
         color: '#f5f5f5'
     },
     lightButtonText: {
-        color: '#4600ff',
+        color: '#FFA500',
     },
     darkButtonText: {
-        color: '#C0A9FF',
+        color: '#FFA500',
     },
 })

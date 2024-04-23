@@ -35,7 +35,7 @@ export default function CategoryCard({ item }) {
         <IconButton
             icon='magnify'
             size={35} 
-            color={'#001219'}
+            iconColor={'#FFA500'}
             onPress={SeeCategory}
             disabled={false}/>
       </Card.Actions>

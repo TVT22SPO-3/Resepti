@@ -6,7 +6,7 @@ import SmallRecipeCard from '../RecipeCard/SmallRecipeCard'
 import { Button, Chip } from 'react-native-paper'
 import { SearchByArea, SearchByIngredient, SearchByName, SearchByCategories} from '../../FirebaseDB/SearchBy'
 import { fetchMealByName, fetchMealsByArea, fetchMealsByCategory, fetchMealsByMainIngredient } from '../TheMealDB/SearchBy'
-
+import { fetchUserFavorites, addToFavorites, removeFromFavorites, updateMealFavoriteStatus } from '../favorites';
 
 
 export default function SearchPage() {
@@ -33,6 +33,10 @@ export default function SearchPage() {
     })
      
   }
+
+
+
+
 
   useEffect(() => {
     if(!SearchTerm) return
@@ -129,7 +133,11 @@ export default function SearchPage() {
             keyExtractor={(item, index) => item.idMeal + index}
             renderItem={({ item }) => (
               <View style={styles.container1}>
-                <SmallRecipeCard item={item} />
+        <SmallRecipeCard
+          item={item}
+          addToFavorites={addToFavorites}
+          removeFromFavorites={removeFromFavorites}
+        />
               </View>
             )}
             renderSectionHeader={({ section: { title, data } }) => (
@@ -181,4 +189,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-})
+}) 

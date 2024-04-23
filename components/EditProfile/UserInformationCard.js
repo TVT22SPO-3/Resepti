@@ -261,7 +261,8 @@ const styles = StyleSheet.create({
     },
     container4: {
         backgroundColor: '#faebd7',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginBottom: 12,
     },
     container5: {
         flex: 1,

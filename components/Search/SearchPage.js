@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
   container1: {
     width:'100%',
     flex: 1,
+    flexDirection: 'column',
     paddingVertical: 12,
     alignItems: 'center',
   },

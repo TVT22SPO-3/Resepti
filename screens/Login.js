@@ -45,8 +45,8 @@ export default function Login() {
 	};
 
 	return (
-		<View style={[styles.inputView]}>
-			<Text style={styles.header}>Login here</Text>
+		<View style={[styles.inputView, isDarkMode ? Styles.dark : Styles.light]}>
+			<Text style={[styles.header, isDarkMode ? Styles.dark : Styles.light]}>Login here</Text>
 			<TextInput
 				style={styles.TextInput}
 				label="Username"
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 	},
-		header: {
+	header: {
 		fontSize: 24,
 		paddingTop: 24,
 		paddingBottom: 24,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center'
 	},
 	inputView: {
-		height: 1000,
+		height: '100%',
 		marginBottom: 20,
 		alignItems: "center",
 	},
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
 		lineHeight: 21,
 		fontWeight: 'bold',
 		letterSpacing: 0.25,
-		color: 'white',
+		//color: 'white',
 	},
 	loginButton:{
 		flexDirection: 'row',
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
 		marginVertical: 8,
 		borderRadius: 4,
 		elevation: 3,
-		backgroundColor: 'green'
+		backgroundColor: '#ffa500'
 	},
 	errorText: {
 		fontSize: 15,

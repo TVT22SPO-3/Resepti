@@ -13,7 +13,7 @@ import { auth, onAuthStateChanged } from './firebase/config';
 import { useState, useEffect, useContext } from 'react';
 import AuthProvider from './context/AuthProvider';
 import { AuthContext } from './context/CreateAuthContext';
-import ThemeProvider from './components//ThemeSwitch/ThemeProvider';
+import ThemeProvider from './components/ThemeSwitch/ThemeProvider';
 
 
 

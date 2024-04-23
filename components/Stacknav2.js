@@ -21,7 +21,7 @@ import SearchPage from "./Search/SearchPage"
 
   return (
     <Stack.Navigator
-      style={isDarkMode ? Styles.dark : Styles.light}
+      style={[isDarkMode ? Styles.dark : Styles.light]}
       screenOptions={{
         headerShown: false
       }}
@@ -44,7 +44,7 @@ function Stacknav3({ initialRoute }) {
 
   return (
     <Stack.Navigator
-      style={isDarkMode ? Styles.dark : Styles.light}
+      style={[isDarkMode ? Styles.dark : Styles.light]}
       screenOptions={{
         headerShown: false
       }}

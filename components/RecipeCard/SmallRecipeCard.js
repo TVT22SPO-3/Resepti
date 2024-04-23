@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../context/useTheme';
 import { useAuth } from '../../context/useAuth';
+import Styles from '../../Styles';
 import { addToFavorites } from '../favorites';
 import { removeFromFavorites } from '../favorites';
 
@@ -20,8 +21,7 @@ export default function SmallRecipeCard({ item }) {
     } else{
       addToFavorites (user.uid, item.idMeal)
     }
-   
-    }
+  };
 
 
 
@@ -34,9 +34,9 @@ export default function SmallRecipeCard({ item }) {
   };
 
   return (
-    <Card style={styles.container}>
+    <Card style={[styles.container,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
       <Card.Cover source={{ uri: item.strMealThumb }} />
-      <Card.Title title={item.strMeal} />
+      <Card.Title title={item.strMeal} titleStyle={[styles.title,isDarkMode ? Styles.darkCard : Styles.lightCard]}/>
       <Card.Actions style={styles.actionsContainer}>
 
         {item.uid === user.uid && user.uid !== undefined && (
@@ -75,4 +75,7 @@ const styles = StyleSheet.create({
   actionsContainer: {
 
   },
-}); 
+  title:{
+    fontSize: 20,
+  },
+});

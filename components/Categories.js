@@ -3,12 +3,14 @@ import { View, Text, FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { fetchAllCategories } from './TheMealDB/SearchBy';
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 import CategoryCard from './RecipeCard/CategoryCard';
-
+import Styles from '../Styles';
+import { useTheme } from '../context/useTheme';
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const NUM_FETCHES = 5;
+  const {isDarkMode} = useTheme()
     
 
   useEffect(() =>{
@@ -34,8 +36,8 @@ export default function Categories() {
   const renderSeparator = () => <View style={styles.separator} />;
 
   return (
-    <View style={styles.container}>
-        <Text style={styles.text}>Categories:</Text>
+    <View style={[styles.container,isDarkMode ? Styles.darkContainer : Styles.lightContainer]}>
+        <Text style={[styles.text,isDarkMode ? Styles.darkContainer : Styles.lightContainer]}>Categories:</Text>
         {loading ? (
                 <Text>Loading...</Text>
             ) : (
@@ -62,7 +64,6 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       margin: (24, 24, 24, 24),
       borderRadius: 10,
-      backgroundColor: '#faebd7',
     },
   text:{
       paddingLeft: 10,

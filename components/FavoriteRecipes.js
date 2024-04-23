@@ -4,10 +4,18 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useAuth } from '../context/useAuth';
 import { firestore, doc, getDoc } from '../firebase/config';
 import { useNavigation } from '@react-navigation/native';
+import FavoritesCard from './RecipeCard/FavoritesCard';
+import Styles from '../Styles';
+import { useTheme } from '../context/useTheme';
+import { removeFromFavorites } from './favorites'; // Import removeFromFavorites
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 import { fetchMealById } from './TheMealDB/SearchBy';
 
-export default function FavoriteRecipesCard() {
+
+export default function FavoriteRecipesCard({ item }) {
+  const {isDarkMode} = useTheme()
+
+
   const navigation = useNavigation();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -55,8 +63,8 @@ export default function FavoriteRecipesCard() {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={toggleAccordion} style={styles.button}>
-        <Text style={styles.buttonText}>Favorite Recipes</Text>
+      <Pressable onPress={toggleAccordion} style={[styles.button,isDarkMode ? Styles.dark : Styles.light ]}>
+        <Text style={[styles.buttonText,isDarkMode ? Styles.dark : Styles.light]}>Favorite Recipes</Text>
         <MaterialCommunityIcons
           name={isOpen ? 'arrow-up-thick' : 'arrow-down-thick'}
           size={24}

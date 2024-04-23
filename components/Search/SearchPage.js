@@ -6,7 +6,7 @@ import SmallRecipeCard from '../RecipeCard/SmallRecipeCard'
 import { Button, Chip } from 'react-native-paper'
 import { SearchByArea, SearchByIngredient, SearchByName, SearchByCategories} from '../../FirebaseDB/SearchBy'
 import { fetchMealByName, fetchMealsByArea, fetchMealsByCategory, fetchMealsByMainIngredient } from '../TheMealDB/SearchBy'
-
+import { fetchUserFavorites, addToFavorites, removeFromFavorites, updateMealFavoriteStatus } from '../favorites';
 
 
 export default function SearchPage() {
@@ -33,6 +33,10 @@ export default function SearchPage() {
     })
      
   }
+
+
+
+
 
   useEffect(() => {
     if(!SearchTerm) return
@@ -120,7 +124,7 @@ export default function SearchPage() {
           section.data && section.data.length > 0 &&(
           <Chip key={index} onPress={() => ScrollToSection(index)}>{section.title} ({section.data.length})</Chip>
         )))}
-        
+        </View>
         <View style={styles.container}>
 
           <SectionList
@@ -128,7 +132,7 @@ export default function SearchPage() {
             sections={title}
             keyExtractor={(item, index) => item.idMeal + index}
             renderItem={({ item }) => (
-              <View style={styles.container1}>
+              <View style={styles.itemContainer}>
                 <SmallRecipeCard item={item} />
               </View>
             )}
@@ -142,7 +146,7 @@ export default function SearchPage() {
           />
         </View>
 
-      </View>
+      
     </View>
 
 
@@ -162,23 +166,28 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   },
   container: {
-    justifyContent:'center',
+    flex: 1,
     paddingTop: 8,
     alignItems: 'center',
-
+    width:'100%',
   },
   container1: {
+    width:'100%',
     flex: 1,
-    paddingVertical: 8,
+    paddingVertical: 12,
     alignItems: 'center',
-
   },
   buttonContainer: {
-    display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 8,
+  },
+  itemContainer: {
+    flex: 1,
+    marginBottom: 8, 
+    alignSelf: 'stretch',
   },
 
-})
+}) 

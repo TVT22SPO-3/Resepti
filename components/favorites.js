@@ -37,10 +37,8 @@ async function addToFavorites(uid, idMeal) {
 }
 async function removeFromFavorites(uid, idMeal) {
   try {
-      const favoritesRef = doc(firestore, `profile`, uid);
-      await updateDoc(favoritesRef, {
-          favorite: arrayRemove(idMeal)
-      });
+      const favoritesRef = doc(firestore, `users/${uid}/favorites`, idMeal);
+      await deleteDoc(favoritesRef);
       console.log("Recipe removed from favorites:", idMeal);
   } catch (error) {
       console.error("Error removing from favorites:", error);

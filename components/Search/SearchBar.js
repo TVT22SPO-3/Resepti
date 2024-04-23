@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 5,
+        marginHorizontal: 44,
+        columnGap:10,
         marginHorizontal: 20,
     },
     input: {

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, FlatList, SafeAreaView } from 'react-native';
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 import { fetchRandomMeal } from './TheMealDB/SearchBy';
-
+import Styles from '../Styles';
+import { useTheme } from '../context/useTheme';
 
 export default function RandomMeal() {
-    
+    const {isDarkMode} = useTheme()
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
     const NUM_FETCHES = 5;
@@ -35,8 +36,8 @@ export default function RandomMeal() {
 
 
   return (
-    <View style={styles.container}>
-        <Text style={styles.text}>Featured meals:</Text>
+    <View style={[styles.container, isDarkMode ? Styles.darkContainer : Styles.lightContainer]}>
+        <Text style={[styles.text,isDarkMode ? Styles.darkContainer : Styles.lightContainer]}>Featured meals:</Text>
         {loading ? (
                 <Text>Loading...</Text>
             ) : (
@@ -62,7 +63,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         margin: (24, 24, 24, 24),
         borderRadius: 10,
-        backgroundColor: '#faebd7',
       },
     text:{
         paddingLeft: 10,

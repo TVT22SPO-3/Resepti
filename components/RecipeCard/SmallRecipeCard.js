@@ -17,7 +17,8 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
     } else {
       addToFavorites(item);
     }
-  }  
+  };
+
 
   const handleSeeRecipe = () => {
     navigation.navigate('FullRecipeCard', { itemid: item.idMeal });

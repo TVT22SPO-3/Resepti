@@ -10,6 +10,7 @@ import OwnRecipes from "./AddRecipes"
 import LogInText from "../text/HomeTextLogIn"
 import {Stacknav2, Stacknav3} from "../components/Stacknav2"
 import TopBar from "./TopBar/TopBar"
+import HomeLogged from "../screens/HomeLogged"
 
 export default function BottomNavbar() {
 
@@ -23,7 +24,7 @@ export default function BottomNavbar() {
             }}
             >
                 <Tab.Screen name={"Home"}
-                    component={LogInText}
+                    component={HomeLogged}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="home" color={color} size={40} />

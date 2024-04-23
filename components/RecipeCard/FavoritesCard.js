@@ -6,30 +6,30 @@ import { useNavigation } from '@react-navigation/native';
 export default function FavoritesCard({ item, openRecipe, removeFromFavorites, showRemoveButton }) {
     const navigation = useNavigation();
   
-    const SeeRecipe = () => {
-      navigation.navigate('FullRecipeCard', { itemid: item.idMeal });
+    const seeRecipe = () => {
+      navigation.navigate('FullRecipeCard', { recipeId: item.idMeal });
     };
   
     const handleRemoveFromFavorites = () => {
-      removeFromFavorites(item.id);
+      removeFromFavorites(item.idMeal); 
     };
-  
+    
     return (
       <Card style={styles.container}>
         <Card.Cover source={{ uri: item.strMealThumb }} />
         <Card.Title title={item.strMeal} />
         <Card.Actions>
           {showRemoveButton && (
-            <Button onPress={handleRemoveFromFavorites}>Remove </Button>
+            <Button onPress={handleRemoveFromFavorites}>Remove</Button>
           )}
-          <Button onPress={SeeRecipe}>See recipe!</Button>
+          <Button onPress={seeRecipe}>See recipe!</Button>
         </Card.Actions>
       </Card>
     );
-  }
+}
   
-  const styles = StyleSheet.create({
-    container: {
-      width: 300,
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    width: 300,
+  },
+});

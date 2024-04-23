@@ -52,10 +52,9 @@ export default function SearchBar() {
                 placeholder="Enter meal name"
                 onChangeText={setSearchTerm}
                 value={SearchTerm}
-                style={styles.search}
-                    
+                style={styles.search}                 
             />
-            <Button title="Search" onPress={handleSearch} color="#FFA500" />
+            <Button title="Search" onPress={handleSearch} style={styles.searchButton} />
         </View>
     )
 }
@@ -63,9 +62,12 @@ export default function SearchBar() {
 
 const styles = StyleSheet.create({
     search:{
-height: 52,
-width: 252,
-textAlign: 'center'
+        height: 52,
+        width: 252,
+        textAlign: 'center',
+    },
+    searchButton:{
+        marginLeft: 10,
     },
     container: {
         flex: 1,
@@ -79,6 +81,7 @@ textAlign: 'center'
         marginBottom: 5,
         marginHorizontal: 44,
         columnGap:10,
+        marginHorizontal: 20,
     },
     input: {
         flex: 1,

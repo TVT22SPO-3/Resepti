@@ -50,4 +50,7 @@ const styles = StyleSheet.create({
   title:{
     fontSize:22,
   },
+  button: {
+    width: '100%',
+  },
 });

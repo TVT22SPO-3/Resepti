@@ -6,6 +6,7 @@ import { fetchMealById } from '../TheMealDB/SearchBy'
 import { SearchByDocId } from '../../FirebaseDB/SearchBy'
 import { useTheme } from '../../context/useTheme'
 import Styles from '../../Styles'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function FullRecipeCard() {
 
@@ -155,10 +156,15 @@ getRecipe()
         <Card style={[styles.cardContainer, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
           <DataTable >
             <Pressable onPress={toggleAccordion}>
-              <DataTable.Header >
+              <DataTable.Header>
                 <DataTable.Title textStyle={isDarkMode ? Styles.darkCard : Styles.lightCard}>Ingredients</DataTable.Title>
-                <DataTable.Title textStyle={isDarkMode ? Styles.darkCard : Styles.lightCard}>Show Ingredients</DataTable.Title>
+                {show ? 
+                  <MaterialCommunityIcons name="chevron-up" color={'black'} size={40} /> 
+                  : 
+                  <MaterialCommunityIcons name="chevron-down" color={'black'} size={40} />  
+				        }
                 <DataTable.Title textStyle={isDarkMode ? Styles.darkCard : Styles.lightCard} numeric>Measure</DataTable.Title>
+
               </DataTable.Header>
             </Pressable>
             {show && (
@@ -176,10 +182,15 @@ getRecipe()
             )}
           </DataTable>
         </Card>
-        <Pressable onPress={accordionInst} >
+        <Pressable onPress={accordionInst}>
           <Card style={[styles.cardContainer, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
-            <View style={[styles.cardContainer, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+            <View style={[styles.cardContainer3, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
               <Text style={[styles.texti, isDarkMode ? Styles.darkCard : Styles.lightCard]}>Show instructions</Text>
+              {showInst ? 
+                <MaterialCommunityIcons name="chevron-up" color={'black'} size={40} /> 
+                : 
+                <MaterialCommunityIcons name="chevron-down" color={'black'} size={40} />  
+				      }
             </View>
             {showInst && (
               <View style={[styles.cardContainer, isDarkMode ? Styles.darkCard : Styles.lightCard]}>
@@ -204,10 +215,13 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   cardContainer: {
-
     marginHorizontal: 8,
     marginVertical: 8,
-
+  },
+  cardContainer3: {
+    alignItems: 'center',
+    marginHorizontal: 8,
+    marginVertical: 8,
   },
   cardContainer2: {
     flexDirection: 'row',

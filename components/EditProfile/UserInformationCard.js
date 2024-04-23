@@ -82,7 +82,7 @@ export default function UserInformationCard() {
 
         } catch (error) {
             console.log("Fname update failed", error)
-        }
+        }c
 
     }
 

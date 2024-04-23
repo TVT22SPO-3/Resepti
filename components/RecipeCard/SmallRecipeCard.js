@@ -5,8 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../context/useTheme';
 import { useAuth } from '../../context/useAuth';
 import Styles from '../../Styles';
+import { addToFavorites } from '../favorites';
+import { removeFromFavorites } from '../favorites';
 
-export default function SmallRecipeCard({ item, addToFavorites, removeFromFavorites }) {
+
+export default function SmallRecipeCard({ item }) {
   const { isDarkMode } = useTheme();
 
   const navigation = useNavigation();
@@ -14,12 +17,11 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
 
   const handleFavorites = () => {
     if (item.isFavorite) {
-      removeFromFavorites(item);
-    } else {
-      addToFavorites(item);
+      removeFromFavorites (user.uid, item.idMeal)
+    } else{
+      addToFavorites (user.uid, item.idMeal)
     }
   };
-
 
 
 
@@ -29,7 +31,6 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
 
   const handleEditRecipe = () => {
     navigation.navigate('FullEditRecipeCard', { itemid: item.idMeal });
-
   };
 
   return (
@@ -37,6 +38,7 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
       <Card.Cover source={{ uri: item.strMealThumb }} />
       <Card.Title title={item.strMeal} titleStyle={[styles.title,isDarkMode ? Styles.darkCard : Styles.lightCard]}/>
       <Card.Actions style={styles.actionsContainer}>
+
         {item.uid === user.uid && user.uid !== undefined && (
           <Button style={styles.editButton} onPress={handleEditRecipe}>
             Edit
@@ -56,24 +58,24 @@ export default function SmallRecipeCard({ item, addToFavorites, removeFromFavori
           size={35}
           onPress={handleSeeRecipe}
         />
-
-
       </Card.Actions>
     </Card>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
-    width: 300,
+    width: 320,
+    marginBottom: 5,
+  },
+  editButton: {
 
   },
-  editButton: {},
   actionsContainer: {
-
 
   },
   title:{
     fontSize: 20,
   },
-});
+});ster

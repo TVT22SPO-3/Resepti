@@ -11,20 +11,25 @@ import LogInText from "../text/HomeTextLogIn"
 import {Stacknav2, Stacknav3} from "../components/Stacknav2"
 import TopBar from "./TopBar/TopBar"
 import HomeLogged from "../screens/HomeLogged"
-
+import Styles from "../Styles"
+import { useTheme } from "../context/useTheme"
+import { Appbar } from "react-native-paper"
 
 export default function BottomNavbar() {
-
+    const {isDarkMode} = useTheme()
     const Tab = createBottomTabNavigator();
 
     return (
         <>
-            <TopBar />
+            <TopBar style={[isDarkMode ? Styles.darkCard : Styles.lightCard]}/>
             <Tab.Navigator 
-            
             screenOptions={{
                 headerShown: false,
-                tabBarActiveTintColor: '#FFA500'
+                tabBarActiveTintColor: '#FFA500',
+                tabBarStyle: {
+                    backgroundColor: isDarkMode ? '#3f3f3f' : '#fff',
+                    borderTopColor: 'transparent',
+                }
             }}
             
             >

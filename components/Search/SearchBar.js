@@ -49,12 +49,13 @@ export default function SearchBar() {
         <View style={styles.inputContainer}>
             
             <Searchbar
+           
                 placeholder="Enter meal name"
                 onChangeText={setSearchTerm}
                 value={SearchTerm}
                 style={styles.search}                 
             />
-            <Button title="Search" onPress={handleSearch} style={styles.searchButton} />
+            <Button color={'#FFA500'}title="Search" onPress={handleSearch} style={styles.searchButton} />
         </View>
     )
 }
@@ -80,6 +81,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 5,
         marginHorizontal: 20,
+        
     },
     input: {
         flex: 1,

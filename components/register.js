@@ -154,7 +154,7 @@ export default function Register() {
         secureTextEntry={true}
         onChangeText={text => setPassword(text)}
         error={password.length === 0 && showError}
-        right={<TextInput.Icon icon="eye" onPress={() => setShowPw(!showPw)}/>} />
+        right={<TextInput.Icon color={'#FFA500'}icon="eye" onPress={() => setShowPw(!showPw)}/>} />
       <TextInput
         style={styles.input}
         label="Confirm password"
@@ -163,7 +163,7 @@ export default function Register() {
         secureTextEntry={showPw}
         onChangeText={text => setPassword2(text)}
         error={password2.length === 0 && showError}
-        right={<TextInput.Icon icon="eye" onPress={() => setShowPw(!showPw)}/>} />
+        right={<TextInput.Icon color={'#FFA500'} icon="eye" onPress={() => setShowPw(!showPw)}/>} />
       <TextInput
         style={styles.input}
         label="Firstname"

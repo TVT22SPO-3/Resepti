@@ -56,6 +56,7 @@ export default function ChangePassword() {
                   <View style={styles.container4}>
                     <View style={styles.container5}>
                       <MaterialCommunityIcons
+                        color={'#FFA500'}
                         name="key"
                         size={32}
                       />
@@ -89,13 +90,16 @@ export default function ChangePassword() {
                     <View style={styles.container5}>
                       <Button
                         onPress={show}>
-                        <MaterialCommunityIcons name="eye" size={24} />
+                        <MaterialCommunityIcons 
+                        color={'#FFA500'}
+                        name="eye" size={24} />
                       </Button>
                     </View>
                   </View>
                   <View style={styles.container4}>
                     <View style={styles.container5}>
                       <MaterialCommunityIcons
+                      color={'#FFA500'}
                         name="key"
                         size={32}
                       />
@@ -128,6 +132,7 @@ export default function ChangePassword() {
     
                     <View style={styles.container5}>
                       <Button
+                      textColor={'#FFA500'}
                         onPress={updatePW}
                       >
                         EDIT

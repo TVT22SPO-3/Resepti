@@ -128,6 +128,7 @@ export default function UserInformationCard() {
                             <MaterialCommunityIcons
                                 name="account"
                                 size={32}
+                                color={'#FFA500'}
                             />
                         </View>
 
@@ -145,6 +146,7 @@ export default function UserInformationCard() {
 
                         <View style={styles.container5}>
                             <Button
+                                textColor='#FFA500'
                                 onPress={Fname}
                             >
                                 EDIT
@@ -154,6 +156,7 @@ export default function UserInformationCard() {
                     <View style={styles.container4}>
                         <View style={styles.container5}>
                             <MaterialCommunityIcons
+                            color={'#FFA500'}
                                 name="account"
                                 size={32}
                             />
@@ -173,6 +176,7 @@ export default function UserInformationCard() {
 
                         <View style={styles.container5}>
                             <Button
+                            textColor={'#FFA500'}
                                 onPress={Lname}>
                                 EDIT
                             </Button>
@@ -182,6 +186,7 @@ export default function UserInformationCard() {
                     <View style={styles.container4}>
                         <View style={styles.container5}>
                             <MaterialCommunityIcons
+                            color={'#FFA500'}
                                 name="email"
                                 size={32}
                             />
@@ -200,6 +205,7 @@ export default function UserInformationCard() {
 
                         <View style={styles.container5}>
                             <Button
+                            textColor='#FFA500'
                                 onPress={NewEmail}
                             >
                                 EDIT

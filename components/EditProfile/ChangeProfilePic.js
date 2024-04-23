@@ -100,10 +100,13 @@ export default function ChangeProfilePic(){
                         <Avatar.Image size={70} source={require('../../assets/trash.png')} />
                     )}
                     <Button onPress={openImagePicker}>
-                        <Text style={{textDecorationLine: 'underline'}}>CHOOSE PICTURE</Text>
+                        <Text style={{textDecorationLine: 'underline', color: '#FFA500'}}>CHOOSE PICTURE</Text>
                     </Button>
                   </View> 
-                    <Button onPress={handleImageChange}>
+                    <Button 
+    textColor='#FFA500'
+                    
+                    onPress={handleImageChange}>
                       EDIT
                     </Button>             
                 </View>
@@ -140,7 +143,7 @@ const styles = StyleSheet.create({
   texti2: {
     fontSize: 18,
     textAlign: 'center',
-    paddingRight: 24
+    paddingRight: 24,
   },
   infoContainer: {
     flexDirection: 'row',

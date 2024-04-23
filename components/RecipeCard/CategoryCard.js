@@ -32,7 +32,7 @@ export default function CategoryCard({ item }) {
       <Card.Cover source={{ uri: item.strCategoryThumb }} />
       <Card.Title title={item.strCategory} />
       <Card.Actions>
-        <Button style={styles.button} onPress={SeeCategory}>Search recipes by this Category!</Button>
+        <Button  textColor={'#FFA500'}style={styles.button} onPress={SeeCategory}>Search recipes by this Category!</Button>
       </Card.Actions>
     </Card>
   );

@@ -51,7 +51,9 @@ function LoginButton({ navigation }) {
       <Button
         title="Login"
         onPress={() => navigation.navigate('Login')}
-        style={{ marginRight: 10 }}
+        style={{ marginRight: 10, }}
+        color={'#FFA500'}
+        
       />
   );
 }
@@ -59,6 +61,7 @@ function LoginButton({ navigation }) {
 function RegisterButton({ navigation }) {
   return (
       <Button
+      
         title="Register"
         onPress={() => navigation.navigate('Signup')}
         style={{ marginRight: 10 }}

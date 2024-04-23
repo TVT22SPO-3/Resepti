@@ -47,6 +47,7 @@ export default function SmallRecipeCard({ item }) {
         {user.uid !== undefined && (
           <IconButton
             icon={item.isFavorite ? 'star' : 'star-outline'}
+            iconColor='#FFA500'
             color={'#001219'}
             size={35}
             onPress={handleFavorites}
@@ -54,6 +55,7 @@ export default function SmallRecipeCard({ item }) {
         )}
         <IconButton
           icon='eye'
+          iconColor='#FFA500'
           color={'#001219'}
           size={35}
           onPress={handleSeeRecipe}

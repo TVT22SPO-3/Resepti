@@ -69,7 +69,7 @@ export default function Login() {
 				secureTextEntry={true}
 				onChangeText={(password) => setPassword(password)}
 			/>
-			<Button style={styles.loginButton} onPress={login}>Login</Button>
+			<Button textColor={'#FFA500'}style={styles.loginButton} onPress={login}>Login</Button>
 		</View>
 	);
 }
@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
 	loginButton: {
 		width: 220,
 		margin: 10,
+		
 	},
 });
 

@@ -25,7 +25,7 @@ export default function Home({ navigation }) {
         {visible && (
         <View style={styles.container2}>
           <Hometext navigation={navigation}/>
-          <Button style={styles.closeButton} onPress={() => setVisible(false)}>Close</Button>
+          <Button textColor={'#FFA500'}style={styles.closeButton} onPress={() => setVisible(false)}>Close</Button>
         </View>
         )}
         <View style={styles.searchBarContainer}>

@@ -70,8 +70,8 @@ export default function ChangePassword() {
                       {showpw ?
                         <TextInput
                           style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
-                          mode='outlined'
-                          outlineColor='#d3d3d3'
+                          //mode='outlined'
+                          placeholderTextColor={isDarkMode ? '#aaa' : '#555'}
                           placeholder={"New password"}
                           editable={true}
                           secureTextEntry={true}
@@ -79,8 +79,8 @@ export default function ChangePassword() {
                         /> :
                         <TextInput
                           style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
-                          mode='outlined'
-                          outlineColor='#d3d3d3'
+                          //mode='outlined'
+                          placeholderTextColor={isDarkMode ? '#aaa' : '#555'}
                           placeholder={"New password"}
                           editable={true}
                           secureTextEntry={false}
@@ -90,10 +90,10 @@ export default function ChangePassword() {
                     </View>
     
                     <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
-                      <Button
+                      <TouchableOpacity
                         onPress={show}>
-                        <MaterialCommunityIcons name="eye" size={24} />
-                      </Button>
+                        <MaterialCommunityIcons name="eye" size={24} style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]} />
+                      </TouchableOpacity>
                     </View>
                   </View>
                   <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
@@ -108,8 +108,8 @@ export default function ChangePassword() {
                       {showpw ?
                         <TextInput
                           style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
-                          mode='outlined'
-                          outlineColor='#d3d3d3'
+                          //mode='outlined'
+                          placeholderTextColor={isDarkMode ? '#aaa' : '#555'}
                           placeholder={"Confirm new password"}
                           editable={true}
                           secureTextEntry={true}
@@ -117,8 +117,8 @@ export default function ChangePassword() {
                         /> :
                         <TextInput
                           style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
-                          mode='outlined'
-                          outlineColor='#d3d3d3'
+                          //mode='outlined'
+                          placeholderTextColor={isDarkMode ? '#aaa' : '#555'}
                           placeholder={"Confirm new password"}
                           editable={true}
                           secureTextEntry={false}
@@ -127,13 +127,14 @@ export default function ChangePassword() {
                       }
                     </View>
     
-                    <View style={styles.container5}>
-                      <Button
+                    <TouchableOpacity style={styles.container5}>
+                      <Text
+                        style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}
                         onPress={updatePW}
                       >
                         EDIT
-                      </Button>
-                    </View>
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
     

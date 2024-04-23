@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
     light: {
-        backgroundColor: '#faebd7',
+        backgroundColor: '#f6f6f6',
         color: '#333',
     },
     dark: {
@@ -10,7 +10,7 @@ export default StyleSheet.create({
         color: '#f5f5f5',
     },
     lightCard: {
-        backgroundColor: '#E9E9E9',
+        backgroundColor: '#ffffff',
         color: '#000000',
     },
     darkCard: {
@@ -25,5 +25,11 @@ export default StyleSheet.create({
     darkContainer: {
         backgroundColor: '#565656',
         color: '#f5f5f5'
+    },
+    lightButtonText: {
+        color: '#4600ff',
+    },
+    darkButtonText: {
+        color: '#C0A9FF',
     },
 })

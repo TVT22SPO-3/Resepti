@@ -136,22 +136,23 @@ export default function UserInformationCard() {
                         <View style={[styles.iconContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <TextInput
                                 style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
-                                mode='outlined'
-                                outlineColor='#d3d3d3'
+                                placeholderTextColor={isDarkMode ? '#aaa' : '#555'}
+                                //mode='outlined'
                                 placeholder={profileData.fname}
                                 editable={true}
                                 onChangeText={text => setNewfname(text)}
                             />
                         </View>
 
-                        <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
-                            <Button
-                                onPress={Fname}
-                                style={[isDarkMode ? Styles.darkCard : Styles.lightCard]}
+                        <TouchableOpacity 
+                            onPress={Fname}
+                            style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                            <Text
+                                style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}
                             >
                                 EDIT
-                            </Button>
-                        </View>
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                         <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
@@ -164,20 +165,23 @@ export default function UserInformationCard() {
                         <View style={[styles.iconContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <TextInput
                                 style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
-                                mode='outlined'
-                                outlineColor='#d3d3d3'
+                                //mode='outlined'
                                 placeholder={profileData.lname}
+                                placeholderTextColor={isDarkMode ? '#aaa' : '#555'}
                                 editable={true}
                                 onChangeText={text => setNewlname(text)}
                             />
                         </View>
 
-                        <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
-                            <Button
-                                onPress={Lname}>
+                        <TouchableOpacity
+                            onPress={Lname}
+                            style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                            <Text
+                                style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}
+                                >
                                 EDIT
-                            </Button>
-                        </View>
+                            </Text>
+                        </TouchableOpacity>
                     </View>
 
                     <View style={[styles.container4,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
@@ -191,20 +195,22 @@ export default function UserInformationCard() {
                         <View style={[styles.iconContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
                             <TextInput
                                 style={[styles.input,isDarkMode ? Styles.darkCard : Styles.lightCard]}
-                                mode='outlined'
-                                outlineColor='#d3d3d3'
+                                //mode='outlined'
                                 placeholder={user.email}
+                                placeholderTextColor={isDarkMode ? '#aaa' : '#555'}
                                 editable={true}
                                 onChangeText={text => setNewEmail(text)} />
                         </View>
 
-                        <View style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
-                            <Button
-                                onPress={NewEmail}
-                            >
+                        <TouchableOpacity
+                            onPress={NewEmail}
+                            style={[styles.container5,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
+                            <Text
+                                style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}
+                                >
                                 EDIT
-                            </Button>
-                        </View>
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             )}

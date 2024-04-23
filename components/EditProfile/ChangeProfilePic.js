@@ -9,6 +9,7 @@ import { getAuth, updateProfile } from 'firebase/auth';
 import { useAuth } from '../../context/useAuth'
 import { useTheme } from '../../context/useTheme';
 import Styles from '../../Styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 export default function ChangeProfilePic(){
@@ -101,13 +102,13 @@ export default function ChangeProfilePic(){
                         ) : (
                         <Avatar.Image size={70} source={require('../../assets/trash.png')} />
                     )}
-                    <Button onPress={openImagePicker}>
-                        <Text style={{textDecorationLine: 'underline'}}>CHOOSE PICTURE</Text>
-                    </Button>
+                    <TouchableOpacity  onPress={openImagePicker}>
+                        <Text style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}>CHOOSE PICTURE</Text>
+                    </TouchableOpacity>
                   </View> 
-                    <Button onPress={handleImageChange}>
-                      EDIT
-                    </Button>             
+                    <TouchableOpacity style={{ marginHorizontal: 30 }} onPress={handleImageChange}>
+                      <Text style={[isDarkMode ? Styles.darkButtonText : Styles.lightButtonText]}>EDIT</Text>
+                    </TouchableOpacity>             
                 </View>
               )}
             </Card>

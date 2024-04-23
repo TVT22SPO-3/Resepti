@@ -32,11 +32,12 @@ export default function CategoryCard({ item }) {
       <Card.Cover source={{ uri: item.strCategoryThumb }} />
       <Card.Title titleStyle={[styles.title,isDarkMode ? Styles.darkCard : Styles.lightCard]} title={item.strCategory} />
       <Card.Actions>
-      <IconButton
-          icon='magnify'
-          color='#001219'
-          size={35} 
-          onPress={SeeCategory}/>
+        <IconButton
+            icon='magnify'
+            size={35} 
+            color={'#001219'}
+            onPress={SeeCategory}
+            disabled={false}/>
       </Card.Actions>
     </Card>
   );

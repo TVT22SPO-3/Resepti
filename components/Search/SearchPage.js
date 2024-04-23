@@ -6,16 +6,11 @@ import SmallRecipeCard from '../RecipeCard/SmallRecipeCard'
 import { Button, Chip } from 'react-native-paper'
 import { SearchByArea, SearchByIngredient, SearchByName, SearchByCategories} from '../../FirebaseDB/SearchBy'
 import { fetchMealByName, fetchMealsByArea, fetchMealsByCategory, fetchMealsByMainIngredient } from '../TheMealDB/SearchBy'
-
-import Styles from '../../Styles'
-import { useTheme } from '../../context/useTheme'
-
 import { fetchUserFavorites, addToFavorites, removeFromFavorites, updateMealFavoriteStatus } from '../favorites';
 
 
-
 export default function SearchPage() {
-  const {isDarkMode} = useTheme()
+
   const route = useRoute()
   const { SearchTerm } = route.params || {}
   const [datafbName, setDataFbName] = useState([])
@@ -118,23 +113,23 @@ export default function SearchPage() {
  
   //  console.log("SearchPage", SearchData)
   return (
-    <View style={[isDarkMode ? Styles.dark : Styles.light]}>
-      <View style={[styles.containerExp,isDarkMode ? Styles.dark : Styles.light]}>
+ 
+    <View style={styles.container1}>
+      <View style={styles.containerExp}>
         <SearchBar />
       </View>
 
-      <View style={[styles.buttonContainer,isDarkMode ? Styles.dark : Styles.light]}>
+      <View style={styles.buttonContainer}>
         {title.map((section, index) => (
           section.data && section.data.length > 0 &&(
           <Chip key={index} onPress={() => ScrollToSection(index)}>{section.title} ({section.data.length})</Chip>
         )))}
         </View>
-        <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+        <View style={styles.container}>
 
           <SectionList
           ref={sectionRef}
             sections={title}
-            style={isDarkMode ? Styles.dark : Styles.light}
             keyExtractor={(item, index) => item.idMeal + index}
             renderItem={({ item }) => (
               <View style={styles.itemContainer}>
@@ -144,7 +139,7 @@ export default function SearchPage() {
             renderSectionHeader={({ section: { title, data } }) => (
               data && data.length > 0 && (
                 <View>
-                  <Text style={isDarkMode ? Styles.dark : Styles.light}>{title}({data.length})</Text>
+                  <Text style={styles.section}>{title} ({data.length})</Text>
                 </View>
               )
             )}
@@ -189,8 +184,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-    rowGap: 5,
-    columnGap: 5,
     paddingHorizontal: 8,
   },
   itemContainer: {

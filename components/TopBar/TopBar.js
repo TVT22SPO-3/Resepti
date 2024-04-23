@@ -49,7 +49,7 @@ export default function TopBar() {
 		<>
 			<Appbar.Header style={[styles.topBarContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
         
-				<Appbar.BackAction onPress={handleGoBack} />
+				
 
         <Appbar.BackAction color={'#FFA500'} onPress={handleGoBack} />
 

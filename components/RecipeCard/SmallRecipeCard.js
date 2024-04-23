@@ -66,7 +66,7 @@ export default function SmallRecipeCard({ item }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 300,
+    width: 320,
     marginBottom: 5,
   },
   editButton: {

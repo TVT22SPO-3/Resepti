@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    flexDirection: 'column',
     paddingTop: 8,
     alignItems: 'center',
     width:'100%',
@@ -187,7 +188,6 @@ const styles = StyleSheet.create({
   itemContainer: {
     flex: 1,
     marginBottom: 8, 
-    alignSelf: 'stretch',
   },
 
 }) 

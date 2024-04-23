@@ -1,6 +1,6 @@
 import { View, ScrollView, Text, StyleSheet, Pressable, Image, TouchableOpacity, Alert } from 'react-native'
 import React, { useState, useEffect} from 'react'
-import { DataTable, TextInput, IconButton, Picker, Button, Title, Chip, Dialog, Paragraph, Button as PaperButton, Snackbar } from 'react-native-paper';
+import { DataTable, TextInput, IconButton, Picker, Button, Title, Chip, Dialog, Paragraph, Button as PaperButton, Snackbar, Icon } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RequestStoragePermission from '../Permissions';
 import * as ImagePicker from 'expo-image-picker';
@@ -423,7 +423,6 @@ function AddArea(props){
 			<View style={styles.divider} />
 			<Text>Popular Areas</Text>
 			<View style={styles.chipContainer}>
-				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('Italy')}>Italy</Chip>
 				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('Japan')}>Japan</Chip>
 				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('France')}>France</Chip>
 				<Chip style={styles.chip} icon="earth" onPress={() => handleAreaChange('Nepal')}>Nepal</Chip>
@@ -516,6 +515,8 @@ function AddArea(props){
 	chip: {
 		marginHorizontal: 3,
 		marginVertical: 3,
+		backgroundColor: '#FFA500',
+		
 	},
 	highlight: {
 		opacity: 0.4, 

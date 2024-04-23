@@ -7,7 +7,8 @@ import ThemeSwitchButton from '../ThemeSwitch/ThemeSwitchButton';
 import { useAuth } from '../../context/useAuth'
 import { Logout } from '../../screens/Login';
 import { auth, onAuthStateChanged } from '../../firebase/config';
-
+import Styles from '../../Styles';
+import { useTheme } from '../../context/useTheme';
 
 
 export default function TopBar() {
@@ -17,6 +18,7 @@ export default function TopBar() {
 	const [dialogVisible, setDialogVisible] = useState(false);
   const [visible, setVisible] = useState(false);
   const onDismissSnackBar = () => setVisible(false);
+  const {isDarkMode} = useTheme()
 
   const handleLogout = () => {
     setDialogVisible(true);
@@ -45,7 +47,7 @@ export default function TopBar() {
  
   return (
 		<>
-			<Appbar.Header style={styles.topBarContainer}>
+			<Appbar.Header style={[styles.topBarContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
         
 				<Appbar.BackAction onPress={handleGoBack} />
 

@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     margin: (24, 24, 24, 24),
     borderRadius: 10,
-    backgroundColor: '#faebd7',
+    //backgroundColor: '#faebd7',
+    paddingLeft: 15,
   },
   button: {
     flexDirection: 'row',

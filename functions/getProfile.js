@@ -6,6 +6,25 @@ import { useState } from 'react';
 import { getDocs } from 'firebase/firestore';
 
 
+async function checkUsernameUse(username) {
+    try {
+        const docRef = (collection(firestore, "profile"))
+        const docSnap = query(docRef, where("username","==", username))
+        const querySnapshot = await getDocs(docSnap)
+        if(querySnapshot.empty){
+            console.log("no username")
+            return true
+        }else{
+            console.log("username is use")
+            return false
+        }
+    } catch (error) {
+        
+
+    }
+}
+
+
 const getByUsername = async (username) => {
     
     console.log("getbyusername1", username )
@@ -30,4 +49,4 @@ const getByUsername = async (username) => {
 }
 
 
-export { getByUsername }
+export { getByUsername, checkUsernameUse }

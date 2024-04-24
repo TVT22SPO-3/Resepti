@@ -8,7 +8,7 @@ import Account from "../screens/Account"
 import components from "../components/components"
 import OwnRecipes from "./AddRecipes"
 import LogInText from "../text/HomeTextLogIn"
-import {Stacknav2, Stacknav3} from "../components/Stacknav2"
+import {Stacknav2, AccountStack, SearchStack, HomeLoggedStack} from "../components/Stacknav2"
 import TopBar from "./TopBar/TopBar"
 import HomeLogged from "../screens/HomeLogged"
 import Styles from "../Styles"
@@ -34,7 +34,7 @@ export default function BottomNavbar() {
             
             >
                 <Tab.Screen name={"Home"}
-                    component={HomeLogged}
+                    component={HomeLoggedStack}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="home" color={color} size={40} />
@@ -43,7 +43,7 @@ export default function BottomNavbar() {
                 />
                 <Tab.Screen
                 name={"Search"}
-                component={Stacknav2}
+                component={SearchStack}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="magnify" color={color} size={40} />
@@ -61,7 +61,7 @@ export default function BottomNavbar() {
                 />
                 <Tab.Screen
                 name={"Profile"}
-                component={Stacknav3}
+                component={AccountStack}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="account" color={color} size={40} />

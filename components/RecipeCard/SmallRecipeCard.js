@@ -65,12 +65,14 @@ export default function SmallRecipeCard({ item }) {
         {user.uid !== undefined && item.isFavorite ? (
           <IconButton
             icon='star'
+            iconColor='#FFA500'
             color={'#001219'}
             size={35}
             onPress={handleRemoveFromFavorites}
           />
         ) : (
           <IconButton
+          iconColor='#FFA500'
             icon='star-outline'
             color={'#001219'}
             size={35}
@@ -79,6 +81,7 @@ export default function SmallRecipeCard({ item }) {
         )}
 
         <IconButton
+        
           icon='eye'
           iconColor='#FFA500'
           color={'#001219'}

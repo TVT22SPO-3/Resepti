@@ -1,4 +1,4 @@
-import { collection, doc, documentId, getDoc, limit, orderBy, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, documentId, getDoc, getFirestore, limit, orderBy, where } from "firebase/firestore";
 import { View, Text } from 'react-native'
 import React from 'react'
 import { useAuth } from '../context/useAuth'
@@ -6,7 +6,6 @@ import { firestore, query, querySnapshot } from '../firebase/config';
 import { useState } from 'react';
 import { getDocs } from 'firebase/firestore';
 import { convertFireBaseTimeStampToJS } from "../helpers/functions";
-
 
 
 
@@ -295,4 +294,16 @@ async function SearchByUid(uid){
 }
 
 
-export { SearchAllRecipes, SearchByDocId, SearchByName, SearchByIngredient, SearchByUid, SearchByCategories, SearchByArea, NewestFB,SearchByDocId2}
+const deleteRecipe = async (docId) => {
+    try{
+        await deleteDoc(doc(collection(firestore,'recipes'), docId));
+        console.log('Document deleted successfully');
+    }
+    catch (error){
+        console.log("Failed to delete Recipe from firestore", error)
+    }
+}
+
+
+export { SearchAllRecipes, SearchByDocId, SearchByName, SearchByIngredient, SearchByUid, SearchByCategories, SearchByArea, NewestFB, deleteRecipe, SearchByDocId2}
+

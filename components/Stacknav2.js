@@ -9,12 +9,12 @@ import MealExplorer from "./components"
 import ShowRecipes from "./ShowRecipes"
 import Account from "../screens/Account"
 import SearchPage from "./Search/SearchPage"
+import SmallRecipeCard from "./RecipeCard/SmallRecipeCard"
+import CategoryCard from "./RecipeCard/CategoryCard"
 import FavoriteRecipesCard from "./FavoriteRecipes"
 import HomeLogged from "../screens/HomeLogged"
 import Newest from "./NewestRecipes"
 import Categories from "./Categories"
-import CategoryCard from "./RecipeCard/CategoryCard"
-import SmallRecipeCard from "./RecipeCard/SmallRecipeCard"
 import RandomMeal from "./RandomMeal"
 
 
@@ -37,6 +37,8 @@ function Stacknav2({ initialRoute }) {
       <Stack.Screen name="SearchPage" component={SearchPage} />
       <Stack.Screen name="FullRecipeCard" component={FullRecipeCard} />
       <Stack.Screen name="FullEditRecipeCard" component={FullEditRecipeCard} />
+      <Stack.Screen name="CategoryCard" component={CategoryCard} />
+      
     </Stack.Navigator>
   )
 
@@ -56,9 +58,11 @@ function ShowRecipesStack({ initialRoute }) {
         headerShown: false
       }}
     >
+      <Stack.Screen name="Account" component={Account} />     
+      <Stack.Screen name="FullRecipeCard" component={FullRecipeCard}/>
+      <Stack.Screen name="FullEditRecipeCard" component={FullEditRecipeCard}/>
+      <Stack.Screen name="CategoryCard" component={CategoryCard} />
       <Stack.Screen name="Showrecipes" component={ShowRecipes} />
-      <Stack.Screen name="FullRecipeCard" component={FullRecipeCard} />
-      <Stack.Screen name="FullEditRecipeCard" component={FullEditRecipeCard} />
 
     </Stack.Navigator>
   )

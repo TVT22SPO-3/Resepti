@@ -15,8 +15,6 @@ import FavoriteRecipesCard from "./FavoriteRecipes"
 import HomeLogged from "../screens/HomeLogged"
 import Newest from "./NewestRecipes"
 import Categories from "./Categories"
-import CategoryCard from "./RecipeCard/CategoryCard"
-import SmallRecipeCard from "./RecipeCard/SmallRecipeCard"
 import RandomMeal from "./RandomMeal"
 
 

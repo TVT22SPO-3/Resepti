@@ -33,7 +33,7 @@ git clone https://github.com/TVT22SPO-3/Resepti.git
 
     Terminaaliin komento: npx expo start
     
-    3. Käynnistä Expo Go puhelimella ja käyynistä sovellus ottamalla QR-koodi kameraa käyttäen
+    3. Käynnistä Expo Go puhelimella ja käynnistä sovellus ottamalla QR-koodi kameraa käyttäen
 
     4. Aloita sovelluksen käyttö
 

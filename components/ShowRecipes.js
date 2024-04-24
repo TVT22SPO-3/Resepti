@@ -9,7 +9,7 @@ import { getAuth } from 'firebase/auth'
 import { Card } from 'react-native-paper';
 import Styles from '../Styles';
 import { useTheme } from '../context/useTheme';
-import database from '@react-native-firebase/database';
+
 
 
 export default function ShowRecipes() {

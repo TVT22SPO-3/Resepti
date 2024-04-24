@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAuth } from '../context/useAuth';
-import { firestore, doc, getDoc, query, collection } from '../firebase/config';
-import { onSnapshot } from 'firebase/firestore';
-import { getAuth } from '../firebase/config';
+import { firestore, doc, getDoc } from '../firebase/config';
 import { useNavigation } from '@react-navigation/native';
 import FavoritesCard from './RecipeCard/FavoritesCard';
 import Styles from '../Styles';
 import { useTheme } from '../context/useTheme';
-import { removeFromFavorites } from './favorites'; 
+import { removeFromFavorites } from './favorites'; // Import removeFromFavorites
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 import { fetchMealById, fetchMealById2 } from './TheMealDB/SearchBy';
 import { Card } from 'react-native-paper';
@@ -20,12 +18,10 @@ export default function FavoriteRecipesCard({ item }) {
   const {isDarkMode} = useTheme()
 
 
-
   const navigation = useNavigation();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
-  
 
   useEffect(() => {
     fetchFavoriteRecipes();
@@ -68,7 +64,8 @@ export default function FavoriteRecipesCard({ item }) {
       const recipes3 = [...recipes2,...recipes,]
       console.log("recipes3",recipes3)
       const recipes4 = [].concat(...recipes3)
-      setFavoriteRecipes(recipes4)
+      const recipes5 = recipes4.filter(item => item !== undefined )
+      setFavoriteRecipes(recipes5)
       console.log("favorite",favoriteRecipes)
       } else {
         console.log("Document does not exist");

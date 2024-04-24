@@ -103,6 +103,7 @@ function AccountStack({ initialRoute }) {
       <Stack.Screen name="ShowRecipes" component={ShowRecipesStack} />
       <Stack.Screen name="Favorites" component={FavoritesStack} />
       <Stack.Screen name="FullRecipeCard" component={FullRecipeCard} />
+      <Stack.Screen name="FullEditRecipeCard" component={FullEditRecipeCard} />
     </Stack.Navigator>
   )
 

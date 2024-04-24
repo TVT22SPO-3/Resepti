@@ -9,8 +9,9 @@ import Styles from '../Styles';
 import { useTheme } from '../context/useTheme';
 import { removeFromFavorites } from './favorites'; // Import removeFromFavorites
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
-import { fetchMealById } from './TheMealDB/SearchBy';
+import { fetchMealById, fetchMealById2 } from './TheMealDB/SearchBy';
 import { Card } from 'react-native-paper';
+import {  SearchByDocId2 } from '../FirebaseDB/SearchBy';
 
 
 export default function FavoriteRecipesCard({ item }) {
@@ -24,7 +25,7 @@ export default function FavoriteRecipesCard({ item }) {
 
   useEffect(() => {
     fetchFavoriteRecipes();
-  }, []);
+  },[isOpen]);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
@@ -32,26 +33,39 @@ export default function FavoriteRecipesCard({ item }) {
 
   const fetchFavoriteRecipes = async () => {
     const docRef = doc(firestore, "profile", user.uid);
-  
+    const recipes = []
+    const recipes2 = []
     try {
       const docSnapshot = await getDoc(docRef);
       if (docSnapshot.exists()) {
         const data = docSnapshot.data();
         const favoriteRecipeIDs = data.favorite;
-        
-        const promises = favoriteRecipeIDs.map(async (favoriteId) => {
-          try {
-            const recipe = await fetchMealById(favoriteId);
-            return recipe;
-          } catch (error) {
-            console.error("Error fetching recipe:", error);
-            return null;
-          }
-        });
+        console.log("favoriteRecipeIDs", favoriteRecipeIDs.length)
 
-        const favoriteRecipesData = await Promise.all(promises);
-        console.log("Favorite Recipes:", favoriteRecipesData);
-        setFavoriteRecipes(favoriteRecipesData.filter(recipe => recipe !== null));
+        for (const id of favoriteRecipeIDs) {
+          let result
+          if (id.length < 10) {
+             result = await fetchMealById2(id)
+            console.log("result", result)
+            recipes.push(result)
+            
+          }else{
+             result = await SearchByDocId2(id)
+            console.log("else id", id)
+            recipes2.push(result)
+            
+          }
+         
+          
+      }
+
+      console.log("recipes",recipes)
+      console.log("recipes2",recipes2)
+      const recipes3 = [...recipes2,...recipes,]
+      console.log("recipes3",recipes3)
+      const recipes4 = [].concat(...recipes3)
+      setFavoriteRecipes(recipes4)
+      console.log("favorite",favoriteRecipes)
       } else {
         console.log("Document does not exist");
       }

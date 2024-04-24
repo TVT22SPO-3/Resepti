@@ -25,6 +25,7 @@ export const fetchUserFavorites = async () => {
 };
 
 async function addToFavorites(uid, idMeal) {
+  console.log("add favorites", idMeal)
   try {
     const favoritesRef = doc(firestore, `profile`, uid);
     await updateDoc(favoritesRef, {

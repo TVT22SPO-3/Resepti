@@ -172,7 +172,25 @@ const fetchMealByName = async (name) => {
       console.error(error);
     }
   };
+  const fetchMealById2 = async (id) => {
 
+    console.log("fetchMeal1", id)
+  
+    try {
+      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
+      const data = await response.json()
+      const meal = (data.meals ? data.meals[0] : null)
+      console.log(meal)
+      const mealData = {
+          "idMeal": meal.idMeal,
+          "strMealThumb": meal.strMealThumb,
+          "strMeal": meal.strMeal,
+      }
+      return mealData
+    } catch (error) {
+      console.error("FetchMealByID error", error);
+    }
+  }
 
+export { fetchMealById, fetchRandomMeal, fetchMealByName, fetchMealsByCategory, fetchMealsByArea, fetchMealsByMainIngredient, fetchAllCategories, fetchMealByCategory, fetchMealById2 }
 
-export { fetchMealById, fetchRandomMeal, fetchMealByName, fetchMealsByCategory, fetchMealsByArea, fetchMealsByMainIngredient, fetchAllCategories, fetchMealByCategory }

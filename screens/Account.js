@@ -1,7 +1,7 @@
 
 import { View, Text, ScrollView, FlatList, StyleSheet } from 'react-native'
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Profileinfo from '../components/Profileinfo'
 import { auth, reload } from 'firebase/auth'
 import { useAuth, signOut } from '../context/useAuth'
@@ -17,12 +17,9 @@ import FavoriteRecipes from '../components/FavoriteRecipes'
 import { useTheme } from '../context/useTheme'
 
 
-
-
 export default function Account() {
 
   const {isDarkMode} = useTheme()
-
   const [refreshing, setRefreshing] = useState(false);
 
   const handleReload = async () => {

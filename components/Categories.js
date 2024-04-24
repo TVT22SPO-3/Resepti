@@ -5,8 +5,9 @@ import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 import CategoryCard from './RecipeCard/CategoryCard';
 import Styles from '../Styles';
 import { useTheme } from '../context/useTheme';
-
+import { useRoute } from '@react-navigation/native';
 export default function Categories() {
+    
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const NUM_FETCHES = 5;

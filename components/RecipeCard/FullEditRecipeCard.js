@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     height:'100%',
   },
   container2: {
-
+    marginBottom: 20,
   },
   cardContainer: {
     marginHorizontal: 8,

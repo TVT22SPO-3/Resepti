@@ -216,34 +216,60 @@ async function SearchAllRecipes() {
 }
 
 async function SearchByDocId(DocId) {
-console.log("SearchByDocId", DocId)
-    try {
-        const docRef = (doc(firestore, "recipes", DocId))
-
-        const querySnapshot = await getDoc(docRef)
-        console.log("asd", querySnapshot.data())
-        console.log("name", querySnapshot.data().username)
-        const convdate = convertFireBaseTimeStampToJS(querySnapshot.data().date)
-        const Data = querySnapshot.data()
-        console.log("convdate", convdate)
-        Data.date = convdate
-        const ingreArray = Data.strIngredient
-        const measArray = Data.strMeasure
-        console.log("ingra",ingreArray)
-        for (let i = 0; i < ingreArray.length; i++) {
-            Data[`strIngredient${i + 1}`] = ingreArray[i];
-          }
-          for (let i = 0; i < measArray.length; i++) {
-            Data[`strMeasure${i + 1}`] = measArray[i];
-          }
-        
-        console.log("Data22",Data)
-        return Data
-
-    } catch (error) {
-        console.log("errorSearchbyDocId", error)
+    console.log("SearchByDocId", DocId)
+        try {
+            const docRef = (doc(firestore, "recipes", DocId))
+    
+            const querySnapshot = await getDoc(docRef)
+            console.log("SearchByDocId 1", querySnapshot.data())
+            console.log("name", querySnapshot.data().username)
+            const convdate = convertFireBaseTimeStampToJS(querySnapshot.data().date)
+            const Data = querySnapshot.data()
+            console.log("convdate", convdate)
+            Data.date = convdate
+            const ingreArray = Data.strIngredient
+            const measArray = Data.strMeasure
+            console.log("ingra",ingreArray)
+            for (let i = 0; i < ingreArray.length; i++) {
+                Data[`strIngredient${i + 1}`] = ingreArray[i];
+              }
+              for (let i = 0; i < measArray.length; i++) {
+                Data[`strMeasure${i + 1}`] = measArray[i];
+              }
+            
+            console.log("Data22",Data)
+            return Data
+    
+        } catch (error) {
+            console.log("errorSearchbyDocId", error)
+        }
     }
-}
+
+async function SearchByDocId2(DocId) {
+    console.log("SearchByDocId2", DocId)
+        const data = []
+        try {
+            const docRef = doc(collection(firestore, "recipes"), DocId)
+    
+            const querySnapshot = await getDoc(docRef)
+            console.log("asd", querySnapshot.data())
+                
+                 const infoData = {
+                    "idMeal": querySnapshot.id,
+                    "strMealThumb": querySnapshot.data().strMealThumb,
+                    "strMeal": querySnapshot.data().strMeal,
+                }
+                data.push(infoData)
+                console.log("searchDocId", infoData)
+            
+            console.log("SearchDocId", infoData)
+            return data
+            
+    
+        } catch (error) {
+            console.log("errorSearchbyDocId", error)
+        }
+    }
 
 async function SearchByUid(uid){
     const data = []
@@ -279,4 +305,5 @@ const deleteRecipe = async (docId) => {
 }
 
 
-export { SearchAllRecipes, SearchByDocId, SearchByName, SearchByIngredient, SearchByUid, SearchByCategories, SearchByArea, NewestFB, deleteRecipe}
+export { SearchAllRecipes, SearchByDocId, SearchByName, SearchByIngredient, SearchByUid, SearchByCategories, SearchByArea, NewestFB, deleteRecipe, SearchByDocId2}
+

@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   },
   container2: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   cardContainer: {
     marginHorizontal: 8,

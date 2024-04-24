@@ -12,6 +12,7 @@ import { useTheme } from '../context/useTheme';
 import { removeFromFavorites } from './favorites'; 
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 import { fetchMealById } from './TheMealDB/SearchBy';
+import { SearchByDocId } from '../FirebaseDB/SearchBy';
 import { Card } from 'react-native-paper';
 
 
@@ -19,10 +20,12 @@ export default function FavoriteRecipesCard({ item }) {
   const {isDarkMode} = useTheme()
 
 
+
   const navigation = useNavigation();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  
 
   useEffect(() => {
     fetchFavoriteRecipes();
@@ -40,20 +43,36 @@ export default function FavoriteRecipesCard({ item }) {
       if (docSnapshot.exists()) {
         const data = docSnapshot.data();
         const favoriteRecipeIDs = data.favorite;
-        
+  
         const promises = favoriteRecipeIDs.map(async (favoriteId) => {
           try {
-            const recipe = await fetchMealById(favoriteId);
-            return recipe;
+            let recipe;
+           
+            if (favoriteId.length < 7) {
+            
+              recipe = await fetchMealById(favoriteId);
+            } else {
+              
+              recipe = await SearchByDocId(favoriteId);
+            }
+            if (recipe) {
+              recipe.isFavorite = true;
+              return recipe;
+            } else {
+              console.error("Recipe not found for ID:", favoriteId);
+              return null;
+            }
           } catch (error) {
             console.error("Error fetching recipe:", error);
             return null;
           }
         });
-
+  
         const favoriteRecipesData = await Promise.all(promises);
         console.log("Favorite Recipes:", favoriteRecipesData);
-        setFavoriteRecipes(favoriteRecipesData.filter(recipe => recipe !== null));
+       
+        const combinedRecipes = [...favoriteRecipes, ...favoriteRecipesData];
+        setFavoriteRecipes(combinedRecipes.filter(recipe => recipe !== null));
       } else {
         console.log("Document does not exist");
       }
@@ -95,7 +114,8 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     margin: (24, 24, 24, 24),
     borderRadius: 10,
-    backgroundColor: '#faebd7',
+    //backgroundColor: '#faebd7',
+    paddingLeft: 15,
   },
   button: {
     flexDirection: 'row',

@@ -233,7 +233,7 @@ function AddImage(props) {
       </View>
       <View style={{ marginTop: 20 }}>
         <Pressable style={styles.addImagesButton} onPress={openImagePicker}>
-          <MaterialCommunityIcons name="camera-outline" color={'black'} size={30} />
+          <MaterialCommunityIcons name="camera-outline" color={'#FFA500'} size={30} />
           <Text style={styles.buttonText}>Add profile picture</Text>
         </Pressable>
       </View>

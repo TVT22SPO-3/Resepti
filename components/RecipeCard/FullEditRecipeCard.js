@@ -7,7 +7,8 @@ import { SearchByDocId } from '../../FirebaseDB/SearchBy'
 import { useAuth } from '../../context/useAuth'
 import { doc, updateDoc, getDoc, where, collection, firestore} from '../../firebase/config';
 import { set } from 'firebase/database'
-
+import Styles from '../../Styles'
+import { useTheme } from '../../context/useTheme'
 
 export default function FullEditRecipeCard() {
   const navigation = useNavigationState(state => state.routes[state.index].state)
@@ -21,6 +22,7 @@ export default function FullEditRecipeCard() {
   const [instructions, setInstructions] = useState('');
   const [ingredients, setIngredients] = useState({ strIngredient: [], strMeasure: [] });
   const [newIngredient, setNewIngredient] = useState({ name: '', measure: '' });
+  const {isDarkMode} = useTheme()
 
   useEffect(() => {
     const getRecipe = async () => {
@@ -136,16 +138,16 @@ export default function FullEditRecipeCard() {
   }
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Card style={styles.cardContainer}>
+    <ScrollView style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+      <View style={[styles.container,isDarkMode ? Styles.dark : Styles.light]}>
+        <Card style={[styles.cardContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
           {recipe2 && <Card.Cover resizeMethod="auto" source={{ uri: recipe2.strMealThumb }} />}
         </Card>
 
-        <Card style={styles.cardContainer}>
+        <Card style={[styles.cardContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
           <View style={styles.cardContainer2}>
             <View style={styles.container2}>
-              <Title style={styles.title}>Recipe name</Title>
+              <Title style={[styles.title,isDarkMode ? Styles.darkCard : Styles.lightCard]}>Recipe name</Title>
               <TextInput
                 style={styles.textInput}
                 value={recipeName || recipe2.strMeal}
@@ -153,7 +155,7 @@ export default function FullEditRecipeCard() {
               />
             </View>
             <View style={styles.container2}>
-              <Title style={styles.title}>Category</Title>
+              <Title style={[styles.title,isDarkMode ? Styles.darkCard : Styles.lightCard]}>Category</Title>
               <TextInput
                 style={styles.textInput}
                 value={categoryText || recipe2.strCategory}
@@ -161,7 +163,7 @@ export default function FullEditRecipeCard() {
               />
             </View>
             <View style={styles.container2}>
-              <Title style={styles.title}>Area</Title>
+              <Title style={[styles.title,isDarkMode ? Styles.darkCard : Styles.lightCard]}>Area</Title>
               <TextInput
                 style={styles.textInput}
                 value={areaText || recipe2.strArea}
@@ -172,9 +174,9 @@ export default function FullEditRecipeCard() {
         </Card>
 
 
-        <Card style={styles.cardContainer}>
+        <Card style={[styles.cardContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
           <View style={styles.cardContainer2}>
-            <Title style={styles.title}>Ingredients</Title>
+            <Title style={[styles.title,isDarkMode ? Styles.darkCard : Styles.lightCard]}>Ingredients</Title>
             <DataTable>
               {(ingredients.strIngredient || []).map((ingredient, index) => (
                 <DataTable.Row key={index}>
@@ -198,7 +200,8 @@ export default function FullEditRecipeCard() {
                   </DataTable.Cell>
                   <IconButton
                     icon="delete"
-                    size={20}
+                    iconColor='#FFA500'
+                    size={30}
                     onPress={() => handleDeleteIngredient(index)}
                   />
                 </DataTable.Row>
@@ -210,9 +213,9 @@ export default function FullEditRecipeCard() {
           </View>
         </Card>
 
-        <Card style={styles.cardContainer}>
+        <Card style={[styles.cardContainer,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
           <View style={styles.cardContainer2}>
-            <Title style={styles.title}>Categories</Title>
+            <Title style={[styles.title,isDarkMode ? Styles.darkCard : Styles.lightCard]}>Instructions</Title>
             <TextInput
               style={styles.textInput}
               value={instructions || recipe2.strInstructions}
@@ -234,6 +237,7 @@ export default function FullEditRecipeCard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height:'100%',
   },
   container2: {
 
@@ -270,7 +274,7 @@ const styles = StyleSheet.create({
 	  marginVertical: 5,
 	  borderRadius: 3,
 	  elevation: 3,
-	  backgroundColor: '#898989',
+	  backgroundColor: '#ffa500',
 	},
   saveButton: {
 	  alignItems: 'center',
@@ -283,4 +287,7 @@ const styles = StyleSheet.create({
 	  elevation: 3,
     backgroundColor: '#109648',
 	},
+  buttonText:{
+    color: 'white'
+  }
 })

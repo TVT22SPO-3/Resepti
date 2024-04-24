@@ -32,27 +32,6 @@ export default function FavoriteRecipesCard({ item }) {
     setIsOpen(!isOpen);
   };
 
- /* useEffect(() => {
-    const q = query(doc(firestore, 'profile', user.uid));
-  
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const favorites = [];
-      querySnapshot.forEach((doc) => {
-        const userData = doc.data();
-        if (userData.favorite !== undefined) { 
-          favorites.push(userData.favorite);
-        }
-      });
-      console.log('favoriiiitit',favorites);
-      //setFavoriteRecipes(favorites);
-    });
-  
-    return () => {
-      unsubscribe();
-    };
-  }, []);*/
-
-
   const fetchFavoriteRecipes = async () => {
     const docRef = doc(firestore, "profile", user.uid);
   

@@ -4,10 +4,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useAuth } from '../context/useAuth';
 import { firestore, doc, getDoc } from '../firebase/config';
 import { useNavigation } from '@react-navigation/native';
-import FavoritesCard from './RecipeCard/FavoritesCard';
+
 import Styles from '../Styles';
 import { useTheme } from '../context/useTheme';
-import { removeFromFavorites } from './favorites'; // Import removeFromFavorites
+import { removeFromFavorites } from './favorites';
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
 import { fetchMealById, fetchMealById2 } from './TheMealDB/SearchBy';
 import { Card } from 'react-native-paper';

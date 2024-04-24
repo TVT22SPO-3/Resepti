@@ -1,80 +1,62 @@
-# BankSimul ATM
+# Foodthusiast
 
-School project by Ville Niemi, Johannes Päivärinta, Jere Siermala, Janne Pauna, Niko Kokko
+School project by Ville Niemi, Miikka Jänesaro, Teemu Ritatörmä, Antti Korpua
 
-The ATM Simulator is a software application that enables users to withdraw money. The application is designed to simulate the functions of an ATM machine. The software has been developed using JavaScript to create a REST API, and Qt Creator to create the frontend. The data is stored in a MySQL database that has four tables: omistaja, kortti, tili, and tilitapahtumat.
+Foodthusiast on mobiilisovellus, josta käyttäjä voi etsiä yli 300 reseptin valikoimasta inspiraatiota ruoan laittoon. Käyttäjillä on myös madollisuus jakaa omia reseptejä ja lisätä reseptejä itselle talteen suosikkeihin, jotka käyttäjä löytää profiilistaan. Omia reseptejä on myös mahdollisuus muokata jälkikäteen. Reseptien luominen ja suosikeihin lisääminen vaativat sisäänkirjautumisen. Sovelluksessa on myös teemanvaihtaja.
 
-# Features
+# Ominaisuudet
 
-The ATM Simulator offers the following features:
+Sovelluksen ominaisuudet:
 
-    Withdraw money
-    Check account balance
-    View transaction history
-    User login/logout
-    Serial port communication
+    Reseptien haku TheMealDB ja Firebase tietokannasta (Firebasessa käyttäjien reseptit)
+    Reseptien selaaminen nimellä, ainesosittain ja kategorioittain
+    Käyttäjän luominen, kirjautuminen, käyttäjän muokkaaminen (Firebase)
+    Reseptin luominen ja muokkaus
+    Reseptien lisääminen suosikkeihin
+    
 
- # Installation
+ # Asennus
 
-To install the ATM Simulator, follow these steps:
+Clone repository:
 
-Clone the repository:
+git clone https://github.com/TVT22SPO-3/Resepti.git
 
-git clone https://github.com/vilnie/BankSimul-ATM.git
+    1. Asenna ohjelmat
 
-    1. Install the required dependencies:
-
-    MySQL server (Uni Server)
-    Qt Creator (QSerial might not work every Qt version)
-    IDE for backend code
-    Postman/SQLworkbench
+    Visual Studio Code tai vastaava ohjelmointiympäristö
+    Expo ja React asennus Visual Studio Codeen
+    Pakettien asennus VSC Terminaalissa: npm install
+    Puhelimeen: Expo Go -sovellus
     Node.js
 
-    2. Set up the MySQL database:
+    2. Käynnistä sovellus
 
-    Create a database named my_db
+    Terminaaliin komento: npx expo start
     
-    Import the database schema from the dbdump.sql file
-    
-    3. Run the backend code with node.js
+    3. Käynnistä Expo Go puhelimella ja käyynistä sovellus ottamalla QR-koodi kameraa käyttäen
 
-    4. Start the application:
+    4. Aloita sovelluksen käyttö
 
-    Run the frontend.exe file in Qt Creator
+# Käyttö
 
-# Usage
+Kun sovellus on käynnissä sinulla on mahdollista:
 
-To use the ATM Simulator, follow these steps:
+    1. Selata etusivun antamia reseptejä
+    2. Luoda käyttäjä ja kirjautua sisään
+    3. Hakea reseptejä hakusanalla
+    4. Luoda uusia reseptejä
+    5. Tarkastella omaa profiilia Account -sivulla, jossa voit muokata käyttäjätietoja, tutkia luomiasi reseptejä ja muokata niitä tai poistaa ja tutkia suosikkeihin lisäämiäsi reseptejä
+    6. Voit avata pienempiä reseptikortteja, jolloin aukeaa reseptin sivu, josta näet reseptin kuvan, tarvittavat raaka-aineet ja käyttöohjeet
+    7. Voit sovelluksen yläpalkista vaihtaa teemaa vaaleasta tummaan ja toisin päin.
+    8. Käyttäjä voi kirjautua ulos painamalla logout
 
-    1. Insert your card into the card reader. You can bypass this by modifying frontend code.
-    2. Enter your PIN code
-    3. Select the bank account
-    4. Select the desired transaction (e.g., withdraw money)
-    5. Enter the transaction amount
-    6. Wait for the transaction to complete
-    7. Wait for automatic log out
+# Kuvat
 
-# images
+Posteri
 
-ER-Diagram
-
-<img src="er-diagram.png">
-
-State Diagram
-
-<img src="State Diagram.png">
-
-Application running
-
-<img src="login.png">
-<img src="withdraw.png">
-<img src="history.png">
-
-# Contributing
-
-Contributions to the ATM Simulator are welcome. If you find a bug or have a feature request, please open an issue on the GitHub repository.
+<img src="poster.png">
 
 # License
 
-The ATM Simulator is open-source software licensed under the MIT license. See the LICENSE file for more information.
+Foodthusiast is open-source software licensed under the MIT license. See the LICENSE file for more information.
 

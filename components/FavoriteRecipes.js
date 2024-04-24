@@ -61,12 +61,13 @@ export default function FavoriteRecipesCard({ item }) {
 
       console.log("recipes",recipes)
       console.log("recipes2",recipes2)
-      const recipes3 = [...recipes2,...recipes,]
+      const recipes3 = [...recipes2,...recipes]
       console.log("recipes3",recipes3)
       const recipes4 = [].concat(...recipes3)
       const recipes5 = recipes4.filter(item => item !== undefined )
       setFavoriteRecipes(recipes5)
       console.log("favorite",favoriteRecipes)
+      console.log("favoriteID", favoriteRecipeIDs)
       } else {
         console.log("Document does not exist");
       }

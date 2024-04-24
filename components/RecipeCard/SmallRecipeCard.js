@@ -48,7 +48,7 @@ export default function SmallRecipeCard({ item }) {
         )}
 
 
-        {user.uid !== undefined && item.isFavorite ? (
+        {item.uid === user.uid && user.uid !== undefined ? (
           <IconButton
             icon='star'
             iconColor='#FFA500'

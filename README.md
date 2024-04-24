@@ -45,8 +45,10 @@ Kun sovellus on käynnissä sinulla on mahdollista:
     2. Luoda käyttäjä ja kirjautua sisään
     3. Hakea reseptejä hakusanalla
     4. Luoda uusia reseptejä
-    5. Tarkastella omaa profiilia Account -sivulla, jossa voit muokata käyttäjätietoja, tutkia luomiasi reseptejä ja muokata niitä tai poistaa ja tutkia suosikkeihin lisäämiäsi reseptejä
-    6. Voit avata pienempiä reseptikortteja, jolloin aukeaa reseptin sivu, josta näet reseptin kuvan, tarvittavat raaka-aineet ja käyttöohjeet
+    5. Tarkastella omaa profiilia Account -sivulla, jossa voit muokata käyttäjätietoja, tutkia 
+        luomiasi reseptejä ja muokata niitä tai poistaa ja tutkia suosikkeihin lisäämiäsi reseptejä
+    6. Voit avata pienempiä reseptikortteja, jolloin aukeaa reseptin sivu, josta näet reseptin 
+        kuvan, tarvittavat raaka-aineet ja käyttöohjeet
     7. Voit sovelluksen yläpalkista vaihtaa teemaa vaaleasta tummaan ja toisin päin.
     8. Käyttäjä voi kirjautua ulos painamalla logout
 
@@ -54,7 +56,7 @@ Kun sovellus on käynnissä sinulla on mahdollista:
 
 Posteri
 
-<img src="poster.png">
+<img src="/assets/poster.png">
 
 # License
 

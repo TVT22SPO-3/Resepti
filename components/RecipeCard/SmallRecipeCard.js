@@ -7,6 +7,7 @@ import { useAuth } from '../../context/useAuth';
 import Styles from '../../Styles';
 import { addToFavorites } from '../favorites';
 import { removeFromFavorites } from '../favorites';
+import { deleteRecipe } from '../../FirebaseDB/SearchBy';
 
 
 export default function SmallRecipeCard({ item }) {
@@ -30,6 +31,10 @@ export default function SmallRecipeCard({ item }) {
     navigation.navigate('FullEditRecipeCard', { itemid: item.idMeal });
   };
 
+  const handleDeleteRecipe = () => {
+    deleteRecipe(item.idMeal)
+  };
+
   return (
     <Card style={[styles.container,isDarkMode ? Styles.darkCard : Styles.lightCard]}>
       <Card.Cover source={{ uri: item.strMealThumb }} />
@@ -47,6 +52,17 @@ export default function SmallRecipeCard({ item }) {
 
         )}
 
+        {item.uid === user.uid && user.uid !== undefined && (
+           <IconButton
+           mode='contained'
+           icon={'delete'}
+           iconColor='#FFA500'
+           color={'#001219'}
+           size={35}
+           onPress={handleDeleteRecipe}
+         />
+
+        )}
 
         {user.uid !== undefined && item.isFavorite ? (
           <IconButton

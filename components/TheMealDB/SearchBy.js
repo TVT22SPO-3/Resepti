@@ -174,4 +174,5 @@ const fetchMealByName = async (name) => {
   };
 
 
+
 export { fetchMealById, fetchRandomMeal, fetchMealByName, fetchMealsByCategory, fetchMealsByArea, fetchMealsByMainIngredient, fetchAllCategories, fetchMealByCategory }

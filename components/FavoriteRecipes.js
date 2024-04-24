@@ -11,9 +11,9 @@ import Styles from '../Styles';
 import { useTheme } from '../context/useTheme';
 import { removeFromFavorites } from './favorites'; 
 import SmallRecipeCard from './RecipeCard/SmallRecipeCard';
-import { fetchMealById } from './TheMealDB/SearchBy';
-import { SearchByDocId } from '../FirebaseDB/SearchBy';
+import { fetchMealById, fetchMealById2 } from './TheMealDB/SearchBy';
 import { Card } from 'react-native-paper';
+import {  SearchByDocId2 } from '../FirebaseDB/SearchBy';
 
 
 export default function FavoriteRecipesCard({ item }) {
@@ -29,7 +29,7 @@ export default function FavoriteRecipesCard({ item }) {
 
   useEffect(() => {
     fetchFavoriteRecipes();
-  }, []);
+  },[isOpen]);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
@@ -37,42 +37,39 @@ export default function FavoriteRecipesCard({ item }) {
 
   const fetchFavoriteRecipes = async () => {
     const docRef = doc(firestore, "profile", user.uid);
-  
+    const recipes = []
+    const recipes2 = []
     try {
       const docSnapshot = await getDoc(docRef);
       if (docSnapshot.exists()) {
         const data = docSnapshot.data();
         const favoriteRecipeIDs = data.favorite;
-  
-        const promises = favoriteRecipeIDs.map(async (favoriteId) => {
-          try {
-            let recipe;
-           
-            if (favoriteId.length < 7) {
+        console.log("favoriteRecipeIDs", favoriteRecipeIDs.length)
+
+        for (const id of favoriteRecipeIDs) {
+          let result
+          if (id.length < 10) {
+             result = await fetchMealById2(id)
+            console.log("result", result)
+            recipes.push(result)
             
-              recipe = await fetchMealById(favoriteId);
-            } else {
-              
-              recipe = await SearchByDocId(favoriteId);
-            }
-            if (recipe) {
-              recipe.isFavorite = true;
-              return recipe;
-            } else {
-              console.error("Recipe not found for ID:", favoriteId);
-              return null;
-            }
-          } catch (error) {
-            console.error("Error fetching recipe:", error);
-            return null;
+          }else{
+             result = await SearchByDocId2(id)
+            console.log("else id", id)
+            recipes2.push(result)
+            
           }
-        });
-  
-        const favoriteRecipesData = await Promise.all(promises);
-        console.log("Favorite Recipes:", favoriteRecipesData);
-       
-        const combinedRecipes = [...favoriteRecipes, ...favoriteRecipesData];
-        setFavoriteRecipes(combinedRecipes.filter(recipe => recipe !== null));
+         
+          
+      }
+
+      console.log("recipes",recipes)
+      console.log("recipes2",recipes2)
+      const recipes3 = [...recipes2,...recipes,]
+      console.log("recipes3",recipes3)
+      const recipes4 = [].concat(...recipes3)
+      setFavoriteRecipes(recipes4)
+      console.log("favorite",favoriteRecipes)
       } else {
         console.log("Document does not exist");
       }

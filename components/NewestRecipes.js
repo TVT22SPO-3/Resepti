@@ -6,8 +6,10 @@ import CategoryCard from './RecipeCard/CategoryCard';
 import { NewestFB } from '../FirebaseDB/SearchBy';
 import Styles from '../Styles'
 import { useTheme } from '../context/useTheme'
+import { useRoute } from '@react-navigation/native';
 
 export default function Newest() {
+    const route = useRoute()
   const [newest, setNewest] = useState([]);
   const [loading, setLoading] = useState(true);
   const NUM_FETCHES = 5;
